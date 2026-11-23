@@ -31,7 +31,11 @@ export const skillStories: Record<string, { es: string; en: string }> = {
     es: 'En MAMAYATECH brindo soporte funcional a Oracle EBS dentro de la operación de aplicaciones de negocio. Mi responsabilidad incluye diagnóstico y seguimiento de incidentes, análisis de impacto, validación de cambios, documentación de soluciones y coordinación con equipos técnicos cuando un caso requiere escalamiento. Mantengo los ejemplos deliberadamente generales para no exponer datos operativos.',
     en: 'At MAMAYATECH, I provide functional support for Oracle EBS within business application operations. My responsibilities include incident diagnosis and follow-up, impact analysis, change validation, solution documentation and coordination with technical teams when a case needs escalation. Examples are intentionally general to avoid exposing operational data.'
   },
-  'gestion-incidentes': {
+  'gestion-de-incidentes': {
+    es: 'En mi puesto actual en MAMAYATECH gestiono incidentes desde la recepción y el diagnóstico inicial hasta el seguimiento y cierre con el usuario. Identifico si el caso corresponde a soporte funcional, infraestructura, redes, base de datos o desarrollo; documento diagnósticos y soluciones en Aranda y coordino con los equipos responsables para mantener la continuidad operativa.',
+    en: 'In my current role at MAMAYATECH, I manage incidents from intake and initial diagnosis through follow-up and user-confirmed closure. I identify whether a case belongs to functional support, infrastructure, networks, database or development; document diagnostics and solutions in Aranda; and coordinate with the responsible teams to maintain operational continuity.'
+  },
+  'incident-management': {
     es: 'En mi puesto actual en MAMAYATECH gestiono incidentes desde la recepción y el diagnóstico inicial hasta el seguimiento y cierre con el usuario. Identifico si el caso corresponde a soporte funcional, infraestructura, redes, base de datos o desarrollo; documento diagnósticos y soluciones en Aranda y coordino con los equipos responsables para mantener la continuidad operativa.',
     en: 'In my current role at MAMAYATECH, I manage incidents from intake and initial diagnosis through follow-up and user-confirmed closure. I identify whether a case belongs to functional support, infrastructure, networks, database or development; document diagnostics and solutions in Aranda; and coordinate with the responsible teams to maintain operational continuity.'
   },

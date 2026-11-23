@@ -16,6 +16,7 @@ export interface SkillProfile {
   name: string;
   category: string;
   focusNames: string[];
+  focusTitles: string[];
   summary: string;
   narrative: string;
   evidence: SkillEvidence[];
@@ -46,12 +47,13 @@ function buildProfiles(language: 'es' | 'en'): SkillProfile[] {
         const existing = bySlug.get(slug);
         if (existing) {
           if (!existing.focusNames.includes(focus.name)) existing.focusNames.push(focus.name);
+          if (!existing.focusTitles.includes(focus.title)) existing.focusTitles.push(focus.title);
           existing.evidence.push(...evidence);
         } else {
           bySlug.set(slug, {
-            slug, name: item, category: group.category, focusNames: [focus.name],
+            slug, name: item, category: group.category, focusNames: [focus.name], focusTitles: [focus.title],
             summary: language === 'en'
-              ? `${item} is part of my professional toolkit. This profile connects it with the roles and responsibilities documented in my CV, rather than presenting it as an isolated keyword.`
+              ? `${item} is part of my professional toolkit. This skill connects with the roles and responsibilities documented in my CV, rather than presenting it as an isolated keyword.`
               : `${item} forma parte de mi práctica profesional. Esta ficha la conecta con los puestos y responsabilidades documentados en mi CV, en lugar de presentarla como una palabra clave aislada.`,
             narrative: '',
             evidence
@@ -72,11 +74,11 @@ function buildProfiles(language: 'es' | 'en'): SkillProfile[] {
     if (language === 'en') {
       profile.narrative = direct.length
         ? `In my professional experience, ${profile.name} has been applied through responsibilities such as ${selected.map((item) => `${item.experience.position} at ${item.experience.company}`).join('; ')}. The role descriptions below show the work context documented in my CV.`
-        : `My CV lists ${profile.name} among the capabilities in ${profile.focusNames.join(', ')}, but does not name it explicitly in the role descriptions. I therefore present the related roles as professional context, not as direct proof of a specific implementation.`;
+        : `My CV lists ${profile.name} among the capabilities in ${profile.focusTitles.join(', ')}, but does not name it explicitly in the role descriptions. I therefore present the related roles as professional context, not as direct proof of a specific implementation.`;
     } else {
       profile.narrative = direct.length
         ? `En mi experiencia profesional, ${profile.name} aparece aplicada en responsabilidades como ${selected.map((item) => `${item.experience.position} en ${item.experience.company}`).join('; ')}. Las descripciones de estos puestos muestran el contexto de trabajo documentado en mi CV.`
-        : `Mi CV incluye ${profile.name} entre las capacidades de ${profile.focusNames.join(', ')}, pero no la menciona literalmente en las descripciones de los puestos. Por eso presento esas funciones como contexto profesional relacionado, no como prueba directa de una implementación concreta.`;
+        : `Mi CV incluye ${profile.name} entre las capacidades de ${profile.focusTitles.join(', ')}, pero no la menciona literalmente en las descripciones de los puestos. Por eso presento esas funciones como contexto profesional relacionado, no como prueba directa de una implementación concreta.`;
     }
     const authored = skillStories[profile.slug]?.[language];
     if (authored) profile.narrative = authored;

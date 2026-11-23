@@ -1,257 +1,41 @@
-# Benito Anagua — Interactive Portfolio
+# Benito Anagua — Skills & Experience
 
-A modern, anti-reflow portal showcasing an interdisciplinary creative practice across design, development, and graphic design disciplines. Built with Svelte + TypeScript and a carefully crafted design system rooted in architectural narratives.
+Personal professional site built with SvelteKit, Svelte 5, TypeScript and TOML content, deployed as a static site to Cloudflare Pages. The current information architecture centers on **skills**, **professional experience**, and **CV documents**. Project case studies can be added later without changing this foundation.
 
-## Architecture Overview
+## Routes
 
-### Design System Principles
+- `/` — introduction and entry points
+- `/habilidades` — skills grouped by category
+- `/habilidades/[slug]` — skill narrative connected to documented roles and responsibilities
+- `/experiencia` — professional timeline
+- `/cv` — current CV PDFs
 
-- **Anti-Reflow Interactions**: All interactive states use GPU-accelerated box-shadow rings and transforms instead of layout-altering borders
-- **Modular Boundary System**: `shared-boundary` grid-based layout with 1px gaps for visual cohesion
-- **Typography Hierarchy**: Display (Archivo Black), Body (Sora), and Mono (JetBrains Mono) for distinct information layers
-- **Responsive Ring Tokens**: `--ring-primary` and `--ring-outline` for consistent focus states across all interactive elements
+## Content model
 
-### Project Structure
-
-```
-src/
-├── routes/              # Page layouts (home, developer, designer, graphic)
-├── lib/
-│   ├── components/      # Reusable UI blocks (PortalLayout)
-│   ├── data/           # TOML-based content loaders (CV, site metadata)
-│   ├── state/          # Reactive stores (language toggle)
-│   ├── styles/         # Global design tokens and component styles
-│   └── types/          # TypeScript interfaces (CV, Site)
-└── static/             # Assets and generated CV files
-```
-
-### Content Layer
-
-Content is stored in TOML format for maintainability:
-
-- `cv.en.toml` / `cv.es.toml` — Professional experience, education, skills
-- `site.en.toml` / `site.es.toml` — Navigation, metadata, descriptive content
-
-The loaders (`cv-loader.ts`, `site-loader.ts`) parse and type these files at build/render time.
+- `src/lib/data/cv.es.toml` and `cv.en.toml` contain professional experience, education, skill categories and role-specific skill sets.
+- `src/lib/data/skill-stories.ts` contains authored narratives for selected skills. Other skills receive a generated narrative from the CV, with direct textual evidence distinguished from related professional context.
+- `src/lib/data/site.es.toml` and `site.en.toml` contain localized site metadata and footer content.
+- `SKILLS_CONTENT_GUIDE.md` explains how to add and maintain skill stories.
 
 ## Development
 
-### Prerequisites
-
-- Node.js 18+
-- pnpm (or npm/yarn)
-
-### Setup
+Requirements: Node.js compatible with the Vite version in `package.json` and pnpm.
 
 ```sh
-# Install dependencies
 pnpm install
-
-# Start development server with HMR
 pnpm run dev
-
-# Open in browser
-pnpm run dev -- --open
-```
-
-### Building for Production
-
-```sh
-# Build static site
-pnpm run build
-
-# Preview production build locally
-pnpm run preview
-```
-
-## Deployment to Cloudflare Pages
-
-This project is configured as a **fully static site** using `@sveltejs/adapter-static`, making it perfect for [Cloudflare Pages](https://pages.cloudflare.com/). No server-side rendering or server-side dependencies needed.
-
-### Quick Setup (Recommended)
-
-1. **Create a Cloudflare Pages project**:
-   - Go to [Cloudflare Pages](https://pages.cloudflare.com/)
-   - Connect your GitHub repository
-   - Select branch: `main`
-   - Build command: `pnpm install && pnpm run build`
-   - Build output directory: `build`
-   - Node.js version: 18 LTS
-   - Leave environment variables empty for now
-
-2. **Automatic Deployment** (GitHub integrated):
-   - Every push to `main` triggers automatic build and deployment
-   - Preview URLs are generated for pull requests
-
-### Manual Deployment
-
-Without GitHub integration, you can deploy directly using Cloudflare's CLI:
-
-```sh
-# Install Wrangler CLI globally
-npm install -g wrangler
-
-# Or use it with pnpm
-# pnpm add -D wrangler
-
-# Build the project (generates ./build directory)
-pnpm run build
-
-# Deploy directly to Cloudflare Pages
-wrangler pages deploy build
-```
-
-### Local Testing
-
-```sh
-# Build and preview locally
+pnpm run check
+pnpm run lint
 pnpm run build
 pnpm run preview
 ```
 
-### Deployment Workflow
+`pnpm run build` first runs `scripts/generate-static.ts`, which updates `static/robots.txt`, `static/sitemap.xml` and `static/manifest.json`, then runs the SvelteKit build.
 
-1. **Development** → Push to feature branch
-2. **Preview** → Cloudflare auto-generates preview deployment
-3. **Production** → Merge to `main` and deploy automatically
+## Deployment
 
-### Project Configuration Files
+Cloudflare Pages uses the repository's configured build output in `wrangler.toml`. Pushing to the connected production branch triggers the deployment. Legacy URLs are redirected in `static/_redirects` to the current skills, experience or CV pages.
 
-- **`svelte.config.js`** — SvelteKit configuration with `@sveltejs/adapter-static`
-- **`wrangler.toml`** — Optional Wrangler CLI configuration for manual deployments
-- **`.github/workflows/deploy.yml`** — Optional GitHub Actions CI/CD for automatic deployments
-- **`.env.example`** — Template for environment variables (if needed)
+## Design system
 
-## Key Features
-
-### Sections
-
-1. **LOBBY_HERO** — Introductory terminal-style header with name and tagline
-2. **SELECT_PATH_MODALITY** — Three-column grid linking to discipline-specific pages
-   - Anti-reflow hover states using inset box-shadow accents (dev=pink, ux=primary, gfx=blue)
-   - Animated path glyphs in background
-3. **CONTACT_CHANNELS & ACADEMIC_RECORD** — Node-based information modules
-
-### Interactive Details
-
-- **Text Selection**: Primary color highlight with accessible contrast
-- **Scrollbar**: Custom-styled across Webkit (Chrome, Safari, Edge) and Firefox
-- **Focus States**: Ring system provides clear but non-disruptive focus indicators
-- **Transitions**: GPU-optimized transforms and box-shadows for smooth performance
-
-## Technologies
-
-- **Framework**: SvelteKit + TypeScript
-- **Styling**: Plain CSS with CSS variables (Material Design 3 tokens)
-- **Build**: Vite
-- **Deployment**: Cloudflare Pages
-- **Data**: TOML loaders
-- **Icons**: Material Symbols Outlined
-
-## SEO Optimization
-
-This portfolio includes comprehensive SEO implementations:
-
-### On-Page SEO
-
-- **Dynamic Meta Tags**: Page-specific titles, descriptions, and keywords generated per route
-- **Canonical URLs**: Prevents duplicate content issues
-- **Open Graph Tags**: Optimized social media previews with images
-- **Twitter Card**: Custom Twitter-specific metadata
-- **Structured Data**: JSON-LD schema markup for Person, ProfilePage, and BreadcrumbList
-
-### Technical SEO
-
-- **Sitemap.xml**: Auto-generated XML sitemap with all routes
-- **robots.txt**: Crawler directives with sitemap references
-- **Prerender Optimization**: Static generation for instant page loads
-- **Mobile-Friendly**: Responsive design with viewport meta tags
-- **Performance**: CSS variables for efficient styling, GPU-accelerated interactions
-- **Accessibility**: Semantic HTML with proper heading hierarchy and ARIA support
-
-### Configuration
-
-- **`src/routes/+layout.server.ts`** — Global SEO data loader
-- **`src/routes/*/+layout.server.ts`** — Page-specific SEO metadata
-- **`src/routes/sitemap.xml/+server.ts`** — Dynamic sitemap generation
-- **`static/manifest.json`** — PWA manifest with app metadata
-- **`static/robots.txt`** — Search engine crawler directives
-
-### Files to Update for Your Domain
-
-All domain URLs are centralized in **`src/lib/config.ts`**. To change your domain:
-
-```typescript
-// src/lib/config.ts
-export const SITE_URL = 'https://your-new-domain.com'; // ← Update this
-export const SITE_NAME = 'Your Site Name';
-export const SITE_DESCRIPTION = 'Your description';
-```
-
-Then rebuild:
-
-```bash
-pnpm run build  # ← Automatically generates all static files with new domain
-```
-
-This single change automatically updates **everything**:
-
-- ✅ Canonical URLs in all pages
-- ✅ Open Graph image URLs
-- ✅ Schema.org structured data
-- ✅ `robots.txt` — Auto-generated with sitemap URL
-- ✅ `sitemap.xml` — Auto-generated with all routes
-- ✅ `manifest.json` — Auto-generated with app metadata
-
-**No manual updates needed!** See [DOMAIN_CONFIG.md](./DOMAIN_CONFIG.md) for detailed information.
-
-## Environment Variables
-
-Optional configuration via `.env.local` (see `.env.example`):
-
-- `VITE_ANALYTICS_ID` — Analytics tracking ID
-- `VITE_SITE_URL` — Custom domain URL
-- `VITE_API_URL` — External API endpoint
-
-## Troubleshooting
-
-### Build fails with "ENOSPC: No space left on device"
-
-```sh
-pnpm store prune
-pnpm install
-```
-
-### Cloudflare Pages deployment stuck or failing
-
-- Check build logs in Cloudflare Pages dashboard
-- Verify Node.js version is 18+ in project settings
-- Ensure `build` directory is specified as output directory (not `.svelte-kit`)
-- Try clearing cache and rebuilding locally:
-  ```sh
-  rm -rf .svelte-kit build
-  pnpm install
-  pnpm run build
-  ```
-
-### Development server won't start after installation
-
-```sh
-# Clear node_modules and reinstall
-rm -rf node_modules .pnpm-store pnpm-lock.yaml
-pnpm install
-pnpm dev --open
-```
-
-### Preview shows blank page
-
-```sh
-# Rebuild and preview
-rm -rf build
-pnpm run build
-pnpm run preview
-```
-
----
-
-**Design Philosophy**: Structure as narrative. Every grid intersection, every gap, every color choice tells a story about the work and the maker.
+The shared `PortalLayout` provides navigation, language and theme controls, and the footer. Global tokens and styles live in `src/lib/styles/`.

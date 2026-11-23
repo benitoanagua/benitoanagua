@@ -21,7 +21,7 @@ institution = "Funval Internacional"
 year = "2025"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 01. DEVELOPER PROFILE
+# 01. SOFTWARE DEVELOPMENT
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "developer"
@@ -86,7 +86,7 @@ period = "Mar 2008 - Sep 2011"
 description = "Desarrollé y personalicé sistemas de gestión de contenidos (CMS) basados en PHP para publicación diaria de noticias. Administré servidores Linux Debian realizando configuraciones de seguridad, monitoreo de rendimiento y mantenimiento preventivo. Ejecuté copias de seguridad automatizadas y restauración de bases de datos MySQL, garantizando integridad de información crítica. Documenté procesos técnicos y solucioné incidencias críticas del sistema bajo presión de deadlines de publicación diaria del periódico."
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 02. DESIGNER PROFILE
+# 02. PRODUCT AND UI DESIGN
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "designer"
@@ -151,7 +151,7 @@ period = "Mar 2008 - Sep 2011"
 description = "Gestioné el diseño visual, maquetación y actualización de contenido en el portal web institucional del periódico digital. Creé banners publicitarios, piezas gráficas para campañas digitales y newsletters optimizadas para web. Edité y optimicé imágenes digitales con Photoshop para mejorar el rendimiento de carga, manteniendo la identidad visual del periódico y asegurando coherencia estética en todas las plataformas."
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 03. GRAPHIC PROFILE
+# 03. GRAPHIC COMMUNICATION
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "graphic"
@@ -290,4 +290,3 @@ company = "Experiencia profesional transversal"
 position = "Diseñador Digital / Gráfico"
 period = "Mar 2008 - Jun 2026"
 description = "Experiencia aplicada en diseño de interfaces, identidad visual, producción de piezas digitales e impresas, preparación de archivos para impresión y documentación de procesos. Esta trayectoria profesional constituye el contexto práctico para la enseñanza de diseño digital y producción gráfica."
-

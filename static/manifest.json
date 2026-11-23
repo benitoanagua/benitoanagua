@@ -1,5 +1,5 @@
 {
-  "name": "Benito Anagua — Interactive Portfolio",
+  "name": "Benito Anagua — Skills & Experience",
   "short_name": "Benito Anagua",
   "description": "Professional skills connected to work experience across software development, product design, functional analysis, teaching and visual communication.",
   "start_url": "/",
@@ -17,8 +17,9 @@
     }
   ],
   "categories": [
-    "portfolio",
-    "business"
+    "business",
+    "education",
+    "productivity"
   ],
   "screenshots": [
     {

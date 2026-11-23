@@ -45,7 +45,7 @@
 	<meta property="og:description" content={data.seo.description} />
 	<meta property="og:image" content={data.seo.ogImage} />
 	<meta property="og:url" content={data.seo.canonical} />
-	<meta property="og:site_name" content="Benito Anagua — Portfolio" />
+	<meta property="og:site_name" content="Benito Anagua — Skills & Experience" />
 
 	<!-- Twitter Card -->
 	<meta name="twitter:card" content="summary_large_image" />
@@ -61,7 +61,7 @@
 			"name": "{data.seo.author}",
 			"url": "{data.seo.canonical}",
 			"image": "{data.seo.ogImage}",
-			"jobTitle": "Interdisciplinary Creator",
+			"jobTitle": "Business Applications Analyst, Software Developer and Product Designer",
 			"description": "{data.seo.description}",
 			"email": "{data.seo.email}",
 			"sameAs": [

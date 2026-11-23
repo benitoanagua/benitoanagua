@@ -13,11 +13,10 @@
 
 	interface Props {
 		navItems?: NavItem[];
-		showBackButton?: boolean;
 		children?: import('svelte').Snippet;
 	}
 
-	let { navItems = [], showBackButton = false, children }: Props = $props();
+	let { navItems = [], children }: Props = $props();
 
 	// Datos reactivos al idioma
 	const site = $derived(loadSiteData());
@@ -71,12 +70,7 @@
 			</div>
 
 			<div class="toolbar-right">
-				{#if showBackButton}
-					<a href="/" class="toolbar-back">
-						<span class="material-symbols-outlined">arrow_back</span>
-						<span class="mono">{site.nav.back_label}</span>
-					</a>
-				{/if}
+
 
 				<nav class="toolbar-nav">
 					{#each navItems as item}
@@ -105,34 +99,10 @@
 				</div>
 
 				<div class="toolbar-status">
-					<details class="cv-dropdown">
-						<summary class="cv-trigger mono">
-							<span class="status-pulse"></span>
-							<span>DOWNLOAD_CV_MODULE</span>
-							<span class="material-symbols-outlined dropdown-caret">expand_more</span>
-						</summary>
-						<ul class="cv-menu mono">
-							<li class="menu-label">ESPAÑOL</li>
-							<li>
-								<a href="/cv/BenitoAnagua_DesarrolladorFrontend_ES.pdf" download
-									>Desarrollador Frontend</a
-								>
-							</li>
-							<li><a href="/cv/BenitoAnagua_DisennadorUIUX_ES.pdf" download>Diseñador UI/UX</a></li>
-							<li>
-								<a href="/cv/BenitoAnagua_DisennadorGrafico_ES.pdf" download>Diseñador Gráfico</a>
-							</li>
-							<li class="menu-divider"></li>
-							<li class="menu-label">ENGLISH</li>
-							<li>
-								<a href="/cv/BenitoAnagua_FrontendDeveloper_EN.pdf" download>Frontend Developer</a>
-							</li>
-							<li><a href="/cv/BenitoAnagua_UXUIDesigner_EN.pdf" download>UI/UX Designer</a></li>
-							<li>
-								<a href="/cv/BenitoAnagua_GraphicDesigner_EN.pdf" download>Graphic Designer</a>
-							</li>
-						</ul>
-					</details>
+					<a class="cv-trigger mono" href="/cv">
+						<span>CV / DOCUMENTS</span>
+						<span class="material-symbols-outlined">arrow_outward</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -153,7 +123,7 @@
 				</div>
 				<p class="module-bio">{site.footer.bio}</p>
 				<div class="module-signals">
-					{#each site.footer.sections.portfolio.links as link}
+					{#each site.footer.sections.links.links as link}
 						<a href={resolveHref(link)} target="_blank" rel="noopener" class="signal-link mono">
 							<span class="material-symbols-outlined">{link.icon}</span>
 							<span class="link-label">{link.label.toUpperCase()}</span>
@@ -349,107 +319,22 @@
 		}
 	}
 
-	.cv-dropdown {
-		position: relative;
-	}
-
 	.cv-trigger {
 		display: flex;
 		align-items: center;
 		gap: var(--space-2);
-		cursor: pointer;
 		font-size: 0.75rem;
 		color: var(--color-primary);
 		opacity: 0.8;
 		padding: 4px 8px;
 		border: 1px solid transparent;
 		transition: all 0.2s;
-		list-style: none; /* Hide default triangle */
-	}
-	.cv-trigger::-webkit-details-marker {
-		display: none;
+		text-decoration: none;
 	}
 	.cv-trigger:hover {
 		opacity: 1;
 		background: var(--color-surface-container);
 		border-color: var(--color-outline-variant);
-	}
-
-	.dropdown-caret {
-		font-size: 1rem;
-	}
-
-	.cv-menu {
-		position: absolute;
-		top: calc(100% + 4px);
-		right: 0;
-		width: 220px;
-		background: var(--color-surface);
-		border: 1px solid var(--color-outline-variant);
-		padding: var(--space-2) 0;
-		display: flex;
-		flex-direction: column;
-		box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.2);
-		z-index: 200;
-	}
-
-	.cv-menu li {
-		display: flex;
-	}
-
-	.cv-menu a {
-		padding: var(--space-2) var(--space-4);
-		font-size: 0.75rem;
-		color: var(--color-on-surface);
-		text-decoration: none;
-		width: 100%;
-		transition: background 0.2s;
-	}
-	.cv-menu a:hover {
-		background: var(--color-surface-container);
-		color: var(--color-primary);
-	}
-
-	.menu-label {
-		font-size: 0.625rem;
-		color: var(--color-on-surface-variant);
-		padding: var(--space-2) var(--space-4);
-		opacity: 0.6;
-		font-weight: 700;
-		margin-top: var(--space-1);
-	}
-	.menu-label:first-child {
-		margin-top: 0;
-	}
-
-	.menu-divider {
-		height: 1px;
-		background: var(--color-outline-variant);
-		margin: var(--space-1) 0;
-	}
-
-	.status-pulse {
-		width: 6px;
-		height: 6px;
-		background: var(--color-primary);
-		border-radius: 50%;
-		box-shadow: 0 0 0 2px var(--color-primary-container);
-		animation: pulse 2s infinite;
-	}
-
-	@keyframes pulse {
-		0% {
-			transform: scale(0.95);
-			box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0.7);
-		}
-		70% {
-			transform: scale(1);
-			box-shadow: 0 0 0 6px rgba(var(--color-primary-rgb), 0);
-		}
-		100% {
-			transform: scale(0.95);
-			box-shadow: 0 0 0 0 rgba(var(--color-primary-rgb), 0);
-		}
 	}
 
 	/* ── MAIN CONTENT ── */

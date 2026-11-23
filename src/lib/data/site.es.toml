@@ -2,88 +2,30 @@
 # Escalable para i18n: duplicar este archivo como site.en.toml, site.es.toml, etc.
 
 [meta]
-lang = "es"
-site_name = "Benito Anagua"
 tagline = "Habilidades · Experiencia · Diseño de Producto"
 description = "18 años de experiencia conectando desarrollo de software, diseño de producto, análisis funcional y comunicación visual. Explora habilidades respaldadas por responsabilidades profesionales."
 
 [nav]
-home_label = "Habilidades y experiencia"
-back_label = "Inicio"
-available_label = "Disponible"
 theme_toggle_aria = "Cambiar tema"
 lang_toggle_aria = "Cambiar idioma"
-exp_yrs_label = "18 Años de Experiencia"
-exp_label = "18 Años"
-location_label = "Ubicación"
-phone_label = "Teléfono"
-exp_title = "Experiencia"
-grad_label = "Graduación"
-hero_eyebrow = "Perfil Profesional Multidisciplinario"
-specializations_label = "especializaciones disponibles"
-view_cv_label = "Ver CV completo"
-education_section_title = "Formación académica"
-methodology_label = "Metodología"
-professional_label = "Profesional"
-technical_label = "Técnicas"
-laboral_label = "Laboral"
-current_label = "Actual"
-items_label = "ítems"
-engineering_spec_label = "ESPECIFICACIÓN TÉCNICA"
-email_label = "Correo"
-web_label = "Web"
-behance_label = "Behance"
-
-[[nav.profiles]]
-label = "Full Stack"
-href = "/developer"
-code = "01 / DEV"
-icon = "terminal"
-[nav.profiles.sections]
-perfil = "Perfil"
-habilidades = "Stack"
-experiencia = "Historial"
-educacion = "Formación"
-
-[[nav.profiles]]
-label = "UI/UX"
-href = "/designer"
-code = "02 / UX"
-icon = "layers"
-[nav.profiles.sections]
-perfil = "Perfil"
-habilidades = "Herramientas"
-experiencia = "Trayectoria"
-educacion = "Formación"
-
-[[nav.profiles]]
-label = "Gráfico"
-href = "/graphic"
-code = "03 / GFX"
-icon = "draw"
-[nav.profiles.sections]
-perfil = "Perfil"
-habilidades = "Capacidades"
-experiencia = "Historial"
-educacion = "Formación"
 
 [footer]
 bio = "Experiencia interdisciplinaria en software, diseño de producto, análisis funcional y comunicación visual. Habilidades conectadas con puestos y responsabilidades reales."
 
-[footer.sections.portfolio]
-title = "Portafolio"
+[footer.sections.links]
+title = "Enlaces"
 
-[[footer.sections.portfolio.links]]
+[[footer.sections.links.links]]
 label = "Sitio web"
 href_key = "website"
 icon = "language"
 
-[[footer.sections.portfolio.links]]
+[[footer.sections.links.links]]
 label = "Behance"
 href_key = "behance"
 icon = "palette"
 
-[[footer.sections.portfolio.links]]
+[[footer.sections.links.links]]
 label = "GitHub"
 href_key = "github"
 icon = "code"
@@ -112,26 +54,3 @@ mailto = true
 label = "Tarija, Bolivia"
 href_key = "maps"
 icon = "location_on"
-
-
-[[nav.profiles]]
-label = "Análisis"
-href = "/experiencia"
-code = "04 / ANL"
-icon = "analytics"
-[nav.profiles.sections]
-perfil = "Perfil"
-habilidades = "Capacidades"
-experiencia = "Trayectoria"
-educacion = "Formación"
-
-[[nav.profiles]]
-label = "Docencia"
-href = "/experiencia"
-code = "05 / EDU"
-icon = "school"
-[nav.profiles.sections]
-perfil = "Perfil"
-habilidades = "Capacidades"
-experiencia = "Trayectoria"
-educacion = "Formación"

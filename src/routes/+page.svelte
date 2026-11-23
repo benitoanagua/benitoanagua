@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { getAllFocuses, getPersonalInfo, getEducation } from '$lib/data/cv-loader';
+	import { getPersonalInfo, getEducation } from '$lib/data/cv-loader';
 	import { loadSiteData } from '$lib/data/site-loader';
 	import { SITE_URL } from '$lib/config';
 	import { lang } from '$lib/state/lang.svelte';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 
 	const personal = $derived(getPersonalInfo());
-	const focuses = $derived(getAllFocuses());
 	const education = $derived(getEducation());
 	const site = $derived(loadSiteData());
 
@@ -14,25 +13,14 @@
 		? [{ label: 'Skills', href: '/habilidades' }, { label: 'Experience', href: '/experiencia' }, { label: 'CV', href: '/cv' }]
 		: [{ label: 'Habilidades', href: '/habilidades' }, { label: 'Experiencia', href: '/experiencia' }, { label: 'CV', href: '/cv' }]);
 
-	function getFocusSiteData(focusName: string) {
-		if (focusName === 'analyst') return { code: '04 / ANL', icon: 'analytics', href: '/experiencia' };
-		if (focusName === 'teacher') return { code: '05 / EDU', icon: 'school', href: '/experiencia' };
-		return (
-			site.nav.profiles.find((p) => p.href.includes(focusName)) || {
-				code: '00',
-				icon: 'architecture',
-				href: '/'
-			}
-		);
-	}
 </script>
 
 <svelte:head>
 	<title>{personal.name} — {site.meta.tagline}</title>
-	<meta name="description" content="{personal.name} — {site.meta.description}" />
+	<meta name="description" content={`${personal.name} — ${site.meta.description}`} />
 	<meta
 		name="keywords"
-		content="portfolio, design, development, graphic design, interdisciplinary"
+		content="professional skills, work experience, software development, product design, functional analysis"
 	/>
 
 	<!-- Schema.org markup for home page -->
@@ -45,8 +33,8 @@
 				"name": "{personal.name}",
 				"description": "{site.meta.description}",
 				"url": "{SITE_URL}",
-				"jobTitle": "Interdisciplinary Creator",
-				"knowsAbout": ["Design", "Development", "Graphic Design"]
+				"jobTitle": "Business Applications Analyst, Software Developer and Product Designer",
+				"knowsAbout": ["Software Development", "Product Design", "Functional Analysis", "Business Applications", "Digital Design"]
 			}}
 		}}
 	</script>
@@ -56,15 +44,14 @@
 	<div class="lobby-container">
 		<!-- ══ LOBBY HERO: Structural Narrative ══ -->
 		<section class="lobby-hero">
-			<section class="lobby-hero">
 				<div class="header-terminal shared-boundary">
 					<div class="terminal-top-bar mono">
-						<span>BENITO ANAGUA // PORTFOLIO_INDEX</span>
+						<span>BENITO ANAGUA // SKILLS_AND_EXPERIENCE</span>
 						<span class="status-light"></span>
 					</div>
 
 					<div class="main-spec">
-						<div class="hero-label mono">INTERDISCIPLINARY_HUB</div>
+						<div class="hero-label mono">PROFESSIONAL_PRACTICE</div>
 
 						<h1 class="hero-title">
 							<span class="stroke-text">{personal.name.split(' ')[0]}</span>
@@ -83,7 +70,6 @@
 						</div>
 					</div>
 				</div>
-			</section>
 		</section>
 
 		<!-- ══ PATHS: Grid-Boundary System ══ -->
@@ -93,41 +79,7 @@
 			<a href="/habilidades"><span class="mono">01 / SKILLS</span><strong>{lang.current === 'en' ? 'Explore skills through professional evidence' : 'Explora habilidades a través de experiencia profesional'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
 			<a href="/experiencia"><span class="mono">02 / EXPERIENCE</span><strong>{lang.current === 'en' ? 'Browse roles, responsibilities and career context' : 'Recorre puestos, responsabilidades y trayectoria'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
 		</div>
-		<div class="section-tag mono">CV_BY_DISCIPLINE / LEGACY_PROFILES</div>
-			<div class="shared-boundary paths-grid">
-				{#each focuses as focus}
-					{@const sData = getFocusSiteData(focus.name)}
-					<a
-						href={sData.href}
-						class="path-card"
-						class:dev={focus.name === 'developer'}
-						class:ux={focus.name === 'designer'}
-						class:gfx={focus.name === 'graphic'}
-					>
-						<header class="card-header">
-							<span class="path-code mono">{sData.code}</span>
-							<span class="material-symbols-outlined">{sData.icon}</span>
-						</header>
-
-						<div class="card-body">
-							<h3 class="path-title">{focus.title}</h3>
-							<p class="path-summary">{focus.summary.slice(0, 100)}...</p>
-						</div>
-
-						<footer class="card-footer mono">
-							<span>EXECUTE_TRANSITION</span>
-							<span class="material-symbols-outlined">north_east</span>
-						</footer>
-
-						<!-- Background path icon -->
-						<div class="path-glyph">
-							{#if focus.name === 'developer'}{'</>'}{:else if focus.name === 'designer'}{'[_]'}{:else}{'(*)'}{/if}
-						</div>
-					</a>
-				{/each}
-			</div>
 		</section>
-
 		<!-- ══ CONNECTIVE NODES: Linear Modules ══ -->
 		<section class="nodes-section">
 			<div class="shared-boundary nodes-grid">

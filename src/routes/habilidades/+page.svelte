@@ -8,8 +8,8 @@
   ? [{label:'Skills',href:'/habilidades'},{label:'Experience',href:'/experiencia'},{label:'CV',href:'/cv'}]
   : [{label:'Habilidades',href:'/habilidades'},{label:'Experiencia',href:'/experiencia'},{label:'CV',href:'/cv'}]);
  const copy = $derived(lang.current === 'en'
-  ? {title:'Skills, connected to experience.',intro:'Explore each capability through the roles where I used it, the responsibilities I held, and the professional context behind it.',roles:'professional profiles',open:'VIEW SKILL PROFILE ↗'}
-  : {title:'Habilidades conectadas con experiencia.',intro:'Explora cada capacidad a través de los puestos donde la desarrollé, las responsabilidades que asumí y el contexto profesional que la respalda.',roles:'perfiles profesionales',open:'VER FICHA DE HABILIDAD ↗'});
+  ? {title:'Skills, connected to experience.',intro:'Explore each capability through the roles where I used it, the responsibilities I held, and the professional context behind it.',roles:'work areas',open:'VIEW SKILL PROFILE ↗'}
+  : {title:'Habilidades conectadas con experiencia.',intro:'Explora cada capacidad a través de los puestos donde la desarrollé, las responsabilidades que asumí y el contexto profesional que la respalda.',roles:'áreas profesionales',open:'VER FICHA DE HABILIDAD ↗'});
 </script>
 <svelte:head><title>{copy.title} — Benito Anagua</title><meta name="description" content={copy.intro}/></svelte:head>
 <PortalLayout {navItems}>
@@ -19,7 +19,7 @@
    <section class="category" id={category.toLowerCase().replace(/[^a-z0-9]+/g,'-')}>
     <div class="category-head"><h2>{category}</h2><span class="mono">{skills.filter(s=>s.category===category).length.toString().padStart(2,'0')}</span></div>
     <div class="skill-grid">{#each skills.filter(s=>s.category===category) as skill}
-     <a class="skill-card" href={'/habilidades/'+skill.slug}><div class="skill-name"><h3>{skill.name}</h3><span>↗</span></div><p>{skill.focusNames.length} {copy.roles}</p><div class="focus-tags">{#each skill.focusNames as focus}<span>{focus}</span>{/each}</div><span class="card-link mono">{copy.open}</span></a>
+     <a class="skill-card" href={'/habilidades/'+skill.slug}><div class="skill-name"><h3>{skill.name}</h3><span>↗</span></div><p>{skill.focusTitles.length} {copy.roles}</p><div class="focus-tags">{#each skill.focusTitles as focus}<span>{focus}</span>{/each}</div><span class="card-link mono">{copy.open}</span></a>
     {/each}</div>
    </section>
   {/each}

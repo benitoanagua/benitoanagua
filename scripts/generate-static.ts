@@ -31,22 +31,13 @@ function generateRobotsTxt(siteUrl: string): string {
 	return `# Robots.txt for ${new URL(siteUrl).hostname}
 User-agent: *
 Allow: /
-Allow: /developer
-Allow: /designer
-Allow: /graphic
 Allow: /habilidades
 Allow: /experiencia
 Allow: /cv
 
-# Disallow private sections (if any)
-Disallow: /admin/
-Disallow: /private/
-
 # XML Sitemap
 Sitemap: ${siteUrl}/sitemap.xml
 
-# Crawl delay
-Crawl-delay: 0
 `;
 }
 
@@ -57,9 +48,6 @@ function generateSitemapXml(siteUrl: string): string {
 		{ path: '/habilidades', priority: '0.95', changefreq: 'weekly' },
 		{ path: '/experiencia', priority: '0.95', changefreq: 'monthly' },
 		{ path: '/cv', priority: '0.8', changefreq: 'monthly' },
-		{ path: '/developer', priority: '0.7', changefreq: 'monthly' },
-		{ path: '/designer', priority: '0.7', changefreq: 'monthly' },
-		{ path: '/graphic', priority: '0.7', changefreq: 'monthly' }
 	];
 	const skillSlug = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 	for (const language of ['es', 'en']) {
@@ -93,7 +81,7 @@ ${entries}
 // Generate manifest.json
 function generateManifestJson(siteUrl: string): string {
 	const manifest = {
-		name: 'Benito Anagua — Interactive Portfolio',
+		name: 'Benito Anagua — Skills & Experience',
 		short_name: 'Benito Anagua',
 		description:
 			'Professional skills connected to work experience across software development, product design, functional analysis, teaching and visual communication.',
@@ -111,7 +99,7 @@ function generateManifestJson(siteUrl: string): string {
 				purpose: 'any maskable'
 			}
 		],
-		categories: ['portfolio', 'business'],
+		categories: ['business', 'education', 'productivity'],
 		screenshots: [
 			{
 				src: '/og-image.png',

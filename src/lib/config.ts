@@ -4,25 +4,8 @@
  */
 
 export const SITE_URL = 'https://benitoanagua.pages.dev';
-export const SITE_NAME = 'Benito Anagua — Interactive Portfolio';
-export const SITE_DESCRIPTION =
-	'Professional skills connected to work experience across software development, product design, functional analysis, teaching and visual communication.';
-
 // OG Image paths (append SITE_URL when needed)
-export const OG_IMAGES = {
-	default: '/og-image.png',
-	developer: '/og-image-developer.png',
-	designer: '/og-image-designer.png',
-	graphic: '/og-image-graphic.png'
-};
-
-// Routes
-export const ROUTES = {
-	home: '/',
-	developer: '/developer',
-	designer: '/designer',
-	graphic: '/graphic'
-};
+export const OG_IMAGES = { default: '/og-image.png' };
 
 // Social Links
 export const SOCIAL_LINKS = {

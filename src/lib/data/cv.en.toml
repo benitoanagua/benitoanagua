@@ -21,7 +21,7 @@ institution = "Funval International"
 year = "2025"
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 01. DEVELOPER PROFILE
+# 01. SOFTWARE DEVELOPMENT
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "developer"
@@ -86,7 +86,7 @@ position = "Junior DevOps Engineer"
 description = "Developed and customized content management systems (CMS) based on PHP for daily news publishing. Administered Debian Linux servers performing security configurations, performance monitoring, and preventive maintenance. Executed automated backups and MySQL database restoration, ensuring critical information integrity. Documented technical processes and resolved critical system incidents under pressure of daily newspaper publication deadlines."
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 02. DESIGNER PROFILE
+# 02. PRODUCT AND UI DESIGN
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "designer"
@@ -151,7 +151,7 @@ position = "Web Designer"
 description = "Managed visual design, layout, and content updates for the digital newspaper's institutional web portal. Created advertising banners, graphic pieces for digital campaigns, and web-optimized newsletters. Edited and optimized digital images with Photoshop to improve loading performance, maintaining the newspaper's visual identity and ensuring aesthetic coherence across all platforms."
 
 # ══════════════════════════════════════════════════════════════════════════════
-# 03. GRAPHIC PROFILE
+# 03. GRAPHIC COMMUNICATION
 # ══════════════════════════════════════════════════════════════════════════════
 [[focuses]]
 name = "graphic"
@@ -290,4 +290,3 @@ company = "Cross-disciplinary professional experience"
 position = "Digital / Graphic Designer"
 period = "Mar 2008 - Jun 2026"
 description = "Applied experience in interface design, visual identity, digital and print assets, print-ready file preparation and process documentation. This professional practice provides the practical context for teaching digital design and graphic production."
-

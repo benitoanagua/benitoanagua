@@ -12,10 +12,9 @@ export const load: LayoutServerLoad = async ({ url }) => {
 		? `${SITE_URL}${currentPath === '/' ? '' : currentPath}`
 		: url.toString();
 
-	// Determine page-specific metadata
 	let pageTitle = personal.name;
 	let pageDescription = site.meta.description;
-	let pageKeywords = 'portfolio, design, development, graphic design, interdisciplinary';
+	let pageKeywords = 'professional skills, work experience, software development, product design';
 
 	if (currentPath === '/habilidades' || currentPath.startsWith('/habilidades/')) {
 		pageTitle = `Skills & Professional Evidence — ${personal.name}`;
@@ -26,22 +25,9 @@ export const load: LayoutServerLoad = async ({ url }) => {
 		pageDescription = 'Career history, responsibilities and professional context across software, design, analysis and teaching';
 		pageKeywords = 'professional experience, career, software developer, product designer, business analyst, instructor';
 	} else if (currentPath === '/cv') {
-		pageTitle = `CV & Professional Profiles — ${personal.name}`;
-		pageDescription = 'Curriculum vitae and professional profile documents';
-		pageKeywords = 'CV, resume, curriculum vitae, professional profiles';
-	} else if (currentPath.includes('/developer')) {
-		pageTitle = `Software Developer — ${personal.name}`;
-		pageDescription =
-			'Software development projects, technical expertise, and professional experience';
-		pageKeywords = 'developer, web development, software engineer, typescript, svelte, fullstack';
-	} else if (currentPath.includes('/designer')) {
-		pageTitle = `UX/UI Designer — ${personal.name}`;
-		pageDescription = 'Design systems, user experience, and interface design projects';
-		pageKeywords = 'designer, ux, ui, design, user experience, interface design';
-	} else if (currentPath.includes('/graphic')) {
-		pageTitle = `Graphic Designer — ${personal.name}`;
-		pageDescription = 'Visual design, branding, and creative projects';
-		pageKeywords = 'graphic designer, visual design, branding, creative, visual identity';
+		pageTitle = `CV & Professional Documents — ${personal.name}`;
+		pageDescription = 'Current role-specific curriculum vitae documents';
+		pageKeywords = 'CV, resume, curriculum vitae, professional documents';
 	}
 
 	return {

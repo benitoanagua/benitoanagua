@@ -9,15 +9,6 @@ export function loadCVData(): CVData {
 	return parse(raw) as CVData;
 }
 
-export function getFocusByName(name: string) {
-	const cvData = loadCVData();
-	return cvData.focuses.find((focus) => focus.name === name);
-}
-
-export function getAllFocuses() {
-	const cvData = loadCVData();
-	return cvData.focuses;
-}
 
 export function getPersonalInfo() {
 	const cvData = loadCVData();
