@@ -4,6 +4,9 @@ Allow: /
 Allow: /developer
 Allow: /designer
 Allow: /graphic
+Allow: /habilidades
+Allow: /experiencia
+Allow: /cv
 
 # Disallow private sections (if any)
 Disallow: /admin/

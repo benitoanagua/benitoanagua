@@ -7,6 +7,7 @@
  */
 
 import fs from 'fs';
+import { parse } from 'toml';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -33,6 +34,9 @@ Allow: /
 Allow: /developer
 Allow: /designer
 Allow: /graphic
+Allow: /habilidades
+Allow: /experiencia
+Allow: /cv
 
 # Disallow private sections (if any)
 Disallow: /admin/
@@ -50,10 +54,21 @@ Crawl-delay: 0
 function generateSitemapXml(siteUrl: string): string {
 	const routes = [
 		{ path: '/', priority: '1.0', changefreq: 'weekly' },
-		{ path: '/developer', priority: '0.9', changefreq: 'monthly' },
-		{ path: '/designer', priority: '0.9', changefreq: 'monthly' },
-		{ path: '/graphic', priority: '0.9', changefreq: 'monthly' }
+		{ path: '/habilidades', priority: '0.95', changefreq: 'weekly' },
+		{ path: '/experiencia', priority: '0.95', changefreq: 'monthly' },
+		{ path: '/cv', priority: '0.8', changefreq: 'monthly' },
+		{ path: '/developer', priority: '0.7', changefreq: 'monthly' },
+		{ path: '/designer', priority: '0.7', changefreq: 'monthly' },
+		{ path: '/graphic', priority: '0.7', changefreq: 'monthly' }
 	];
+	const skillSlug = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+	for (const language of ['es', 'en']) {
+		const cv = parse(fs.readFileSync(path.join(projectRoot, `src/lib/data/cv.${language}.toml`), 'utf-8')) as { focuses: { skills?: { items?: string[] }[] }[] };
+		for (const focus of cv.focuses) for (const category of focus.skills ?? []) for (const skill of category.items ?? []) {
+			const slug = skillSlug(skill);
+			if (slug && !routes.some((route) => route.path === `/habilidades/${slug}`)) routes.push({ path: `/habilidades/${slug}`, priority: '0.65', changefreq: 'monthly' });
+		}
+	}
 
 	const today = new Date().toISOString().split('T')[0];
 
@@ -81,7 +96,7 @@ function generateManifestJson(siteUrl: string): string {
 		name: 'Benito Anagua — Interactive Portfolio',
 		short_name: 'Benito Anagua',
 		description:
-			'A modern, anti-reflow portal showcasing an interdisciplinary creative practice across design, development, and graphic design disciplines.',
+			'Professional skills connected to work experience across software development, product design, functional analysis, teaching and visual communication.',
 		start_url: '/',
 		scope: '/',
 		display: 'standalone',

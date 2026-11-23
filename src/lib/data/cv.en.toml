@@ -45,11 +45,15 @@ items = ["PostgreSQL", "MySQL", "Docker", "Ubuntu Server", "Nginx", "Git", "GitL
 category = "Design"
 items = ["Figma", "Design Systems", "Prototyping", "Responsive Design"]
 
+[[focuses.skills]]
+category = "Mobile, AI & Automation"
+items = ["Kotlin", "Jetpack Compose", "Firebase", "Google Cloud Run", "Elixir/OTP", "Phoenix Framework", "WhatsApp Business API", "WooCommerce", "WP-CLI", "Claude", "Gemini", "Google Stitch"]
+
 [[focuses.experiences]]
 company = "Freelance Developer & Technology Updates"
-period = "Jan 2025 - Dec 2025"
+period = "Dec 2024 - Jun 2026"
 position = "Freelance Developer"
-description = "Worked as an independent developer on web projects while specializing in artificial intelligence tools applied to software development. Invested time in learning emerging technologies, modern frameworks, and AI systems for code automation and optimization. Explored practical AI implementations in frontend development. Completed intensive technical English training reaching A2 level, improving communication capabilities in international environments and preparing for global collaborations."
+description = "During independent work, I developed Android mobile experiences with Kotlin and Jetpack Compose, integrated Firebase and Google Cloud deployments, built conversational flows with Elixir/OTP, Phoenix and WhatsApp Business API, and implemented WordPress/WooCommerce stores with Elementor and WP-CLI. I also incorporated Claude, OpenCode, Gemini and Google Stitch into analysis, development and UX prototyping workflows. Technical English training: A2."
 
 [[focuses.experiences]]
 company = "ITGroup Systems"
@@ -106,11 +110,15 @@ items = ["HTML5", "CSS3", "Svelte", "Vue.js", "JavaScript", "Responsive Design"]
 category = "Methodology"
 items = ["Design Thinking", "Scrum", "User Research", "Information Architecture", "Usability Testing"]
 
+[[focuses.skills]]
+category = "Product & AI"
+items = ["Google Stitch", "AI-assisted design", "Design Tokens", "Technical Handoff", "Design Thinking Workshops"]
+
 [[focuses.experiences]]
 company = "Freelance Designer & Technology Updates"
-period = "Jan 2025 - Dec 2025"
+period = "Dec 2024 - Jun 2026"
 position = "Freelance Designer"
-description = "Worked as an independent designer on visual identity and digital design projects while specializing in artificial intelligence tools applied to design. Invested time in learning generative AI systems for visual asset creation, creative workflow optimization, and emerging design tools. Completed intensive technical English training reaching A2 level, significantly expanding professional capabilities in international contexts."
+description = "During independent work, I developed Figma design systems with tokens, reusable components, documentation and technical handoff; prototyped UX flows with Google Stitch; incorporated Midjourney, Adobe Firefly, Claude and Gemini into creative workflows; and created visual identities and branding for independent work. Technical English training: A2."
 
 [[focuses.experiences]]
 company = "ITGroup Systems"
@@ -169,9 +177,9 @@ items = ["Logo Design", "Corporate Identity", "Stationery"]
 
 [[focuses.experiences]]
 company = "Freelance Graphic Designer & Technology Updates"
-period = "Jan 2025 - Dec 2025"
+period = "Dec 2024 - Jun 2026"
 position = "Freelance Graphic Designer"
-description = "Worked as an independent graphic designer on branding and graphic production projects while specializing in artificial intelligence tools applied to visual design. Invested time in learning generative AI for graphic asset creation, creative process optimization, and emerging design tools. Completed intensive technical English training reaching A2 level, significantly expanding competencies for international collaborations."
+description = "During independent work, I created visual identities, logos, brand manuals and digital/print assets; prepared offset materials with CMYK/Pantone color management; and explored generative AI tools to support asset creation and creative iteration. Technical English training: A2."
 
 [[focuses.experiences]]
 company = "GRAPHICART"
@@ -202,3 +210,84 @@ company = "EL NACIONAL"
 period = "Mar 2008 - Sep 2011"
 position = "Digital Designer / Offset Production"
 description = "Designed advertising banners, journalistic infographics, and graphic pieces for the digital newspaper and online campaigns under tight daily deadlines. Prepared files and coordinated offset production of the printed newspaper, ensuring technical specifications for color registration, bleed, and crop marks. Optimized and edited photographic images for digital and print publication, maintaining the website's visual design and creating layouts for documents and newsletters with brand consistency."
+
+
+[[focuses]]
+name = "analyst"
+title = "Business Applications Analyst"
+subtitles = ["Functional analysis", "Application support", "Process documentation and improvement"]
+summary = "Business applications analyst connecting user departments with technical teams. Experienced in requirements gathering, impact analysis, functional support, incident management and solution documentation in enterprise environments."
+
+[[focuses.skills]]
+category = "Business & Analysis"
+items = ["Functional Analysis", "Requirements Gathering", "AS-IS/TO-BE Modeling", "Impact Analysis", "Incident Management", "Functional Support", "User Training", "Functional Documentation"]
+
+[[focuses.skills]]
+category = "Applications & Data"
+items = ["Oracle EBS", "DIO Billing", "Aranda", "SQL", "PL/SQL", "PostgreSQL", "Complex Queries", "Stored Procedures"]
+
+[[focuses.skills]]
+category = "Tools & UX"
+items = ["Figma", "Google Stitch", "Claude", "Gemini", "Workflow Prototyping"]
+
+[[focuses.experiences]]
+company = "MAMAYATECH"
+position = "Business Analyst · Functional Support"
+period = "Jul 2026 - Present"
+description = "Provide functional support for Oracle EBS, DIO Billing, point-of-sale systems and Aranda. Manage incidents, access and case follow-up; validate requirements and changes; document diagnostics and solutions; and coordinate with users, Database, Networks, Infrastructure and Development teams to maintain operational continuity."
+
+[[focuses.experiences]]
+company = "ITGroup Systems"
+position = "Functional Analyst / Product Lead"
+period = "Oct 2016 - Dec 2024"
+description = "Led requirements gathering with key users and AS-IS/TO-BE modeling. Supported enterprise web and mobile systems, coordinated integrations, administered PostgreSQL reporting and produced technical/user manuals, training and post-implementation support."
+
+
+[[focuses.experiences]]
+company = "SSUT Tarija"
+position = "Systems Analyst · Software Engineer"
+period = "Nov 2023 - May 2024"
+description = "Performed functional analysis and experience design for Flutter applications: requirements gathering, UX prototypes, iterative functional testing, technical documentation and implementation support. Managed version control and CI/CD workflows with Git and GitLab."
+
+[[focuses.experiences]]
+company = "UAJMS"
+position = "Web Analyst and Developer"
+period = "Jul 2014 - Sep 2016"
+description = "Gathered institutional requirements, provided functional support and user assistance for the institutional web portal, trained administrative staff and contributed to Linux server administration."
+
+[[focuses.experiences]]
+company = "GRAPHICART"
+position = "Solutions Analyst · Web Developer"
+period = "Oct 2011 - Jun 2014"
+description = "Analyzed requirements, designed web solutions and provided post-delivery support for clients, coordinating functional adjustments with the teams involved."
+
+[[focuses.experiences]]
+company = "EL NACIONAL"
+position = "Systems Support · Web Developer"
+period = "Mar 2008 - Sep 2011"
+description = "Provided technical and functional support for CMS systems, administered Debian Linux servers and MySQL databases, and handled publishing incidents under daily operational deadlines."
+
+[[focuses]]
+name = "teacher"
+title = "Digital Design Instructor"
+subtitles = ["Digital design", "Graphic production", "Practical learning"]
+summary = "Digital design instructor with professional experience in interfaces, visual identity and graphic production for digital media and print. Connects design fundamentals with practical workflows, tools and technical delivery criteria."
+
+[[focuses.skills]]
+category = "Design & Communication"
+items = ["Digital Design", "Graphic Design", "UI/UX Design", "Figma", "Photoshop", "Illustrator", "InDesign", "Typography", "Visual Composition"]
+
+[[focuses.skills]]
+category = "Graphic Production"
+items = ["Prepress", "Offset Printing", "Screen Printing", "CMYK/Pantone", "Color Separation", "Editorial Layout"]
+
+[[focuses.skills]]
+category = "Teaching"
+items = ["Instructional Planning", "Training", "Manuals and Guides", "Learning Support", "Deliverable Assessment"]
+
+[[focuses.experiences]]
+company = "Cross-disciplinary professional experience"
+position = "Digital / Graphic Designer"
+period = "Mar 2008 - Jun 2026"
+description = "Applied experience in interface design, visual identity, digital and print assets, print-ready file preparation and process documentation. This professional practice provides the practical context for teaching digital design and graphic production."
+

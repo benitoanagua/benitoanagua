@@ -17,7 +17,19 @@ export const load: LayoutServerLoad = async ({ url }) => {
 	let pageDescription = site.meta.description;
 	let pageKeywords = 'portfolio, design, development, graphic design, interdisciplinary';
 
-	if (currentPath.includes('/developer')) {
+	if (currentPath === '/habilidades' || currentPath.startsWith('/habilidades/')) {
+		pageTitle = `Skills & Professional Evidence — ${personal.name}`;
+		pageDescription = 'Professional skills connected to responsibilities and roles documented in the CV';
+		pageKeywords = 'skills, professional experience, software development, product design, functional analysis';
+	} else if (currentPath === '/experiencia') {
+		pageTitle = `Professional Experience — ${personal.name}`;
+		pageDescription = 'Career history, responsibilities and professional context across software, design, analysis and teaching';
+		pageKeywords = 'professional experience, career, software developer, product designer, business analyst, instructor';
+	} else if (currentPath === '/cv') {
+		pageTitle = `CV & Professional Profiles — ${personal.name}`;
+		pageDescription = 'Curriculum vitae and professional profile documents';
+		pageKeywords = 'CV, resume, curriculum vitae, professional profiles';
+	} else if (currentPath.includes('/developer')) {
 		pageTitle = `Software Developer — ${personal.name}`;
 		pageDescription =
 			'Software development projects, technical expertise, and professional experience';

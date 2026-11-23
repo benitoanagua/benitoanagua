@@ -1,12 +1,12 @@
 [meta]
 lang = "en"
 site_name = "Benito Anagua"
-tagline = "Full Stack · UI/UX · Graphic"
-description = "18 years building digital products with structural precision. Available for freelance projects and remote collaborations."
+tagline = "Skills · Experience · Product Design"
+description = "18 years connecting software development, product design, functional analysis and visual communication. Explore skills backed by professional responsibilities."
 
 [nav]
-home_label = "Profiles"
-back_label = "Profiles"
+home_label = "Skills and experience"
+back_label = "Home"
 available_label = "Available"
 theme_toggle_aria = "Toggle theme"
 lang_toggle_aria = "Change language"
@@ -65,7 +65,7 @@ experiencia = "History"
 educacion = "Education"
 
 [footer]
-bio = "18 years building digital products with structural precision. Available for freelance projects and remote collaborations."
+bio = "Interdisciplinary experience across software, product design, functional analysis and visual communication. Skills connected to real roles and responsibilities."
 
 [footer.sections.portfolio]
 title = "Portfolio"
@@ -109,3 +109,26 @@ mailto = true
 label = "Tarija, Bolivia"
 href_key = "maps"
 icon = "location_on"
+
+
+[[nav.profiles]]
+label = "Analysis"
+href = "/experiencia"
+code = "04 / ANL"
+icon = "analytics"
+[nav.profiles.sections]
+perfil = "Profile"
+habilidades = "Capabilities"
+experiencia = "Trajectory"
+educacion = "Education"
+
+[[nav.profiles]]
+label = "Teaching"
+href = "/experiencia"
+code = "05 / EDU"
+icon = "school"
+[nav.profiles.sections]
+perfil = "Profile"
+habilidades = "Capabilities"
+experiencia = "Trajectory"
+educacion = "Education"

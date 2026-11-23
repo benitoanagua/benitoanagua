@@ -6,7 +6,7 @@
 export const SITE_URL = 'https://benitoanagua.pages.dev';
 export const SITE_NAME = 'Benito Anagua — Interactive Portfolio';
 export const SITE_DESCRIPTION =
-	'A modern, anti-reflow portal showcasing an interdisciplinary creative practice across design, development, and graphic design disciplines.';
+	'Professional skills connected to work experience across software development, product design, functional analysis, teaching and visual communication.';
 
 // OG Image paths (append SITE_URL when needed)
 export const OG_IMAGES = {

@@ -2,6 +2,7 @@
 	import { getAllFocuses, getPersonalInfo, getEducation } from '$lib/data/cv-loader';
 	import { loadSiteData } from '$lib/data/site-loader';
 	import { SITE_URL } from '$lib/config';
+	import { lang } from '$lib/state/lang.svelte';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 
 	const personal = $derived(getPersonalInfo());
@@ -9,9 +10,13 @@
 	const education = $derived(getEducation());
 	const site = $derived(loadSiteData());
 
-	const navItems = $derived(site.nav.profiles.map((p) => ({ label: p.label, href: p.href })));
+	const navItems = $derived(lang.current === 'en'
+		? [{ label: 'Skills', href: '/habilidades' }, { label: 'Experience', href: '/experiencia' }, { label: 'CV', href: '/cv' }]
+		: [{ label: 'Habilidades', href: '/habilidades' }, { label: 'Experiencia', href: '/experiencia' }, { label: 'CV', href: '/cv' }]);
 
 	function getFocusSiteData(focusName: string) {
+		if (focusName === 'analyst') return { code: '04 / ANL', icon: 'analytics', href: '/experiencia' };
+		if (focusName === 'teacher') return { code: '05 / EDU', icon: 'school', href: '/experiencia' };
 		return (
 			site.nav.profiles.find((p) => p.href.includes(focusName)) || {
 				code: '00',
@@ -83,7 +88,12 @@
 
 		<!-- ══ PATHS: Grid-Boundary System ══ -->
 		<section class="paths-section">
-			<div class="section-tag mono">SELECT_PATH_MODALITY</div>
+			<div class="section-tag mono">EXPLORE_SKILLS_AND_EXPERIENCE</div>
+		<div class="shared-boundary capability-links">
+			<a href="/habilidades"><span class="mono">01 / SKILLS</span><strong>{lang.current === 'en' ? 'Explore skills through professional evidence' : 'Explora habilidades a través de experiencia profesional'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+			<a href="/experiencia"><span class="mono">02 / EXPERIENCE</span><strong>{lang.current === 'en' ? 'Browse roles, responsibilities and career context' : 'Recorre puestos, responsabilidades y trayectoria'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+		</div>
+		<div class="section-tag mono">CV_BY_DISCIPLINE / LEGACY_PROFILES</div>
 			<div class="shared-boundary paths-grid">
 				{#each focuses as focus}
 					{@const sData = getFocusSiteData(focus.name)}
@@ -469,4 +479,10 @@
 		font-size: 0.8125rem;
 		opacity: 0.8;
 	}
+	.capability-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+	.capability-links>a{display:grid;grid-template-columns:1fr auto;gap:.8rem;padding:1.5rem;border:1px solid var(--color-outline-variant);background:var(--color-surface);color:inherit;text-decoration:none}
+	.capability-links>a .mono{grid-column:1/-1;font-size:.65rem;color:var(--color-primary);letter-spacing:.1em}
+	.capability-links>a strong{font-size:clamp(1rem,2vw,1.5rem);line-height:1.4;font-weight:500}
+	.capability-links>a .material-symbols-outlined{color:var(--color-primary)}
+	@media(max-width:640px){.capability-links{grid-template-columns:1fr}}
 </style>
