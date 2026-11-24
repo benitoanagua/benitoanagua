@@ -32,8 +32,11 @@
 	.project {
 		position: relative;
 		min-width: 0;
-		padding: var(--space-editorial-sm) 0;
+		padding: var(--space-editorial-sm) var(--space-3);
+		margin-inline: calc(var(--space-3) * -1);
 		background: transparent;
+		border-radius: var(--radius-sm);
+		transition: background-color var(--duration-fast);
 		border: 0;
 		border-radius: 0;
 	}
@@ -44,6 +47,7 @@
 		color: inherit;
 		text-decoration: none;
 	}
+	.project:hover { background: var(--color-hover-surface); }
 	.project-link:focus-visible {
 		outline: var(--focus-ring);
 		outline-offset: var(--focus-offset);
@@ -85,6 +89,7 @@
 		font-size: var(--text-meta);
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
+		max-width: 62ch;
 	}
 	.details {
 		display: flex;
@@ -98,5 +103,13 @@
 	}
 	.status {
 		color: var(--color-success);
+	}
+	.status::before {
+		content: '·';
+		margin-right: 0.4em;
+		color: currentColor;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.project, h3, .arrow { transition: none; }
 	}
 </style>
