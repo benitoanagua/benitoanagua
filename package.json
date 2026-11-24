@@ -15,10 +15,8 @@
 		"check:content": "tsx scripts/validate-content.ts",
 		"check:design": "tsx scripts/validate-design.ts",
 		"d1:export-portfolio": "tsx scripts/export-portfolio-d1.ts",
-		"d1:export:sql": "tsx scripts/export-portfolio-d1.ts > /tmp/portfolio-d1-seed.sql",
 		"d1:migrations:local": "wrangler d1 migrations apply benitoanagua-portfolio --local",
 		"d1:migrations:remote": "wrangler d1 migrations apply benitoanagua-portfolio --remote",
-		"d1:seed:remote": "pnpm d1:export:sql && wrangler d1 execute benitoanagua-portfolio --remote --file=/tmp/portfolio-d1-seed.sql",
 		"cf:deploy:preview": "pnpm build && wrangler pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=preview",
 		"cf:deploy:production": "pnpm build && wrangler pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=main"
 	},
@@ -42,7 +40,6 @@
 		"tsx": "^4.21.0",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.54.0",
-		"vite": "^7.3.1",
-		"wrangler": "^4.0.0"
+		"vite": "^7.3.1"
 	}
 }
