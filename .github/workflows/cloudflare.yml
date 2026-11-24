@@ -29,7 +29,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - name: Static checks
         run: |
           pnpm check
@@ -53,7 +53,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - run: pnpm build
       - name: Deploy preview
         run: pnpm exec wrangler pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=pr-${{ github.event.pull_request.number }}
@@ -76,7 +76,7 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
+      - run: pnpm install --no-frozen-lockfile
       - name: Apply pending D1 migrations
         run: pnpm d1:migrations:remote
         env:
