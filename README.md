@@ -109,4 +109,4 @@ pnpm catalog:deploy
 pnpm build:all
 ```
 
-The former `/design-system` portfolio route redirects to the home page; the independent catalog is the component reference. The npm package is published manually after reviewing `npm pack` and confirming the package name/scope. The catalog has its own Pages project and no D1 binding. Its deploy configuration is isolated under `apps/catalog/wrangler.toml`. GitHub Actions validates and builds all three artifacts; it does not deploy or run migrations.
+The former `/design-system` portfolio route redirects to the home page; the independent catalog is the component reference. The npm package is published manually after reviewing `npm pack` and confirming the package name/scope. Releases remain local and require an explicit publish command. The catalog has its own Pages project and no D1 binding. Its deploy configuration is isolated under `apps/catalog/wrangler.toml`. GitHub Actions validates and builds all three artifacts; it does not deploy or run migrations.
