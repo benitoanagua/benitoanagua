@@ -44,3 +44,8 @@ Then import components:
 Svelte 5 is a peer dependency. Override the CSS custom properties after importing the stylesheet to theme a consuming app.
 
 The portfolio and catalog use this same source via the `$folio` alias; the package build generates the npm `dist/` artifact.
+
+
+## Component API
+
+See [COMPONENTS.md](./COMPONENTS.md) for the current props, defaults, snippets, semantics and accessibility audit of all 13 exported components.
