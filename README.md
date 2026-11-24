@@ -1,50 +1,33 @@
-# Benito Anagua — Portfolio
+# Benito Anagua
 
-Personal portfolio built with SvelteKit, Svelte 5 and TypeScript. The site presents professional skills and experience with project evidence, in Spanish and English.
+I’m a software engineer focused on building useful digital products, thoughtful user experiences, and maintainable software. I work across product development, frontend architecture, design systems, and the engineering practices that help ideas become reliable products.
 
-## Deliverables
+My work brings together practical problem-solving, clear interfaces, and systems designed to evolve.
 
-- **Portfolio:** main SvelteKit application, deployed to Cloudflare Pages.
-- **FOLIO design system:** reusable Svelte 5 components, published as `@benitoanagua/folio` from `packages/folio`.
-- **FOLIO Catalog:** standalone Svelte/Vite component reference in `apps/catalog`, deployed to a separate Pages project.
+## Explore
 
-## Development
+- **[Portfolio](https://benitoanagua.com)** — selected work, experience, and professional background.
+- **[FOLIO](https://www.npmjs.com/package/@benitoanagua/folio)** — a Svelte 5 reading-first design system, built as a reusable component library.
+- **[FOLIO Catalog](https://benitoanagua-design-system.pages.dev)** — an interactive reference for exploring the design system.
+- **[Projects and repositories](https://github.com/benitoanagua?tab=repositories)** — experiments, products, and open-source work.
 
-Requirements: Node.js compatible with the Vite version in `package.json` and pnpm.
+## What I care about
 
-```sh
-pnpm install
-pnpm dev
-pnpm check
-pnpm lint
-pnpm build
-pnpm preview
-```
+- Building software around real user and business needs.
+- Creating accessible, coherent, and durable user interfaces.
+- Designing reusable foundations without losing product context.
+- Keeping architecture, documentation, and delivery practices understandable.
+- Learning continuously and sharing useful work.
 
-End-to-end tests (Playwright, production builds served locally):
+## Current toolkit
 
-```sh
-pnpm e2e            # full suite: portfolio, catalog and FOLIO harness
-pnpm e2e:portfolio  # portfolio specs only
-pnpm e2e:catalog    # catalog specs only
-pnpm e2e:folio      # FOLIO component specs only
-pnpm e2e:ui         # interactive UI mode
-pnpm e2e:report     # open the last HTML report
-```
+Svelte · SvelteKit · TypeScript · JavaScript · Node.js · Design Systems · Cloudflare
 
-Build all deliverables with `pnpm build:all`.
+## Get in touch
 
-## Documentation
+- [GitHub](https://github.com/benitoanagua)
+- [Portfolio and contact](https://benitoanagua.com)
 
-- [Documentation index](docs/README.md)
-- [Cloudflare and Wrangler operations](docs/operations/cloudflare-wrangler.md)
-- [D1 content migration notes](docs/operations/d1-content-migration.md)
-- [FOLIO reading constitution](docs/design/constitucion-lectura.md)
-- [Portfolio UI/UX specification](docs/design/portfolio-ui-ux.md)
-- [Skills and experience content guide](docs/content/skills-and-experience.md)
-- [Project content review queue](docs/review/projects-content-review.md)
-- [Architecture decisions](docs/adr/)
+---
 
-## Content and data
-
-Portfolio content is maintained in localized TOML files under `src/lib/data/`. D1 schema and migration history live in `migrations/`; review the migration files and current remote state before applying changes. Do not store credentials, customer data or production records in the repository.
+For the technical overview, architecture, setup instructions, scripts, and project documentation, see **[PROJECT.md](./PROJECT.md)**.
