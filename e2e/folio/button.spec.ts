@@ -92,7 +92,7 @@ test.describe('FOLIO Button', () => {
 		}
 	});
 
-	test('keeps padding and focus ring across interactive states', async ({ page }) => {
+	test('keeps padding and focus ring across interactive states', async () => {
 		const button = section.getByRole('button', { name: 'Primary click' });
 		const before = await button.evaluate(boxMetrics);
 		await button.hover();
