@@ -12,6 +12,12 @@ export default defineConfig({
 	},
 	build: {
 		outDir: 'dist',
-		emptyOutDir: true
+		emptyOutDir: true,
+		rollupOptions: {
+			input: {
+				main: fileURLToPath(new URL('index.html', import.meta.url)),
+				harness: fileURLToPath(new URL('harness.html', import.meta.url))
+			}
+		}
 	}
 });

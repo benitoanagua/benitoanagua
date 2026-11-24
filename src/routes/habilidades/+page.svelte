@@ -190,7 +190,6 @@
 	.jump-link .count {
 		margin-left: var(--space-2);
 		font-weight: 400;
-		opacity: 0.7;
 	}
 	.results {
 		min-height: 1.2em;

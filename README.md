@@ -21,6 +21,17 @@ pnpm build
 pnpm preview
 ```
 
+End-to-end tests (Playwright, production builds served locally):
+
+```sh
+pnpm e2e            # full suite: portfolio, catalog and FOLIO harness
+pnpm e2e:portfolio  # portfolio specs only
+pnpm e2e:catalog    # catalog specs only
+pnpm e2e:folio      # FOLIO component specs only
+pnpm e2e:ui         # interactive UI mode
+pnpm e2e:report     # open the last HTML report
+```
+
 Build all deliverables with `pnpm build:all`.
 
 ## Documentation

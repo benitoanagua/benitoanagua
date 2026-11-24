@@ -53,8 +53,12 @@
 		color: var(--color-primary);
 		transition: transform var(--duration-fast);
 	}
-	.more:hover { color: var(--color-primary); }
-	.more:hover span { transform: translate(2px, -2px); }
+	.more:hover {
+		color: var(--color-primary);
+	}
+	.more:hover span {
+		transform: translate(2px, -2px);
+	}
 	.project-list {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -62,6 +66,8 @@
 		row-gap: var(--space-editorial-md);
 	}
 	@media (max-width: 700px) {
-		.project-list { grid-template-columns: minmax(0, 1fr); }
+		.project-list {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 </style>

@@ -209,7 +209,9 @@
 		text-decoration: none;
 		transition: background-color var(--duration-fast);
 	}
-	.cap-link:hover { background: var(--color-hover-surface); }
+	.cap-link:hover {
+		background: var(--color-hover-surface);
+	}
 	.cap-link:focus-visible {
 		outline: var(--focus-ring);
 		outline-offset: var(--focus-offset);
@@ -227,7 +229,9 @@
 		font-weight: 700;
 		transition: color var(--duration-fast);
 	}
-	.cap-link:hover .cap-title { color: var(--color-primary); }
+	.cap-link:hover .cap-title {
+		color: var(--color-primary);
+	}
 	.cap-text {
 		grid-area: text;
 		font-size: var(--text-body);
@@ -240,9 +244,15 @@
 		color: var(--color-primary);
 		transition: transform var(--duration-fast);
 	}
-	.cap-link:hover .cap-arrow { transform: translate(3px, -3px); }
+	.cap-link:hover .cap-arrow {
+		transform: translate(3px, -3px);
+	}
 	@media (prefers-reduced-motion: reduce) {
-		.cap-link, .cap-title, .cap-arrow { transition: none; }
+		.cap-link,
+		.cap-title,
+		.cap-arrow {
+			transition: none;
+		}
 	}
 
 	@media (max-width: 560px) {

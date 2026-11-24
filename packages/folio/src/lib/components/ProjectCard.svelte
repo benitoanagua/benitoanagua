@@ -79,7 +79,9 @@
 		object-fit: cover;
 		transition: transform var(--duration-base);
 	}
-	.visual:hover img { transform: scale(1.015); }
+	.visual:hover img {
+		transform: scale(1.015);
+	}
 	.body {
 		display: flex;
 		flex: 1;
@@ -106,8 +108,12 @@
 		text-decoration: none;
 		transition: color var(--duration-fast);
 	}
-	.ds-title a span { color: var(--color-primary); }
-	.ds-title a:hover { color: var(--color-primary); }
+	.ds-title a span {
+		color: var(--color-primary);
+	}
+	.ds-title a:hover {
+		color: var(--color-primary);
+	}
 	.ds-description {
 		margin: var(--space-3) 0 0;
 		font-size: var(--text-body);
@@ -129,6 +135,11 @@
 		color: var(--color-primary);
 		text-decoration: none;
 	}
-	.links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-	.case { margin-right: auto; }
+	.links a:hover {
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+	.case {
+		margin-right: auto;
+	}
 </style>

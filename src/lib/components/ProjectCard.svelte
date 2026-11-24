@@ -22,7 +22,9 @@
 	</a>
 	<div class="details">
 		{#if project.stack.length}
-			<p class="stack meta" aria-label="Technology stack">{project.stack.slice(0, 4).join(' · ')}</p>
+			<p class="stack meta" aria-label="Technology stack">
+				{project.stack.slice(0, 4).join(' · ')}
+			</p>
 		{/if}
 		{#if statusLabel}<span class="status meta">{statusLabel}</span>{/if}
 	</div>
@@ -46,7 +48,9 @@
 		color: inherit;
 		text-decoration: none;
 	}
-	.project:hover { background: var(--color-hover-surface); }
+	.project:hover {
+		background: var(--color-hover-surface);
+	}
 	.project-link:focus-visible {
 		outline: var(--focus-ring);
 		outline-offset: var(--focus-offset);
@@ -79,7 +83,9 @@
 			transform var(--duration-fast),
 			opacity var(--duration-fast);
 	}
-	.project:hover h3 { color: var(--color-primary); }
+	.project:hover h3 {
+		color: var(--color-primary);
+	}
 	.project:hover .arrow {
 		opacity: 1;
 		transform: translate(3px, -3px);
@@ -89,7 +95,9 @@
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 	}
-	.summary { max-width: 62ch; }
+	.summary {
+		max-width: 62ch;
+	}
 	.details {
 		display: flex;
 		flex-wrap: wrap;
@@ -109,6 +117,10 @@
 		color: currentColor;
 	}
 	@media (prefers-reduced-motion: reduce) {
-		.project, h3, .arrow { transition: none; }
+		.project,
+		h3,
+		.arrow {
+			transition: none;
+		}
 	}
 </style>
