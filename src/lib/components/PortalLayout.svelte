@@ -22,14 +22,6 @@
 	// Datos reactivos al idioma
 	const site = $derived(loadSiteData());
 	const personal = $derived(getPersonalInfo());
-	const initials = $derived(
-		personal.name
-			.split(' ')
-			.filter(Boolean)
-			.slice(0, 2)
-			.map((w) => w[0].toUpperCase())
-			.join('')
-	);
 
 	// Resuelve la URL de un link del footer usando href_key → PersonalInfo
 	function resolveHref(link: { href_key: string; mailto?: boolean }): string {
@@ -65,28 +57,23 @@
 </script>
 
 <div class="portal-wrapper">
-	<a class="skip-link mono" href="#main">{site.nav.skip_to_content}</a>
+	<a class="skip-link label" href="#main">{site.nav.skip_to_content}</a>
 	<!-- ══ PORTAL HEADER ══ -->
 	<header class="portal-toolbar">
+		<div class="rule-double toolbar-double" aria-hidden="true"></div>
 		<div class="toolbar-inner">
-			<div class="toolbar-left">
-				<a href="/" class="toolbar-logo">
-					<div class="logo-box mono" aria-hidden="true">{initials}</div>
-					<div class="logo-info">
-						<span class="logo-main mono">{personal.name.toUpperCase()}</span>
-						<span class="logo-meta mono">{site.meta.tagline}</span>
-					</div>
-				</a>
-			</div>
+			<a href="/" class="toolbar-logo">
+				<span class="logo-name">{personal.name.toUpperCase()}</span>
+			</a>
 
 			<div class="toolbar-right">
-
+				<span class="logo-tagline meta">{site.meta.tagline}</span>
 
 				<nav class="toolbar-nav" aria-label={site.nav.main_aria}>
 					{#each navItems as item}
 						<a
 							href={item.href}
-							class="toolbar-link"
+							class="toolbar-link label"
 							class:active={isActive(item.href)}
 							aria-current={isActive(item.href) ? 'page' : undefined}
 						>
@@ -97,7 +84,7 @@
 
 				<div class="toolbar-actions">
 					<button
-						class="tool-btn lang-btn"
+						class="tool-btn label"
 						onclick={toggleLang}
 						aria-label={site.nav.lang_toggle_aria}
 					>
@@ -109,17 +96,19 @@
 						onclick={toggleTheme}
 						aria-label={site.nav.theme_toggle_aria}
 					>
-						<span class="material-symbols-outlined">{isDark ? 'light_mode' : 'dark_mode'}</span>
+						<span class="material-symbols-outlined" aria-hidden="true"
+							>{isDark ? 'light_mode' : 'dark_mode'}</span
+						>
 					</button>
 				</div>
-
 			</div>
 		</div>
+		<div class="rule-hair toolbar-hair" aria-hidden="true"></div>
 	</header>
 
-	<nav class="mobile-nav mono" aria-label={site.nav.main_aria}>
+	<nav class="mobile-nav" aria-label={site.nav.main_aria}>
 		{#each navItems as item}
-			<a href={item.href} class:active={isActive(item.href)}>{item.label}</a>
+			<a href={item.href} class="label" class:active={isActive(item.href)}>{item.label}</a>
 		{/each}
 	</nav>
 
@@ -129,18 +118,19 @@
 
 	<!-- ══ PORTAL FOOTER ══ -->
 	<footer class="portal-baseboard">
-		<div class="shared-boundary">
+		<div class="rule-thick" aria-hidden="true"></div>
+		<div class="baseboard-grid">
 			<!-- Identity Node -->
 			<div class="baseboard-module module--identity">
 				<div class="module-header">
-					<span class="material-symbols-outlined module-ico">architecture</span>
-					<span class="font-display module-name">{personal.name.toUpperCase()}</span>
+					<span class="material-symbols-outlined module-ico" aria-hidden="true">architecture</span>
+					<span class="module-name">{personal.name.toUpperCase()}</span>
 				</div>
 				<p class="module-bio">{site.footer.bio}</p>
 				<div class="module-signals">
 					{#each site.footer.sections.links.links as link}
-						<a href={resolveHref(link)} target="_blank" rel="noopener" class="signal-link mono">
-							<span class="material-symbols-outlined">{link.icon}</span>
+						<a href={resolveHref(link)} target="_blank" rel="noopener" class="signal-link meta">
+							<span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
 							<span class="link-label">{link.label}</span>
 						</a>
 					{/each}
@@ -149,13 +139,13 @@
 
 			<!-- Communication Channels -->
 			<div class="baseboard-module module--channels">
-				<h3 class="module-label mono">{site.footer.sections.contact.title.toUpperCase()}</h3>
+				<h3 class="module-label kicker">{site.footer.sections.contact.title}</h3>
 				<ul class="channel-list">
 					{#each site.footer.sections.contact.links as link}
 						<li>
-							<a href={resolveHref(link)} class="channel-node">
-								<span class="material-symbols-outlined">{link.icon}</span>
-								<span class="mono label-txt">{link.label}</span>
+							<a href={resolveHref(link)} class="channel-node meta">
+								<span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
+								<span class="label-txt">{link.label}</span>
 							</a>
 						</li>
 					{/each}
@@ -164,8 +154,9 @@
 		</div>
 
 		<div class="baseboard-lower">
+			<div class="rule-soft" aria-hidden="true"></div>
 			<div class="lower-inner">
-				<span class="legal mono">© {new Date().getFullYear()} {personal.name}</span>
+				<span class="legal">© {new Date().getFullYear()} {personal.name}</span>
 			</div>
 		</div>
 	</footer>
@@ -184,75 +175,64 @@
 		position: sticky;
 		top: 0;
 		z-index: 100;
-		background: var(--color-surface);
-		border-bottom: 1px solid var(--color-outline-variant);
-		backdrop-filter: blur(12px);
+		background: var(--color-background);
+	}
+
+	.toolbar-double {
+		max-width: var(--container-xl);
+		margin: 0 auto;
+	}
+	.toolbar-hair {
+		max-width: var(--container-xl);
+		margin: 0 auto;
 	}
 
 	.toolbar-inner {
 		max-width: var(--container-xl);
 		margin: 0 auto;
-		height: 64px;
+		min-height: 4rem;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0 var(--space-4);
+		gap: var(--space-4);
+		padding: var(--space-2) var(--space-4);
 	}
 
 	.toolbar-logo {
 		display: flex;
 		align-items: center;
-		gap: var(--space-3);
 		text-decoration: none;
-		color: var(--color-on-surface);
+		color: var(--color-on-background);
 	}
 
-	.logo-box {
-		width: 40px;
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: var(--color-surface-container);
-		border: 1px solid var(--color-outline-variant);
-		color: var(--color-primary);
-		font-weight: 700;
-		font-size: 0.875rem;
-	}
-
-	.logo-info {
-		display: flex;
-		flex-direction: column;
-	}
-
-	.logo-main {
+	.logo-name {
 		font-family: var(--font-display);
-		font-size: 0.75rem;
-		color: var(--color-on-surface);
-		letter-spacing: 0.1em;
-	}
-
-	.logo-meta {
-		max-width: 22rem;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-		font-size: 0.75rem;
-		color: var(--color-primary);
 		font-weight: 700;
-		opacity: 0.7;
+		font-size: clamp(1.5rem, 1.2rem + 1vw, 1.875rem);
+		letter-spacing: 0.04em;
+		line-height: 1.1;
 	}
 
 	.toolbar-right {
 		display: flex;
 		align-items: center;
-		gap: var(--space-8);
+		gap: var(--space-6);
 	}
 
+	.logo-tagline {
+		display: none;
+		max-width: 22rem;
+	}
+	@media (min-width: 768px) {
+		.logo-tagline {
+			display: block;
+		}
+	}
 
 	.toolbar-nav {
 		display: none;
-		gap: var(--space-6);
+		align-items: center;
+		gap: var(--space-2);
 	}
 	@media (min-width: 1024px) {
 		.toolbar-nav {
@@ -261,53 +241,55 @@
 	}
 
 	.toolbar-link {
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 700;
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.75rem;
+		padding: 0 var(--space-2);
 		text-decoration: none;
 		color: var(--color-on-surface-variant);
-		padding: var(--space-1) 0;
-		border-bottom: 1.5px solid transparent;
-		transition: all 0.2s;
+		border-bottom: var(--rule-thick) solid transparent;
 	}
 	.toolbar-link:hover {
-		color: var(--color-primary);
+		color: var(--color-on-background);
 	}
 	.toolbar-link.active {
-		color: var(--color-on-surface);
-		border-bottom-color: var(--color-on-surface);
+		color: var(--color-on-background);
+		border-bottom-color: var(--color-primary);
 	}
 
 	.toolbar-actions {
 		display: flex;
-		gap: 1px;
-		background: var(--color-outline-variant);
-		border: 1px solid var(--color-outline-variant);
+		align-items: center;
+		gap: var(--space-2);
 	}
 
 	.tool-btn {
-		background: var(--color-surface);
-		height: 32px;
+		min-width: 2.75rem;
+		min-height: 2.75rem;
 		padding: 0 var(--space-3);
-		border: none;
-		cursor: pointer;
-		display: flex;
+		border: var(--rule-base) solid var(--color-on-background);
+		border-radius: 0;
+		background: transparent;
+		color: var(--color-on-background);
+		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		font-family: var(--font-mono);
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-on-surface);
-		transition: background 0.2s;
+		cursor: pointer;
+		transition:
+			background-color var(--duration-fast),
+			color var(--duration-fast),
+			border-color var(--duration-fast);
 	}
 	.tool-btn:hover {
-		background: var(--color-surface-container-low);
-		color: var(--color-primary);
+		background: var(--color-surface-container);
+	}
+	.theme-btn {
+		padding: 0;
+		width: 2.75rem;
 	}
 	.tool-btn .material-symbols-outlined {
-		font-size: 1rem;
+		font-size: 1.25rem;
 	}
-
 
 	/* ── MAIN CONTENT ── */
 	.portal-content {
@@ -320,12 +302,11 @@
 
 	/* ── BASEBOARD (Footer) ── */
 	.portal-baseboard {
-		background: var(--color-surface-container-lowest);
-		border-top: 1px solid var(--color-outline-variant);
-		margin-top: var(--space-12);
+		background: var(--color-background);
+		margin-top: var(--space-16);
 	}
 
-	.shared-boundary {
+	.baseboard-grid {
 		max-width: var(--container-xl);
 		margin: 0 auto;
 		display: grid;
@@ -333,8 +314,11 @@
 	}
 
 	@media (min-width: 768px) {
-		.shared-boundary {
+		.baseboard-grid {
 			grid-template-columns: 2fr 1fr;
+		}
+		.module--channels {
+			border-left: var(--rule-hair) solid var(--color-on-background);
 		}
 	}
 
@@ -343,13 +327,12 @@
 	}
 
 	.module--identity {
-		border-bottom: 1px solid var(--color-outline-variant);
+		border-bottom: var(--rule-hair) solid var(--color-on-background);
 	}
 
 	@media (min-width: 768px) {
 		.module--identity {
 			border-bottom: none;
-			border-right: 1px solid var(--color-outline-variant);
 		}
 	}
 
@@ -361,18 +344,21 @@
 	}
 
 	.module-ico {
-		color: var(--color-primary);
+		color: var(--color-on-background);
 		font-size: 1.5rem;
 	}
 
 	.module-name {
+		font-family: var(--font-display);
+		font-weight: 700;
 		font-size: 1.25rem;
-		color: var(--color-on-surface);
+		letter-spacing: 0.04em;
+		color: var(--color-on-background);
 	}
 
 	.module-bio {
-		font-size: 0.875rem;
-		line-height: 1.6;
+		font-size: var(--text-body);
+		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 		max-width: 45ch;
 		margin-bottom: var(--space-8);
@@ -391,31 +377,25 @@
 		}
 	}
 
-	.signal-link {
-		display: flex;
+	.signal-link,
+	.channel-node {
+		display: inline-flex;
 		align-items: center;
 		gap: var(--space-2);
-		text-decoration: none;
-		color: var(--color-on-surface-variant);
-		font-size: 0.75rem;
-		font-weight: 700;
-		transition: color 0.2s;
+		color: var(--color-on-background);
 	}
-
-	.signal-link:hover {
+	.signal-link:hover,
+	.channel-node:hover {
 		color: var(--color-primary);
 	}
-
-	.signal-link .material-symbols-outlined {
-		font-size: 1rem;
+	.signal-link .material-symbols-outlined,
+	.channel-node .material-symbols-outlined {
+		font-size: 1.125rem;
+		color: var(--color-on-surface-variant);
 	}
 
 	.module-label {
-		font-size: 0.75rem;
-		font-weight: 700;
-		color: var(--color-primary);
 		margin-bottom: var(--space-6);
-		letter-spacing: 0.1em;
 	}
 
 	.channel-list {
@@ -426,71 +406,48 @@
 	}
 
 	.channel-node {
-		display: flex;
-		align-items: center;
-		gap: var(--space-3);
-		text-decoration: none;
-		color: var(--color-on-surface-variant);
-		font-size: 0.8125rem;
-		transition: all 0.2s;
-	}
-
-	.channel-node:hover {
-		color: var(--color-on-surface);
-		transform: translateX(4px);
-	}
-
-	.channel-node .material-symbols-outlined {
-		font-size: 1.125rem;
-		color: var(--color-primary);
+		min-height: 2.75rem;
 	}
 
 	.baseboard-lower {
-		border-top: 1px solid var(--color-outline-variant);
-		background: var(--color-surface);
+		background: var(--color-background);
 	}
 
 	.lower-inner {
 		max-width: var(--container-xl);
 		margin: 0 auto;
 		padding: var(--space-4) var(--space-6);
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
 	}
 
 	.legal {
-		font-size: 0.75rem;
-		opacity: 0.5;
+		font-size: var(--text-meta);
+		color: var(--color-ink-soft);
 	}
-
 
 	/* ── NAV MÓVIL: la barra superior solo muestra el menú en escritorio ── */
 	.mobile-nav {
 		display: flex;
 		scrollbar-width: none;
+		/* design-allow: R4 mask — degradado de borde, no un color de interfaz */
 		mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
 		gap: var(--space-1);
 		overflow-x: auto;
 		padding: var(--space-2) var(--space-4);
-		background: var(--color-surface);
-		border-bottom: 1px solid var(--color-outline-variant);
+		border-bottom: var(--rule-hair) solid var(--color-on-background);
 	}
 	.mobile-nav a {
 		flex: 0 0 auto;
 		display: inline-flex;
 		align-items: center;
-		min-height: 44px;
-		font-size: 0.75rem;
-		font-weight: 700;
+		min-height: 2.75rem;
+		padding: var(--space-2) var(--space-3);
 		text-decoration: none;
 		color: var(--color-on-surface-variant);
-		padding: var(--space-2) var(--space-3);
-		border: 1px solid transparent;
+		border-bottom: var(--rule-thick) solid transparent;
 	}
 	.mobile-nav a.active {
-		color: var(--color-on-surface);
-		border-color: var(--color-outline);
+		color: var(--color-on-background);
+		border-bottom-color: var(--color-primary);
 	}
 	@media (min-width: 1024px) {
 		.mobile-nav {
@@ -503,30 +460,13 @@
 		left: var(--space-4);
 		top: 0;
 		z-index: 200;
-		padding: var(--space-2) var(--space-4);
+		padding: var(--space-3) var(--space-4);
 		background: var(--color-primary);
 		color: var(--color-on-primary);
-		font-size: 0.75rem;
 		text-decoration: none;
 		transform: translateY(-120%);
 	}
 	.skip-link:focus-visible {
 		transform: translateY(0);
-	}
-	.tool-btn {
-		min-width: 44px;
-		min-height: 44px;
-	}
-	.tool-btn:focus-visible,
-	.toolbar-link:focus-visible,
-	.mobile-nav a:focus-visible,
-	.toolbar-logo:focus-visible {
-		outline: 3px solid var(--color-primary);
-		outline-offset: 2px;
-	}
-	@media (max-width: 767px) {
-		.logo-meta {
-			display: none;
-		}
 	}
 </style>
