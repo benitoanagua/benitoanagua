@@ -3,6 +3,7 @@
 	import { loadSiteData } from '$lib/data/site-loader';
 	import { SITE_URL } from '$lib/config';
 	import { lang } from '$lib/state/lang.svelte';
+	import { getNavItems } from '$lib/data/nav';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import FeaturedProjects from '$lib/components/FeaturedProjects.svelte';
 	import { projectsCopy } from '$lib/data/projects-copy';
@@ -10,6 +11,7 @@
 	const personal = $derived(getPersonalInfo());
 	const education = $derived(getEducation());
 	const site = $derived(loadSiteData());
+	const navItems = $derived(getNavItems());
 
 	const profileLd = $derived(
 		JSON.stringify({
@@ -47,12 +49,12 @@
 		<section class="lobby-hero">
 				<div class="header-terminal shared-boundary">
 					<div class="terminal-top-bar mono">
-						<span>BENITO ANAGUA // SKILLS_AND_EXPERIENCE</span>
+						<span>{site.home.topbar}</span>
 						<span class="status-light"></span>
 					</div>
 
 					<div class="main-spec">
-						<div class="hero-label mono">PROFESSIONAL_PRACTICE</div>
+						<p class="hero-label mono">{site.home.eyebrow}</p>
 
 						<h1 class="hero-title">
 							<span class="stroke-text">{personal.name.split(' ')[0]}</span>
@@ -75,11 +77,11 @@
 
 		<!-- ══ PATHS: Grid-Boundary System ══ -->
 		<section class="paths-section">
-			<div class="section-tag mono">EXPLORE_SKILLS_AND_EXPERIENCE</div>
+			<h2 class="section-tag mono">{site.home.explore_title}</h2>
 		<div class="shared-boundary capability-links">
-			<a href="/habilidades"><span class="mono">01 / SKILLS</span><strong>{lang.current === 'en' ? 'Explore skills through professional evidence' : 'Explora habilidades a través de experiencia profesional'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
-			<a href="/experiencia"><span class="mono">02 / EXPERIENCE</span><strong>{lang.current === 'en' ? 'Browse roles, responsibilities and career context' : 'Recorre puestos, responsabilidades y trayectoria'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
-			<a href="/proyectos"><span class="mono">03 / PROJECTS</span><strong>{projectsCopy(lang.current).homeCard}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+			<a href="/habilidades"><span class="mono">{site.home.skills_label}</span><strong>{site.home.skills_text}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+			<a href="/experiencia"><span class="mono">{site.home.experience_label}</span><strong>{site.home.experience_text}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+			<a href="/proyectos"><span class="mono">{navItems[1].label}</span><strong>{projectsCopy(lang.current).homeCard}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
 		</div>
 		</section>
 		<FeaturedProjects />
@@ -88,26 +90,26 @@
 		<section class="nodes-section">
 			<div class="shared-boundary nodes-grid">
 				<div class="node-box contact-module">
-					<h3 class="mono node-title">CONTACT_CHANNELS</h3>
+					<h3 class="mono node-title">{site.home.contact_title}</h3>
 					<div class="link-stack">
 						<a href="mailto:{personal.email}" class="node-link">
-							<span class="mono">E-MAIL_PROTOCOL</span>
+							<span class="mono">{site.home.email_label}</span>
 							<span class="material-symbols-outlined">mail</span>
 						</a>
-						<a href={personal.linkedin} target="_blank" class="node-link">
-							<span class="mono">LINKEDIN_BRIDGE</span>
+						<a href={personal.linkedin} target="_blank" rel="noopener" class="node-link">
+							<span class="mono">{site.home.linkedin_label}</span>
 							<span class="material-symbols-outlined">open_in_new</span>
 						</a>
 					</div>
 				</div>
 
 				<div class="node-box education-module">
-					<h3 class="mono node-title">ACADEMIC_RECORD_SAMPLE</h3>
+					<h3 class="mono node-title">{site.home.education_title}</h3>
 					<div class="edu-bits">
 						{#each education.slice(0, 2) as edu}
 							<div class="edu-bit">
 								<span class="year mono">{edu.year}</span>
-								<span class="info">{edu.degree} // {edu.institution}</span>
+								<span class="info">{edu.degree} — {edu.institution}</span>
 							</div>
 						{/each}
 					</div>
@@ -250,116 +252,6 @@
 		opacity: 0.4;
 		border-left: 3px solid var(--color-primary);
 		padding-left: var(--space-2);
-	}
-
-	.paths-grid {
-		grid-template-columns: 1fr;
-		border-top: 1px solid var(--color-outline-variant);
-		border-left: 1px solid var(--color-outline-variant);
-		gap: 0;
-	}
-	@media (min-width: 1024px) {
-		.paths-grid {
-			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-
-	.path-card {
-		display: flex;
-		flex-direction: column;
-		padding: var(--space-6);
-		background: var(--color-surface);
-		border-right: 1px solid var(--color-outline-variant);
-		border-bottom: 1px solid var(--color-outline-variant);
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		overflow: hidden;
-		transition: none; /* Anti-Reflow: Instant or GPU only */
-	}
-
-	.path-card:hover {
-		z-index: 2;
-		background: var(--color-surface-container-lowest);
-		box-shadow:
-			0 0 0 2px var(--color-surface),
-			0 0 0 4px var(--color-primary);
-	}
-	.path-card:hover::after {
-		content: '';
-		position: absolute;
-		inset: 0;
-		pointer-events: none;
-	}
-
-	.path-card.dev:hover {
-		box-shadow:
-			inset 0 2px 0 0 #ec4899,
-			0 0 0 2px var(--color-surface),
-			0 0 0 4px var(--color-primary);
-	}
-	.path-card.ux:hover {
-		box-shadow:
-			inset 0 2px 0 0 var(--color-primary),
-			0 0 0 2px var(--color-surface),
-			0 0 0 4px var(--color-primary);
-	}
-	.path-card.gfx:hover {
-		box-shadow:
-			inset 0 2px 0 0 #3b82f6,
-			0 0 0 2px var(--color-surface),
-			0 0 0 4px var(--color-primary);
-	}
-
-	.card-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: baseline;
-	}
-	.path-code {
-		font-size: 0.625rem;
-		opacity: 0.4;
-	}
-
-	.path-title {
-		font-family: var(--font-display);
-		font-size: 1.25rem;
-		text-transform: uppercase;
-		line-height: 1.1;
-	}
-	@media (min-width: 768px) {
-		.path-title {
-			font-size: 1.5rem;
-		}
-	}
-
-	.path-summary {
-		font-size: 0.8125rem;
-		opacity: 0.6;
-		line-height: 1.5;
-	}
-
-	.card-footer {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 0.5rem;
-		color: var(--color-primary);
-		font-weight: 700;
-		border-top: 1px solid var(--color-outline-variant);
-		padding-top: var(--space-3);
-		margin-top: auto;
-	}
-
-	.path-glyph {
-		position: absolute;
-		bottom: -10px;
-		right: -5px;
-		font-family: var(--font-mono);
-		font-size: 6rem;
-		font-weight: 900;
-		opacity: 0.02;
-		pointer-events: none;
 	}
 
 	/* ── NODES GRID ── */

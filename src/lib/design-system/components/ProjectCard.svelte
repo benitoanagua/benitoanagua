@@ -10,11 +10,12 @@ export interface PortfolioProject {
   tags?: string[];
   sourceHref?: string;
 }
-let {project}:{project:PortfolioProject}=$props();
+export interface ProjectCardLabels { view: string; case: string; source: string; tech: string }
+let {project,labels={view:'View',case:'View case study',source:'Source',tech:'Technologies'}}:{project:PortfolioProject;labels?:ProjectCardLabels}=$props();
 </script>
 <article class="project-card">
   {#if project.image}
-    <a class="visual" href={project.href} aria-label={'View '+project.title}>
+    <a class="visual" href={project.href} aria-label={labels.view+' '+project.title}>
       <img src={project.image} alt={project.imageAlt||project.title} loading="lazy" />
     </a>
   {/if}
@@ -22,8 +23,8 @@ let {project}:{project:PortfolioProject}=$props();
     <div class="meta">{#if project.category}<span>{project.category}</span>{/if}{#if project.year}<span>{project.year}</span>{/if}</div>
     <h3><a href={project.href}>{project.title}</a></h3>
     <p>{project.description}</p>
-    {#if project.tags?.length}<ul class="tags" aria-label="Technologies">{#each project.tags as tag}<li>{tag}</li>{/each}</ul>{/if}
-    <div class="links"><a class="case" href={project.href}>View case study <span aria-hidden="true">↗</span></a>{#if project.sourceHref}<a href={project.sourceHref} target="_blank" rel="noreferrer">Source <span aria-hidden="true">↗</span></a>{/if}</div>
+    {#if project.tags?.length}<ul class="tags" aria-label={labels.tech}>{#each project.tags as tag}<li>{tag}</li>{/each}</ul>{/if}
+    <div class="links"><a class="case" href={project.href}>{labels.case} <span aria-hidden="true">↗</span></a>{#if project.sourceHref}<a href={project.sourceHref} target="_blank" rel="noreferrer">{labels.source} <span aria-hidden="true">↗</span></a>{/if}</div>
   </div>
 </article>
 <style>

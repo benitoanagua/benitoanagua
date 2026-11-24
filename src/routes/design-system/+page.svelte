@@ -4,8 +4,8 @@ import { Button, Badge, Card, TextField, Divider, ProjectCard, SectionHeading, T
 
 let contactValue = $state('');
 const projects = [
-  { title: 'Rescatados', description: 'A product concept focused on connecting surplus resources with people who need them.', href: '#projects', category: 'Product / Engineering', year: '2026', tags: ['Svelte', 'Domain modeling'] },
-  { title: 'TuCambio', description: 'A digital experience built around clear flows, useful information, and accessible interaction.', href: '#projects', category: 'Web application', year: '2025', tags: ['TypeScript', 'UX'] }
+  { title: 'Rescatados', description: 'A product concept focused on connecting surplus resources with people who need them.', href: '#catalog', category: 'Product / Engineering', year: '2026', tags: ['Svelte', 'Domain modeling'] },
+  { title: 'TuCambio', description: 'A digital experience built around clear flows, useful information, and accessible interaction.', href: '#catalog', category: 'Web application', year: '2025', tags: ['TypeScript', 'UX'] }
 ];
 const experience = [
   { period: '2024 — NOW', title: 'Software engineering', organization: 'Product and platform development', description: 'Building reliable software, improving architecture, and translating business rules into maintainable systems.' },

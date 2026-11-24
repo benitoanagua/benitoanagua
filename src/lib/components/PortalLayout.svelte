@@ -22,6 +22,14 @@
 	// Datos reactivos al idioma
 	const site = $derived(loadSiteData());
 	const personal = $derived(getPersonalInfo());
+	const initials = $derived(
+		personal.name
+			.split(' ')
+			.filter(Boolean)
+			.slice(0, 2)
+			.map((w) => w[0].toUpperCase())
+			.join('')
+	);
 
 	// Resuelve la URL de un link del footer usando href_key → PersonalInfo
 	function resolveHref(link: { href_key: string; mailto?: boolean }): string {
@@ -57,15 +65,16 @@
 </script>
 
 <div class="portal-wrapper">
+	<a class="skip-link mono" href="#main">{site.nav.skip_to_content}</a>
 	<!-- ══ PORTAL HEADER ══ -->
 	<header class="portal-toolbar">
 		<div class="toolbar-inner">
 			<div class="toolbar-left">
 				<a href="/" class="toolbar-logo">
-					<div class="logo-box mono">[B_A]</div>
+					<div class="logo-box mono" aria-hidden="true">{initials}</div>
 					<div class="logo-info">
 						<span class="logo-main mono">{personal.name.toUpperCase()}</span>
-						<span class="logo-meta mono">V.2026 / {site.meta.tagline.toUpperCase()}</span>
+						<span class="logo-meta mono">{site.meta.tagline}</span>
 					</div>
 				</a>
 			</div>
@@ -73,7 +82,7 @@
 			<div class="toolbar-right">
 
 
-				<nav class="toolbar-nav">
+				<nav class="toolbar-nav" aria-label={site.nav.main_aria}>
 					{#each navItems as item}
 						<a
 							href={item.href}
@@ -104,23 +113,17 @@
 					</button>
 				</div>
 
-				<div class="toolbar-status">
-					<a class="cv-trigger mono" href="/cv">
-						<span>CV / DOCUMENTS</span>
-						<span class="material-symbols-outlined">arrow_outward</span>
-					</a>
-				</div>
 			</div>
 		</div>
 	</header>
 
-	<nav class="mobile-nav mono" aria-label="Main">
+	<nav class="mobile-nav mono" aria-label={site.nav.main_aria}>
 		{#each navItems as item}
 			<a href={item.href} class:active={isActive(item.href)}>{item.label}</a>
 		{/each}
 	</nav>
 
-	<main class="portal-content">
+	<main id="main" class="portal-content" tabindex="-1">
 		{@render children?.()}
 	</main>
 
@@ -138,7 +141,7 @@
 					{#each site.footer.sections.links.links as link}
 						<a href={resolveHref(link)} target="_blank" rel="noopener" class="signal-link mono">
 							<span class="material-symbols-outlined">{link.icon}</span>
-							<span class="link-label">{link.label.toUpperCase()}</span>
+							<span class="link-label">{link.label}</span>
 						</a>
 					{/each}
 				</div>
@@ -162,11 +165,7 @@
 
 		<div class="baseboard-lower">
 			<div class="lower-inner">
-				<span class="legal mono">© {new Date().getFullYear()} ARCHITECTURAL_CORE</span>
-				<div class="lower-trace">
-					<div class="line"></div>
-					<span class="mono opacity-40">AUTO_LOG::OK</span>
-				</div>
+				<span class="legal mono">© {new Date().getFullYear()} {personal.name}</span>
 			</div>
 		</div>
 	</footer>
@@ -246,15 +245,6 @@
 		gap: var(--space-8);
 	}
 
-	.toolbar-back {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-		text-decoration: none;
-		color: var(--color-primary);
-		font-size: 0.625rem;
-		font-weight: 700;
-	}
 
 	.toolbar-nav {
 		display: none;
@@ -314,40 +304,6 @@
 		font-size: 1rem;
 	}
 
-	/* ── STATUS / CV DROPDOWN ── */
-	.toolbar-status {
-		display: none;
-		position: relative;
-	}
-	@media (min-width: 1024px) {
-		.toolbar-status {
-			display: block;
-			margin-left: var(--space-6);
-			padding-left: var(--space-6);
-			border-left: 1px solid var(--color-outline-variant);
-			height: 40px;
-			display: flex;
-			align-items: center;
-		}
-	}
-
-	.cv-trigger {
-		display: flex;
-		align-items: center;
-		gap: var(--space-2);
-		font-size: 0.75rem;
-		color: var(--color-primary);
-		opacity: 0.8;
-		padding: 4px 8px;
-		border: 1px solid transparent;
-		transition: all 0.2s;
-		text-decoration: none;
-	}
-	.cv-trigger:hover {
-		opacity: 1;
-		background: var(--color-surface-container);
-		border-color: var(--color-outline-variant);
-	}
 
 	/* ── MAIN CONTENT ── */
 	.portal-content {
@@ -504,22 +460,12 @@
 		opacity: 0.5;
 	}
 
-	.lower-trace {
-		display: flex;
-		align-items: center;
-		gap: var(--space-4);
-	}
-
-	.lower-trace .line {
-		width: 40px;
-		height: 1px;
-		background: var(--color-primary);
-		opacity: 0.3;
-	}
 
 	/* ── NAV MÓVIL: la barra superior solo muestra el menú en escritorio ── */
 	.mobile-nav {
 		display: flex;
+		scrollbar-width: none;
+		mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent);
 		gap: var(--space-1);
 		overflow-x: auto;
 		padding: var(--space-2) var(--space-4);
@@ -528,6 +474,9 @@
 	}
 	.mobile-nav a {
 		flex: 0 0 auto;
+		display: inline-flex;
+		align-items: center;
+		min-height: 44px;
 		font-size: 0.75rem;
 		font-weight: 700;
 		text-decoration: none;
@@ -543,5 +492,32 @@
 		.mobile-nav {
 			display: none;
 		}
+	}
+
+	.skip-link {
+		position: absolute;
+		left: var(--space-4);
+		top: 0;
+		z-index: 200;
+		padding: var(--space-2) var(--space-4);
+		background: var(--color-primary);
+		color: var(--color-on-primary);
+		font-size: 0.75rem;
+		text-decoration: none;
+		transform: translateY(-120%);
+	}
+	.skip-link:focus-visible {
+		transform: translateY(0);
+	}
+	.tool-btn {
+		min-width: 44px;
+		min-height: 44px;
+	}
+	.tool-btn:focus-visible,
+	.toolbar-link:focus-visible,
+	.mobile-nav a:focus-visible,
+	.toolbar-logo:focus-visible {
+		outline: 3px solid var(--color-primary);
+		outline-offset: 2px;
 	}
 </style>

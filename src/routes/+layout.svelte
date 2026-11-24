@@ -3,6 +3,7 @@
 	import { browser } from '$app/environment';
 	import { SOCIAL_LINKS } from '$lib/config';
 	import '$lib/styles/app.css';
+	import { lang } from '$lib/state/lang.svelte';
 
 	let { children, data } = $props();
 
@@ -20,6 +21,10 @@
 			sameAs: [SOCIAL_LINKS.linkedin, SOCIAL_LINKS.github]
 		}).replace(/</g, '\\u003c')
 	);
+
+	$effect(() => {
+		if (browser) document.documentElement.lang = lang.current;
+	});
 
 	onMount(() => {
 		if (browser) {

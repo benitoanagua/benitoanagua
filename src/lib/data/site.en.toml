@@ -4,7 +4,22 @@ description = "18 years connecting software development, product design, functio
 
 [nav]
 theme_toggle_aria = "Toggle theme"
+main_aria = "Main navigation"
+skip_to_content = "Skip to content"
 lang_toggle_aria = "Change language"
+
+[home]
+topbar = "Skills and experience"
+eyebrow = "Professional practice"
+explore_title = "Explore the site"
+skills_label = "Skills"
+skills_text = "Explore skills through professional evidence"
+experience_label = "Experience"
+experience_text = "Browse roles, responsibilities and career context"
+contact_title = "Contact"
+email_label = "Email"
+linkedin_label = "LinkedIn"
+education_title = "Education"
 
 [footer]
 bio = "Interdisciplinary experience across software, product design, functional analysis and visual communication. Skills connected to real roles and responsibilities."

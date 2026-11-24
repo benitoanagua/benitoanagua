@@ -22,8 +22,24 @@ export interface SiteFooter {
 }
 
 export interface SiteNav {
+	main_aria: string;
+	skip_to_content: string;
 	theme_toggle_aria: string;
 	lang_toggle_aria: string;
+}
+
+export interface SiteHome {
+	topbar: string;
+	eyebrow: string;
+	explore_title: string;
+	skills_label: string;
+	skills_text: string;
+	experience_label: string;
+	experience_text: string;
+	contact_title: string;
+	email_label: string;
+	linkedin_label: string;
+	education_title: string;
 }
 
 export interface SiteMeta {
@@ -34,5 +50,6 @@ export interface SiteMeta {
 export interface SiteData {
 	meta: SiteMeta;
 	nav: SiteNav;
+	home: SiteHome;
 	footer: SiteFooter;
 }
