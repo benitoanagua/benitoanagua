@@ -23,7 +23,8 @@
 		"cf:whoami": "pnpm dlx wrangler@4 whoami",
 		"cf:pages:list": "pnpm dlx wrangler@4 pages project list",
 		"cf:deploy:preview": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=preview",
-		"cf:deploy:production": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=main"
+		"cf:deploy:production": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=main",
+		"folio:build": "cd packages/folio && pnpm dlx @sveltejs/package@3"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",

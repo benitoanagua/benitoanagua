@@ -1,6 +1,4 @@
-/* FOLIO — reading-first design system
-   Typography scale, spacing-adjacent tokens, rules, radii, motion and measure.
-   Color tokens live in ../styles/theme.css; base styles live in ../styles/app.css. */
+/* FOLIO typography, rules, radii, motion and reading measure tokens. */
 
 :root {
 	/* Fuentes */

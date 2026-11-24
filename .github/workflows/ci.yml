@@ -37,3 +37,5 @@ jobs:
           pnpm check:content
           pnpm check:design
           pnpm build
+          pnpm folio:build
+          pnpm catalog:build

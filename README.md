@@ -1,94 +1,102 @@
-# Benito Anagua — Skills & Experience
+# Benito Anagua — Portfolio, FOLIO and Catalog
 
-Personal professional site built with SvelteKit, Svelte 5, TypeScript and TOML content, deployed to Cloudflare Pages. Cloudflare infrastructure is managed declaratively through **Wrangler**; `wrangler.toml` is the source of truth for Pages output and D1 bindings.
+This repository delivers three distinct artifacts from one source tree:
 
-## Routes
+1. **Portfolio** — SvelteKit site deployed to Cloudflare Pages project `benitoanagua`.
+2. **FOLIO** — Svelte 5 design system published to npm as `@benitoanagua/folio`.
+3. **FOLIO Catalog** — standalone Svelte + Vite component reference, deployed to its own Cloudflare Pages project `benitoanagua-design-system`.
 
-- `/` — introduction and entry points
-- `/habilidades` — skills grouped by category
-- `/habilidades/[slug]` — skill narrative connected to documented roles and responsibilities
-- `/experiencia` — professional timeline
-- `/cv` — current CV PDFs
+The design-system source is canonical in `packages/folio/src/lib`. The portfolio and catalog consume that source through the `$folio` alias; the npm artifact is built from the same source.
 
-## Content model
+## Repository map
 
-- `src/lib/data/cv.es.toml` and `cv.en.toml` contain professional experience, education, skill categories and role-specific skill sets.
-- `src/lib/data/skill-stories.ts` contains authored narratives for selected skills. Other skills receive a generated narrative from the CV.
-- `src/lib/data/site.es.toml` and `site.en.toml` contain localized site metadata and footer content.
-- `migrations/` owns D1 schema and seed history. Do not make production schema changes through the dashboard.
+- `src/` — portfolio application and professional content.
+- `packages/folio/` — npm package source, exports, tokens and styles.
+- `apps/catalog/` — independent Svelte component catalog.
+- `migrations/` — append-only D1 schema/content migrations.
+- `docs/adr/` — architectural decisions.
+- `CONTENIDO_PENDIENTE.md` — editorial items awaiting owner confirmation; not runtime content.
 
-## Requirements
-
-Node.js compatible with the Vite version in `package.json`, pnpm, and an authenticated Cloudflare session (`pnpm cf:login`). No Cloudflare credentials are stored in GitHub: CI only validates the code; all deploys and D1 operations run locally through your own Wrangler session.
-
-## Development
+## Local development
 
 ```sh
 pnpm install
 pnpm dev
+pnpm catalog:dev
 pnpm check
 pnpm lint
-pnpm build
+pnpm check:content
+pnpm check:design
+pnpm build:all
 pnpm preview
 ```
 
-`pnpm preview` runs the built Cloudflare output through Wrangler Pages local emulation.
+## Artifact 1 — Portfolio
 
-## Cloudflare / Wrangler operations
+The site uses SvelteKit, Svelte 5, TypeScript and localized TOML content. D1 is the runtime source where available; bundled TOML is the validated fallback.
 
-`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`); its ID and the `DB` binding are declared there and apply to both preview and production deployments made through Wrangler. Preview and production share this single database — treat it as production data: never run destructive statements or ad-hoc seeds against it. Preview deployments must not perform destructive writes.
+`wrangler.toml` owns the portfolio Pages configuration and D1 binding. The existing database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`). Preview and production share this database: treat it as production data.
 
-All Cloudflare operations run from your local machine with your own Wrangler login. GitHub Actions never touches Cloudflare.
-
-### Local Cloudflare procedure
-
-Run these steps from a terminal in the repository root:
+All Cloudflare operations run locally through Wrangler. GitHub Actions validates code only and has no Cloudflare credentials.
 
 ```sh
-# 1. Authenticate Wrangler (opens a browser; one-time per workstation)
 pnpm cf:login
-
-# 2. Verify the authenticated account
 pnpm cf:whoami
-
-# 3. Confirm the expected resources exist
-pnpm cf:pages:list     # Pages project "benitoanagua"
-pnpm d1:list           # D1 database "benitoanagua-portfolio"
-
-# 4. Review pending D1 migrations before applying anything
+pnpm cf:pages:list
+pnpm d1:list
 pnpm d1:migrations:list
-# Compare the output with the files in migrations/ and read them first:
-#   migrations/0001_portfolio_content.sql  (schema)
-#   migrations/0002_portfolio_seed.sql     (content seed, idempotent upserts)
-# Only proceed if every pending file is reviewed and safe.
-
-# 5. Apply pending remote migrations (idempotent; safe to re-run)
+# Review each pending SQL migration before applying:
 pnpm d1:migrations:remote
-
-# 6. Build and deploy
-pnpm cf:deploy:preview     # preview URL (*.pages.dev preview deployment)
-pnpm cf:deploy:production  # production (benitoanagua.pages.dev)
-
-# 7. Verify the deployment
-curl -s https://benitoanagua.pages.dev/ | grep -o 'portfolio-source" content="[^"]*"'
-# Expect: d1 on portfolio routes, fallback on prerendered routes (/proyectos, /design-system)
+pnpm cf:deploy:preview
+pnpm cf:deploy:production
 ```
 
-Notes:
+Disable Cloudflare Pages Git auto-deploy for the portfolio project if local Wrangler deploys must be the sole deployment path.
 
-- `pnpm preview` runs the built output through local Pages emulation with the **local** D1 (`--local`). Remote migrations use `--remote`; local migrations use `pnpm d1:migrations:local`.
-- To inspect or seed the local D1 database, use the binding name `DB` (not the database name) so `wrangler pages dev` sees the same local database: `pnpm dlx wrangler@4 d1 execute DB --local --file <file>`.
-- The versioned migrations include the current content seed. Do not run an ad-hoc seed/export against the production database. Add schema or seed changes as a new numbered SQL migration in `migrations/` and apply it with `pnpm d1:migrations:remote`.
-- Wrangler is invoked through `pnpm dlx wrangler@4`, so no dependency or lockfile change is needed and the major version stays pinned.
+## Artifact 2 — npm package
+
+Package: `@benitoanagua/folio`
+
+```sh
+pnpm folio:build
+cd packages/folio
+npm pack
+npm login
+npm publish --access public
+```
+
+Inspect the tarball before publishing. Confirm the npm scope/name is available and bump `packages/folio/package.json` for each release. Svelte 5 is a peer dependency. Do not publish from CI or commit npm credentials.
+
+Consumer usage:
+
+```svelte
+<script>
+  import { Button, Card } from '@benitoanagua/folio';
+  import '@benitoanagua/folio/styles.css';
+</script>
+<Card title="Example"><Button>Action</Button></Card>
+```
+
+## Artifact 3 — Svelte catalog
+
+The catalog is a separate Vite application in `apps/catalog`, not a mock route inside the portfolio.
+
+```sh
+pnpm catalog:dev
+pnpm catalog:build
+pnpm catalog:pages:create
+pnpm catalog:deploy
+```
+
+Create its Pages project once from your local authenticated session. The catalog has its own Pages project and no D1 binding.
+
+## Content and data safety
+
+- Never publish client data, production records, internal screenshots or credentials.
+- Do not invent project metrics, clients or outcomes.
+- `CONTENIDO_PENDIENTE.md` is an editorial review list; it is retained until those questions are resolved.
+- D1 changes are versioned under `migrations/`; do not seed or mutate production data ad hoc.
 
 ## CI
 
-GitHub Actions runs validation only — install, `check`, `lint`, `check:content`, `check:design` and `build`. It holds no Cloudflare credentials and performs no deploys or migrations. See `.github/workflows/ci.yml`.
-
-If the Cloudflare Pages Git integration is enabled for this project, pushes to `main` will still trigger a Pages-side production build outside this pipeline. To keep deploys fully under local control, disable the Git integration in the Cloudflare dashboard (Pages project → Settings → Builds) and deploy with `pnpm cf:deploy:production`.
-
-Legacy URLs are redirected in `static/_redirects` to current skills, experience or CV pages.
-
-## Design system
-
-The shared `PortalLayout` provides navigation, language and theme controls, and the footer. Global tokens and styles live in `src/lib/styles/`.
+GitHub Actions runs static validation, content/design checks and builds the portfolio, npm package and catalog. It does not authenticate to Cloudflare, run D1 migrations or deploy.
