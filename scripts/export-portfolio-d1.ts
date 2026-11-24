@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { parse } from 'toml';
-import { skillStories } from '../src/lib/data/skill-stories.ts';
+import { skillStories } from '../src/lib/data/skill-stories';
 
 const locales = ['es', 'en'] as const;
 const sourceRoot = new URL('../src/lib/data/', import.meta.url);
@@ -13,9 +13,7 @@ function insertContent(locale: string, key: string, payload: unknown, source: st
 	return [
 		'INSERT INTO portfolio_content (locale, content_key, payload_json, source_path)',
 		'VALUES (' +
-			[locale, key, JSON.stringify(JSON.stringify(payload)), source]
-				.map(sqlString)
-				.join(', ') +
+			[locale, key, JSON.stringify(payload), source].map(sqlString).join(', ') +
 			')',
 		'ON CONFLICT(locale, content_key) DO UPDATE SET',
 		'payload_json = excluded.payload_json,',
@@ -57,8 +55,8 @@ for (const locale of locales) {
 		Object.entries(skillStories).map(([slug, translations]) => [slug, translations[locale]])
 	);
 
-	statements.push(insertContent(locale, 'cv', cv, `src/lib/data/cv.${locale}.toml'));
-	statements.push(insertContent(locale, 'site', site, `src/lib/data/site.${locale}.toml'));
+	statements.push(insertContent(locale, 'cv', cv, `src/lib/data/cv.${locale}.toml`));
+	statements.push(insertContent(locale, 'site', site, `src/lib/data/site.${locale}.toml`));
 	statements.push(
 		insertContent(locale, 'skill_stories', stories, 'src/lib/data/skill-stories.ts')
 	);
@@ -71,8 +69,8 @@ const documents = [
 	['product-designer', 'Product Designer', '/cv/BenitoAnagua_ProductDesigner_2026_ES.pdf']
 ] as const;
 
-for (const [key, label, path] of documents) {
-	statements.push(insertDocument('es', key, label, path, documents.indexOf([key, label, path]) + 1));
+for (const [index, [key, label, path]] of documents.entries()) {
+	statements.push(insertDocument('es', key, label, path, index + 1));
 }
 
 statements.push('COMMIT;');
