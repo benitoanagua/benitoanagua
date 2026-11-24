@@ -25,7 +25,12 @@
 		"cf:deploy:preview": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=preview",
 		"cf:deploy:production": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=main",
 		"folio:build": "cd packages/folio && pnpm dlx @sveltejs/package@3",
-		"catalog:deploy": "pnpm catalog:build && pnpm dlx wrangler@4 pages deploy apps/catalog/dist --config apps/catalog/wrangler.toml --project-name=benitoanagua-design-system --branch=main"
+		"catalog:deploy": "pnpm catalog:build && pnpm dlx wrangler@4 pages deploy apps/catalog/dist --config apps/catalog/wrangler.toml --project-name=benitoanagua-design-system --branch=main",
+		"folio:publish": "pnpm folio:build && npm publish ./packages/folio --access public",
+		"catalog:dev": "vite --config apps/catalog/vite.config.ts --host 0.0.0.0",
+		"catalog:build": "vite build --config apps/catalog/vite.config.ts",
+		"catalog:pages:create": "pnpm dlx wrangler@4 pages project create benitoanagua-design-system --production-branch main",
+		"build:all": "pnpm build && pnpm folio:build && pnpm catalog:build"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",
