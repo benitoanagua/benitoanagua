@@ -1,0 +1,3 @@
+<script lang="ts">let{orientation='horizontal',label}:{orientation?:'horizontal'|'vertical';label?:string}=$props();</script>
+{#if label}<div class="ds-divider labeled" role="separator"><span></span><small>{label}</small><span></span></div>{:else}<div class="ds-divider" class:vertical={orientation==='vertical'} role="separator" aria-orientation={orientation}></div>{/if}
+<style>.ds-divider{height:1px;width:100%;background:var(--ds-border)}.vertical{width:1px;height:auto;min-height:1rem;align-self:stretch}.labeled{display:flex;align-items:center;gap:.75rem;height:auto;background:none}.labeled span{height:1px;flex:1;background:var(--ds-border)}small{font:.6875rem var(--ds-mono);color:var(--ds-muted);text-transform:uppercase}</style>
