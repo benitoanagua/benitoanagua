@@ -14,7 +14,7 @@ npm login
 npm publish --access public
 ```
 
-Inspect the tarball before publishing. Confirm the npm scope/name is available and bump the version in this package manifest for each release. Never publish from CI or commit npm credentials.
+Inspect the tarball before publishing. Confirm the npm scope/name is available and bump this package's version for each release. Never publish from CI or commit npm credentials.
 
 ## Install and use
 
@@ -22,13 +22,23 @@ Inspect the tarball before publishing. Confirm the npm scope/name is available a
 npm install @benitoanagua/folio
 ```
 
-Import the stylesheet once: `import '@benitoanagua/folio/styles.css';`
+Import the stylesheet once:
+
+```ts
+import '@benitoanagua/folio/styles.css';
+```
+
+Then import components:
 
 ```svelte
 <script>
-  import { Button, Card, Badge } from '@benitoanagua/folio';
+	import { Button, Card, Badge } from '@benitoanagua/folio';
 </script>
-<Card title="Example"><Badge>Ready</Badge><Button>Continue</Button></Card>
+
+<Card title="Example">
+	<Badge>Ready</Badge>
+	<Button>Continue</Button>
+</Card>
 ```
 
 Svelte 5 is a peer dependency. Override the CSS custom properties after importing the stylesheet to theme a consuming app.
