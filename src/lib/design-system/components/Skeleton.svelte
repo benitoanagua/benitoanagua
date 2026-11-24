@@ -1,3 +1,0 @@
-<script lang="ts">let{width='100%',height='1rem'}:{width?:string;height?:string}=$props();</script>
-<span class="ds-skeleton" style={'width:'+width+';height:'+height} aria-hidden="true"></span>
-<style>.ds-skeleton{display:block;max-width:100%;background:linear-gradient(90deg,var(--ds-border) 25%,var(--ds-surface) 50%,var(--ds-border) 75%);background-size:200% 100%;border-radius:var(--ds-radius);animation:shimmer 1.4s ease-in-out infinite}@keyframes shimmer{to{background-position:-200% 0}}@media(prefers-reduced-motion:reduce){.ds-skeleton{animation:none}}</style>
