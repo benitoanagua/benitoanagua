@@ -25,6 +25,7 @@
 	--tracking-label: 0.06em;
 	--tracking-kicker: 0.14em;
 	--measure: 65ch;
+	--color-hover-surface: color-mix(in srgb, var(--color-on-background) 3%, var(--color-background));
 
 	/* Espaciado editorial: la separación se expresa con aire, no cajas */
 	--space-editorial-sm: 1.75rem;

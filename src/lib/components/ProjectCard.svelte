@@ -18,7 +18,7 @@
 			<span>{project.year}</span>
 		</div>
 		<h3>{project.title}<span class="arrow" aria-hidden="true">↗</span></h3>
-		<p>{project.summary}</p>
+		<p class="summary">{project.summary}</p>
 	</a>
 	<div class="details">
 		{#if project.stack.length}
@@ -32,10 +32,12 @@
 	.project {
 		position: relative;
 		min-width: 0;
-		padding: var(--space-editorial-sm) 0;
+		padding: var(--space-editorial-sm) var(--space-3);
+		margin-inline: calc(var(--space-3) * -1);
 		background: transparent;
 		border: 0;
-		border-radius: 0;
+		border-radius: var(--radius-sm);
+		transition: background-color var(--duration-fast);
 	}
 	.project-link {
 		display: flex;
@@ -44,6 +46,7 @@
 		color: inherit;
 		text-decoration: none;
 	}
+	.project:hover { background: var(--color-hover-surface); }
 	.project-link:focus-visible {
 		outline: var(--focus-ring);
 		outline-offset: var(--focus-offset);
@@ -86,6 +89,7 @@
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 	}
+	.summary { max-width: 62ch; }
 	.details {
 		display: flex;
 		flex-wrap: wrap;
@@ -98,5 +102,13 @@
 	}
 	.status {
 		color: var(--color-success);
+	}
+	.status::before {
+		content: '·';
+		margin-right: 0.4em;
+		color: currentColor;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.project, h3, .arrow { transition: none; }
 	}
 </style>

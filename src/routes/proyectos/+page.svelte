@@ -137,6 +137,5 @@
 	}
 	.grid {
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
-		border: var(--rule-hair) solid var(--color-outline-variant);
 	}
 </style>
