@@ -35,20 +35,32 @@ try {
 		join(temp, 'index.html'),
 		'<div id="app"></div><script type="module" src="/src/main.js"></script>'
 	);
+	const newline = String.fromCharCode(10);
 	writeFileSync(
 		join(temp, 'vite.config.js'),
-		"import { svelte } from '@sveltejs/vite-plugin-svelte';\nexport default { plugins: [svelte()] };\n"
+		[
+			"import { svelte } from '@sveltejs/vite-plugin-svelte';",
+			'export default { plugins: [svelte()] };'
+		].join(newline)
 	);
 
 	const src = join(temp, 'src');
 	mkdirSync(src);
 	writeFileSync(
 		join(src, 'main.js'),
-		"import '@benitoanagua/folio/styles.css';\nimport { mount } from 'svelte';\nimport App from './App.svelte';\nmount(App, { target: document.getElementById('app') });\n"
+		[
+			"import '@benitoanagua/folio/styles.css';",
+			"import { mount } from 'svelte';",
+			"import App from './App.svelte';",
+			"mount(App, { target: document.getElementById('app') });"
+		].join(newline)
 	);
 	writeFileSync(
 		join(src, 'App.svelte'),
-		"<script>import { Button } from '@benitoanagua/folio';</script>\n<Button>Packaged consumer works</Button>\n"
+		[
+			"<script>import { Button } from '@benitoanagua/folio';</script>",
+			'<Button>Packaged consumer works</Button>'
+		].join(newline)
 	);
 
 	const packageTar = join(temp, tarball);
