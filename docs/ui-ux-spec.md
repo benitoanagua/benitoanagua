@@ -50,11 +50,11 @@ Identidad: **FOLIO**, sistema de lectura tipográfica derivado de la estructura 
 | Vollkorn (`--font-body`)            | Texto corrido                              |
 | Mulish (`--font-ui`)                | Interfaz: etiquetas, controles, navegación |
 
-No hay fuente monoespaciada. Las antiguas etiquetas `mono` usan la clase `.meta`. Los tamaños viven en `tokens.css` (`--text-*`); el mínimo absoluto de cualquier texto es `1rem`, también en etiquetas y metadatos (Constitución, Art. 4). Las mayúsculas por código solo se permiten en los roles de etiqueta corta `.kicker`, `.meta` y `.label`, y en el logotipo; nunca en títulos ni texto corrido. Líneas de texto de 40–75 caracteres (medida por defecto `65ch`).
+No hay fuente monoespaciada. Las antiguas etiquetas `mono` usan la clase `.meta`. Los tamaños viven en `packages/folio/src/lib/styles/tokens.css` (`--text-*`); el mínimo absoluto de cualquier texto es `1rem`, también en etiquetas y metadatos (Constitución, Art. 4). Las mayúsculas por código solo se permiten en los roles de etiqueta corta `.kicker`, `.meta` y `.label`, y en el logotipo; nunca en títulos ni texto corrido. Líneas de texto de 40–75 caracteres (medida por defecto `65ch`).
 
-**Espaciado, filetes y contenedores:** tokens de `app.css`, `tokens.css` y `utilities.css` (`--space-*`, `--rule-*`, `--container-*`, `--radius-sm`). No se escriben valores sueltos en componentes nuevos. Radios de 0 a 2px; sin píldoras ni círculos decorativos.
+**Espaciado, filetes y contenedores:** tokens de `packages/folio/src/lib/styles/spacing.css`, `tokens.css` y `utilities.css` (`--space-*`, `--rule-*`, `--container-*`, `--radius-sm`). No se escriben valores sueltos en componentes nuevos. Radios de 0 a 2px; sin píldoras ni círculos decorativos.
 
-**Color:** solo variables `--color-*` de `theme.css` (nombres Material conservados como contrato, valores FOLIO). Claro y oscuro obligatorios; el tema inicial respeta la preferencia del sistema y se recuerda en `localStorage`. El acento `--color-primary` se reserva para enlaces, foco, kickers, estado activo y la palabra en cursiva del título; los usos decorativos usan tinta o filetes. `pnpm run check:design` verifica contraste WCAG en ambos temas.
+**Color:** solo variables `--color-*` de `packages/folio/src/lib/styles/theme.css` (nombres Material conservados como contrato, valores FOLIO). Claro y oscuro obligatorios; el tema inicial respeta la preferencia del sistema y se recuerda en `localStorage`. El acento `--color-primary` se reserva para enlaces, foco, kickers, estado activo y la palabra en cursiva del título; los usos decorativos usan tinta o filetes. `pnpm run check:design` verifica contraste WCAG en ambos temas.
 
 **Movimiento:** solo respuesta a una acción del visitante, con `--duration-fast`/`--duration-base`. Se respeta `prefers-reduced-motion`. No hay transformaciones decorativas (`scale` en `:active` está prohibido) ni animaciones continuas nuevas. La elevación (`box-shadow`) está abolida: la separación se hace con filetes, espacio y superficies tonales.
 
@@ -62,12 +62,12 @@ No hay fuente monoespaciada. Las antiguas etiquetas `mono` usan la clase `.meta`
 
 ## 5. Componentes
 
-Catálogo (`src/lib/design-system`, 13 componentes): `Button`, `Badge`, `Card`, `Divider`, `TextField`, `SectionHeading`, `Timeline`, `Metric`, `SocialLinks`, `ProjectCard`, `Notice`, `Pullquote`, `Marginalia`. Sus usos reales: `Notice` para el aviso de idioma de los PDF en `/cv`, `Pullquote` para frases destacadas de proyectos/habilidades, `Marginalia` para la columna de metadatos de las páginas de detalle.
+Catálogo (`packages/folio/src/lib`, 13 componentes): `Button`, `Badge`, `Card`, `Divider`, `TextField`, `SectionHeading`, `Timeline`, `Metric`, `SocialLinks`, `ProjectCard`, `Notice`, `Pullquote`, `Marginalia`. Sus usos reales: `Notice` para el aviso de idioma de los PDF en `/cv`, `Pullquote` para frases destacadas de proyectos/habilidades, `Marginalia` para la columna de metadatos de las páginas de detalle.
 
 Reglas:
 
 - Un componente de presentación reutilizable vive en el design system y no contiene texto de idioma fijo: recibe etiquetas por props (ejemplo: `ProjectCard` acepta `labels`).
-- `src/lib/components/ProjectCard.svelte` (tarjeta del sitio, con datos de `Project`) y `design-system/ProjectCard.svelte` (genérica) coexisten de forma temporal. Siguiente paso: que la tarjeta del sitio use la del design system y se elimine la duplicada.
+- `src/lib/components/ProjectCard.svelte` es una tarjeta de feature enlazada a rutas y datos del portafolio. `packages/folio/src/lib/components/ProjectCard.svelte` es la tarjeta genérica del paquete; tienen contratos diferentes y no se consideran duplicadas hasta que compartan el mismo modelo y API.
 - Todo componente interactivo define estados: reposo, hover, foco visible, activo y deshabilitado.
 
 Estados de contenido de una tarjeta de proyecto:
