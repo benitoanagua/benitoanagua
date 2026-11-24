@@ -3,7 +3,7 @@
 	type Orientation = 'horizontal' | 'vertical';
 	let {
 		orientation = 'horizontal',
-		variant = 'hair',
+		variant = 'soft',
 		label
 	}: {
 		orientation?: Orientation;
@@ -25,23 +25,11 @@
 {/if}
 
 <style>
-	.ds-divider {
-		border: 0;
-	}
-	.rule-hair {
-		border-top: var(--rule-hair) solid var(--color-on-background);
-	}
-	.rule-soft {
-		border-top: var(--rule-hair) dashed var(--color-outline-variant);
-	}
-	.rule-thick {
-		border-top: var(--rule-thick) solid var(--color-on-background);
-	}
-	.rule-double {
-		height: 7px;
-		background: var(--rule-double);
-		border-top: 0;
-	}
+	.ds-divider { border: 0; }
+	.rule-hair { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
+	.rule-soft { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
+	.rule-thick { border-top: var(--rule-hair) solid var(--color-outline-variant); }
+	.rule-double { border-top: var(--rule-hair) solid var(--color-outline-variant); }
 	.labeled {
 		display: flex;
 		align-items: center;
@@ -49,18 +37,13 @@
 		height: auto;
 		background: none;
 	}
-	.labeled .line {
-		flex: 1;
-		height: 0;
-	}
-	.labeled .meta {
-		flex: none;
-	}
+	.labeled .line { flex: 1; height: 0; }
+	.labeled .meta { flex: none; }
 	.vertical {
 		width: var(--rule-hair);
 		height: auto;
 		min-height: 1rem;
 		align-self: stretch;
-		background: var(--color-outline-variant);
+		background: var(--color-rule-subtle);
 	}
 </style>
