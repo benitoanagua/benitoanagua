@@ -1,7 +1,8 @@
 # Especificación UI/UX del portafolio
 
-Estado: vigente · 2026-11-24. Complementa `docs/adr/0002-svelte-native-design-system.md`.
+Estado: vigente · 2026-11-24. Complementa `docs/adr/0002-svelte-native-design-system.md` y `docs/adr/0003-folio-reading-design-system.md`.
 Este documento es la referencia para decidir cómo se ve y cómo se comporta el sitio. Si el código y este documento difieren, se corrige uno de los dos en el mismo cambio.
+La norma superior es `docs/constitucion-lectura.md`: donde esta especificación y la Constitución entren en conflicto, prevalece la Constitución (ver ADR 0003).
 
 ## 1. Propósito y público
 
@@ -39,28 +40,29 @@ Reglas:
 
 ## 4. Fundamentos visuales
 
-Identidad: "contorno arquitectónico" (bordes finos, rejilla compartida, acento primario). Se conserva; se simplifica su texto, no su estructura.
+Identidad: **FOLIO**, sistema de lectura tipográfica derivado de la estructura de Strata (filetes, sin elevación, tinta sobre papel). Papel cálido, tinta casi negra y un único acento rojo de corrector. Sustituye a la identidad «contorno arquitectónico» (ver ADR 0003); se conserva la lógica de bordes finos y rejilla compartida en forma de filetes.
 
 **Tipografía** (cargada una sola vez desde `src/app.html`, con `display=swap`; los iconos usan `display=block`):
 
-| Fuente                           | Rol                                                   |
-| -------------------------------- | ----------------------------------------------------- |
-| Archivo Black (`--font-display`) | Solo el nombre en la portada                          |
-| Sora (`--font-body`)             | Texto corrido                                         |
-| Inter (`--font-sans`)            | Componentes del design system                         |
-| JetBrains Mono (`--font-mono`)   | Etiquetas cortas y datos (años, estados, tecnologías) |
+| Fuente                             | Rol                                            |
+| ---------------------------------- | ---------------------------------------------- |
+| Playfair Display (`--font-display`) | Títulos y display                              |
+| Vollkorn (`--font-body`)           | Texto corrido                                  |
+| Mulish (`--font-ui`)               | Interfaz: etiquetas, controles, navegación     |
 
-Reglas: la fuente mono no se usa para frases largas. Las etiquetas no se escriben en mayúsculas forzadas por código salvo el nombre en el logotipo. Líneas de texto de menos de 80 caracteres.
+No hay fuente monoespaciada. Las antiguas etiquetas `mono` usan la clase `.meta`. Los tamaños viven en `tokens.css` (`--text-*`); el mínimo absoluto de cualquier texto es `1rem`, también en etiquetas y metadatos (Constitución, Art. 4). Las mayúsculas por código solo se permiten en los roles de etiqueta corta `.kicker`, `.meta` y `.label`, y en el logotipo; nunca en títulos ni texto corrido. Líneas de texto de 40–75 caracteres (medida por defecto `65ch`).
 
-**Espaciado, líneas y contenedores:** solo tokens de `app.css` y `tokens.css` (`--space-*`, `--line-*`, `--container-*`). No se escriben valores sueltos en componentes nuevos.
+**Espaciado, filetes y contenedores:** tokens de `app.css`, `tokens.css` y `utilities.css` (`--space-*`, `--rule-*`, `--container-*`, `--radius-sm`). No se escriben valores sueltos en componentes nuevos. Radios de 0 a 2px; sin píldoras ni círculos decorativos.
 
-**Color:** solo variables `--color-*` del tema Material. Claro y oscuro obligatorios; el tema inicial respeta la preferencia del sistema y se recuerda en `localStorage`.
+**Color:** solo variables `--color-*` de `theme.css` (nombres Material conservados como contrato, valores FOLIO). Claro y oscuro obligatorios; el tema inicial respeta la preferencia del sistema y se recuerda en `localStorage`. El acento `--color-primary` se reserva para enlaces, foco, kickers, estado activo y la palabra en cursiva del título; los usos decorativos usan tinta o filetes. `pnpm run check:design` verifica contraste WCAG en ambos temas.
 
-**Movimiento:** solo para responder a una acción del visitante. Se respeta `prefers-reduced-motion`. No hay animaciones decorativas continuas nuevas.
+**Movimiento:** solo respuesta a una acción del visitante, con `--duration-fast`/`--duration-base`. Se respeta `prefers-reduced-motion`. No hay transformaciones decorativas (`scale` en `:active` está prohibido) ni animaciones continuas nuevas. La elevación (`box-shadow`) está abolida: la separación se hace con filetes, espacio y superficies tonales.
+
+**Foco:** `outline: 3px solid var(--color-primary)` con `outline-offset: 3px` en `:focus-visible` (en alto contraste, contorno del sistema).
 
 ## 5. Componentes
 
-Catálogo (`src/lib/design-system`): `Button`, `Badge`, `Card`, `Divider`, `TextField`, `SectionHeading`, `Timeline`, `Metric`, `SocialLinks`, `ProjectCard`.
+Catálogo (`src/lib/design-system`, 13 componentes): `Button`, `Badge`, `Card`, `Divider`, `TextField`, `SectionHeading`, `Timeline`, `Metric`, `SocialLinks`, `ProjectCard`, `Notice`, `Pullquote`, `Marginalia`. Sus usos reales: `Notice` para el aviso de idioma de los PDF en `/cv`, `Pullquote` para frases destacadas de proyectos/habilidades, `Marginalia` para la columna de metadatos de las páginas de detalle.
 
 Reglas:
 
@@ -87,7 +89,7 @@ Estados de contenido de una tarjeta de proyecto:
 ## 7. Navegación y responsive
 
 - Escritorio (≥1024px): menú en la barra superior. Debajo de ese ancho: tira de navegación bajo la barra con desplazamiento horizontal y degradado en el borde derecho que indica que hay más enlaces.
-- Barra superior fija; con enlace "Saltar al contenido" como primer elemento enfocable.
+- Eslogan doble de filetes sobre la barra fija: filete doble arriba, filete hairline abajo; el nombre en `--font-display` con mayúsculas (único uso de mayúsculas fuera de las etiquetas); la línea de rol en `.meta`; nav a la derecha en escritorio y tira con degradado en móvil.
 - Cambio de idioma y de tema: dos botones agrupados, siempre visibles, con `aria-label` localizado.
 - Puntos de corte: 640, 768 y 1024px. Se diseña de móvil hacia arriba.
 
@@ -102,9 +104,9 @@ Estados de contenido de una tarjeta de proyecto:
 
 ## 8. Accesibilidad (criterios verificables)
 
-- Objetivo táctil mínimo de 44×44px en menú móvil, idioma, tema, filtros, chips de habilidades y botones de acción.
-- Tamaño mínimo de texto de 12px (0.75rem), también en etiquetas mono y metadatos.
-- Foco visible en todo elemento interactivo (anillo `--ring-primary`; en modo de alto contraste, contorno del sistema).
+- Objetivo táctil mínimo de 48px de alto en controles (44px como piso absoluto) en menú móvil, idioma, tema, filtros, chips de habilidades y botones de acción.
+- Tamaño mínimo de texto de 1rem (16px) en todo texto, también en etiquetas y metadatos.
+- Foco visible por `outline` de 3px con desplazamiento de 3px en todo elemento interactivo (en modo de alto contraste, contorno del sistema).
 - Los saltos a anclas descuentan la barra fija (`scroll-padding-top`).
 - Contraste mínimo WCAG AA (4.5:1 texto normal, 3:1 texto grande y componentes).
 - Un solo `h1` por página; jerarquía de encabezados sin saltos.
@@ -125,8 +127,11 @@ Estados de contenido de una tarjeta de proyecto:
 pnpm run check
 pnpm run lint
 pnpm run check:content
+pnpm run check:design
 pnpm run build
 ```
+
+`check:design` ejecuta `scripts/validate-design.ts`: verifica tamaño mínimo de texto, radios, sombras, literales de color/fuente, mayúsculas fuera de los roles permitidos y contraste WCAG en ambos temas. Una violación bloquea la compilación (el script también corre dentro de `build`).
 
 Revisión manual: portada y una página de detalle en 360px y 1280px, en ambos temas y ambos idiomas; recorrer el menú solo con teclado.
 

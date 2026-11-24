@@ -1,6 +1,6 @@
 # ADR 0002: Svelte-native portfolio design system
 
-- Status: Accepted
+- Status: Accepted — amended by ADR 0003 (FOLIO replaces the outline identity; the catalog now includes `Notice`, `Pullquote` and `Marginalia`)
 - Date: 2026-11-24
 
 ## Decision
