@@ -144,9 +144,9 @@
 		<a href="#actions">Actions</a>
 		<a href="#content">Content</a>
 		<a href="#forms">Forms</a>
-		<a href="#editorial">Editorial</a>\n\t\t<a href="#contracts">Component API</a>\n\t\t<a
-			href="#reading-checks">Reading checks</a
-		>
+		<a href="#editorial">Editorial</a>
+		<a href="#contracts">Component API</a>
+		<a href="#reading-checks">Reading checks</a>
 	</nav>
 
 	<section id="foundations">
