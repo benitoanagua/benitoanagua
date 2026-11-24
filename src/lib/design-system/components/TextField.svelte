@@ -1,0 +1,3 @@
+<script lang="ts">let{label,value=$bindable(''),id,placeholder='',hint}:{label:string;value?:string;id:string;placeholder?:string;hint?:string}=$props();</script>
+<div class="field"><label for={id}>{label}</label><input class="ds-focus" {id} {placeholder} bind:value/>{#if hint}<small>{hint}</small>{/if}</div>
+<style>.field{display:grid;gap:.5rem}label{font:600 .8125rem var(--ds-font);color:var(--ds-text)}input{min-height:2.625rem;padding:0 .75rem;border:1px solid var(--color-outline);border-radius:var(--ds-radius);background:var(--ds-bg);color:var(--ds-text);font:.9375rem var(--ds-font)}small{font-size:.75rem;color:var(--ds-muted)}</style>

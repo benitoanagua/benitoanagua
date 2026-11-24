@@ -1,0 +1,3 @@
+<script lang="ts">let{tone='neutral',children}:{tone?:'neutral'|'success'|'warning'|'danger';children?:import('svelte').Snippet}=$props();</script>
+<span class="ds-badge" class:success={tone==='success'} class:warning={tone==='warning'} class:danger={tone==='danger'}>{@render children?.()}</span>
+<style>.ds-badge{display:inline-flex;align-items:center;padding:.25rem .5rem;border:1px solid var(--ds-border);border-radius:2px;background:var(--ds-surface);color:var(--ds-muted);font:600 .6875rem var(--ds-mono)}.success{color:#267345}.warning{color:#8a5700}.danger{color:#b42318}</style>
