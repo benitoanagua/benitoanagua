@@ -84,14 +84,15 @@ p {
 }
 
 /* ══ UTILITIES ══ */
+/* Editorial layouts separate content through spacing, not shared borders. */
 .shared-boundary {
 	display: grid;
-	gap: 1px;
-	background: var(--color-outline-variant);
+	gap: var(--space-editorial-md);
+	background: transparent;
 }
 
 .shared-boundary > * {
-	background: var(--color-surface);
+	background: transparent;
 }
 
 /* ══ INTERACTIVE ELEMENTS ══ */
