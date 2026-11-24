@@ -5,7 +5,7 @@
 
 ## Decision
 
-Create `src/lib/design-system` for semantic tokens and reusable Svelte 5 components specifically useful to a personal portfolio. Keep page composition and portfolio-specific data in route or feature modules. Provide a barrel export and a living showcase.
+Create `packages/folio/src/lib` for semantic tokens and reusable Svelte 5 components specifically useful to a personal portfolio. Keep page composition and portfolio-specific data in route or feature modules. Provide a barrel export and a separate Svelte component catalog in `apps/catalog`.
 
 The component surface prioritizes project presentation, section hierarchy, experience/milestone timelines, impact metrics, and professional links, alongside a small set of shared visual primitives. Do not port application-oriented controls from Strata without a concrete portfolio use case.
 

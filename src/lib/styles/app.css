@@ -1,9 +1,8 @@
 /* FOLIO — reading-first design system
    Global base: reset, typography hooks, focus, selection, scrollbar.
-   Palette lives in ./theme.css; type scale and utilities in
-   ../design-system/tokens.css and ../design-system/utilities.css. */
+   Design tokens and component styles are shared from packages/folio. */
 
-@import './theme.css';
+@import '../../../packages/folio/src/lib/styles.css';
 
 /* Fuentes: se cargan desde src/app.html (preconnect + display=swap). */
 

@@ -14,6 +14,7 @@ import { fileURLToPath } from 'url';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = path.join(root, 'src');
+const FOLIO_SRC = path.join(root, 'packages/folio/src/lib');
 
 const errors: string[] = [];
 const warnings: string[] = [];
@@ -29,10 +30,10 @@ function walk(dir: string, out: string[] = []): string[] {
 	}
 	return out;
 }
-const files = walk(SRC);
-const TOKENS = path.join(SRC, 'lib/design-system/tokens.css');
-const THEME = path.join(SRC, 'lib/styles/theme.css');
-const UTILITIES = path.join(SRC, 'lib/design-system/utilities.css');
+const files = [...walk(SRC), ...walk(FOLIO_SRC)];
+const TOKENS = path.join(FOLIO_SRC, 'styles/tokens.css');
+const THEME = path.join(FOLIO_SRC, 'styles/theme.css');
+const UTILITIES = path.join(FOLIO_SRC, 'styles/utilities.css');
 const LAYOUT = path.join(SRC, 'lib/components/PortalLayout.svelte');
 const isExempt = (f: string) => f === THEME || f === TOKENS;
 

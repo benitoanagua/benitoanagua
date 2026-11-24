@@ -37,8 +37,8 @@ Conflicts found while reading the repository:
 
 ## Additional decisions
 
-(To be finalized during implementation; see the closing note in this file.)
+The package source is canonical in `packages/folio/src/lib`; the standalone catalog in `apps/catalog` documents the public component API.
 
 - `logo-box` (initials square) removed: the wordmark alone preserves the header height and the spec allows either option; removing it avoids a decorative box that FOLIO's filete system does not need.
-- Typography and utility tokens live in `src/lib/design-system/tokens.css` and `utilities.css`, imported both by `index.ts` and directly by `+layout.svelte` so pages that do not import design-system components still get the font scale and utilities.
+- Typography, color, spacing and utility tokens now live in the publishable `packages/folio/src/lib/styles/` entry. The portfolio and catalog consume this same source; npm packaging produces `dist/`.
 - `theme-color` metas and `manifest.json` adopt the paper/ink colors (`#F5F0E6` light, `#16140F` dark).

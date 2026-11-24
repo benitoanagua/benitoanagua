@@ -1,0 +1,17 @@
+@import '$folio/styles.css';
+
+body {
+	margin: 0;
+	background: var(--color-background);
+	color: var(--color-on-background);
+	font: var(--text-body) / var(--leading-body) var(--font-body);
+}
+
+button,
+input {
+	font: inherit;
+}
+
+a {
+	color: var(--color-primary);
+}

@@ -92,3 +92,21 @@ Legacy URLs are redirected in `static/_redirects` to current skills, experience 
 ## Design system
 
 The shared `PortalLayout` provides navigation, language and theme controls, and the footer. Global tokens and styles live in `src/lib/styles/`.
+
+## Additional deliverables
+
+- **FOLIO npm package:** `@benitoanagua/folio`, source in `packages/folio`.
+- **Svelte component catalog:** standalone Vite application in `apps/catalog`, deployed separately from the portfolio.
+
+Build and deploy locally:
+
+```sh
+pnpm folio:build
+pnpm catalog:dev
+pnpm catalog:build
+pnpm catalog:pages:create
+pnpm catalog:deploy
+pnpm build:all
+```
+
+The former `/design-system` portfolio route redirects to the home page; the independent catalog is the component reference. The catalog has its own `tsconfig.json` so typed linting includes its Svelte files. The npm package is published manually after reviewing `npm pack` and confirming the package name/scope; use `pnpm folio:publish` after logging in to npm. Its package-level TypeScript config is kept with the library source. Releases remain local and require an explicit publish command. The catalog has its own Pages project and no D1 binding. Its TypeScript config is scoped to the catalog and shared package source. Its deploy configuration is isolated under `apps/catalog/wrangler.toml`. GitHub Actions validates and builds all three artifacts; it does not deploy or run migrations.

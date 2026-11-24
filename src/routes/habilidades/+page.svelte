@@ -2,9 +2,9 @@
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
-	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
-	import TextField from '$lib/design-system/components/TextField.svelte';
-	import Button from '$lib/design-system/components/Button.svelte';
+	import SectionHeading from '$folio/components/SectionHeading.svelte';
+	import TextField from '$folio/components/TextField.svelte';
+	import Button from '$folio/components/Button.svelte';
 	import { getSkillProfiles, getSkillCategories } from '$lib/data/skill-profiles';
 	import { uiCopy } from '$lib/data/ui-copy';
 	import { slugify } from '$lib/utils/slug';

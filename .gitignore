@@ -24,3 +24,10 @@ vite.config.ts.timestamp-*
 
 *storybook.log
 storybook-static
+
+# Generated outputs (build artifacts, not source)
+/packages/folio/dist/
+/apps/catalog/dist/
+/static/robots.txt
+/static/sitemap.xml
+/static/manifest.json

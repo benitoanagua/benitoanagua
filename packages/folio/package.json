@@ -1,0 +1,34 @@
+{
+	"name": "@benitoanagua/folio",
+	"version": "0.1.0",
+	"description": "FOLIO, a Svelte 5 reading-first design system",
+	"type": "module",
+	"license": "MIT",
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
+	"svelte": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"svelte": "./dist/index.js",
+			"default": "./dist/index.js"
+		},
+		"./styles.css": "./dist/styles.css"
+	},
+	"sideEffects": [
+		"**/*.css"
+	],
+	"peerDependencies": {
+		"svelte": "^5.0.0"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"engines": {
+		"node": ">=20"
+	}
+}
