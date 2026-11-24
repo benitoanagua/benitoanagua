@@ -72,7 +72,7 @@ test.describe('FOLIO Button', () => {
 		expect(lg.paddingLeft).toBeGreaterThan(md.paddingLeft);
 	});
 
-	test('outline variant has a visible border', async ({ page }) => {
+	test('outline variant has a visible border', async () => {
 		const outline = section.getByRole('button', { name: 'Outline large' });
 		const border = await outline.evaluate((el) => {
 			const style = getComputedStyle(el);
@@ -92,7 +92,7 @@ test.describe('FOLIO Button', () => {
 		}
 	});
 
-	test('keeps padding and focus ring across interactive states', async () => {
+	test('keeps padding and focus ring across interactive states', async ({ page }) => {
 		const button = section.getByRole('button', { name: 'Primary click' });
 		const before = await button.evaluate(boxMetrics);
 		await button.hover();
