@@ -37,6 +37,16 @@ const UTILITIES = path.join(FOLIO_SRC, 'styles/utilities.css');
 const LAYOUT = path.join(SRC, 'lib/components/PortalLayout.svelte');
 const isExempt = (f: string) => f === THEME || f === TOKENS;
 
+/* ── Tokens --* definidos en el sistema ──
+   Un var(--x) sin fallback cuyo token no existe en ninguna hoja/aparato
+   invalida la declaración entera (padding/gap caen a 0). */
+const definedTokens = new Set<string>();
+for (const file of files) {
+	for (const m of fs.readFileSync(file, 'utf-8').matchAll(/(--[\w-]+)\s*:/g)) {
+		definedTokens.add(m[1]);
+	}
+}
+
 /* ── Tokens de tamaño de fuente ── */
 const tokensCss = fs.readFileSync(TOKENS, 'utf-8');
 const textTokens = new Map<string, string>();
@@ -106,6 +116,12 @@ for (const file of files) {
 		const ff = line.match(/font-family\s*:\s*([^;]+)/);
 		if (ff && !isExempt(file) && !/var\(--font-/.test(ff[1]) && !/inherit|system-ui/.test(ff[1])) {
 			err(file, ln, `font-family sin token --font-*: ${ff[1].trim()}`);
+		}
+		// var(--token) sin fallback: el token debe existir
+		for (const m of line.matchAll(/var\(\s*(--[\w-]+)\s*\)/g)) {
+			if (!definedTokens.has(m[1])) {
+				err(file, ln, `token no definido: ${m[1]}`);
+			}
 		}
 		// uppercase solo en roles permitidos
 		const tt = line.match(/text-transform\s*:\s*uppercase/);

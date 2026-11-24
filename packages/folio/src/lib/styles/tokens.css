@@ -15,6 +15,7 @@
 	--text-title: clamp(2rem, 1.5rem + 2vw, 3.25rem);
 	--text-display: clamp(2.75rem, 1.6rem + 5vw, 5.25rem);
 
+	--leading-tight: 1.05;
 	--leading-body: 1.7;
 	--leading-lead: 1.5;
 	--leading-section: 1.2;

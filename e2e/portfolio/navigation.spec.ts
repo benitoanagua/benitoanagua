@@ -89,6 +89,27 @@ test.describe('Portfolio navigation', () => {
 		await expect(page.getByRole('link').first()).toBeVisible();
 	});
 
+	test('visible nav keeps separation between links at this viewport', async ({ page }) => {
+		await page.goto('/');
+		// Exactly one of toolbar-nav / mobile-nav is displayed per breakpoint
+		const nav = page.locator('nav:visible').first();
+		await expect(nav).toBeVisible();
+		const boxes = await nav.locator('a').evaluateAll((els) =>
+			els.map((el) => {
+				const r = el.getBoundingClientRect();
+				return { left: r.left, right: r.right, label: el.textContent?.trim() ?? '' };
+			})
+		);
+		expect(boxes.length).toBeGreaterThanOrEqual(4);
+		for (let i = 1; i < boxes.length; i++) {
+			const gap = boxes[i].left - boxes[i - 1].right;
+			expect(
+				gap,
+				`links "${boxes[i - 1].label}" and "${boxes[i].label}" touch`
+			).toBeGreaterThanOrEqual(8);
+		}
+	});
+
 	test('skip link targets main content', async ({ page }) => {
 		await page.goto('/');
 		await page.keyboard.press('Tab');

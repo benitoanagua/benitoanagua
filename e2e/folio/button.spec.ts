@@ -39,4 +39,63 @@ test.describe('FOLIO Button', () => {
 		await expect(button).toBeDisabled();
 		await expect(button).toHaveAttribute('aria-busy', 'true');
 	});
+
+	const boxMetrics = (el: Element) => {
+		const s = getComputedStyle(el);
+		return {
+			paddingLeft: parseFloat(s.paddingLeft),
+			paddingRight: parseFloat(s.paddingRight),
+			scrollWidth: el.scrollWidth,
+			clientWidth: el.clientWidth
+		};
+	};
+
+	test('keeps explicit symmetric horizontal padding on every variant', async () => {
+		// md buttons (primary, ghost, disabled, loading) share the same padding
+		const mdButtons = [
+			section.getByRole('button', { name: 'Primary click' }),
+			section.getByRole('button', { name: 'Ghost' }),
+			section.getByRole('button', { name: 'Disabled', exact: true }),
+			section.getByRole('button', { name: 'Loading' })
+		];
+		for (const button of mdButtons) {
+			const m = await button.evaluate(boxMetrics);
+			expect(m.paddingLeft, 'horizontal padding must not collapse to 0').toBeGreaterThanOrEqual(16);
+			expect(m.paddingLeft).toBe(m.paddingRight);
+		}
+		// size variants scale padding coherently instead of sharing one value
+		const sm = await section.getByRole('button', { name: 'Secondary small' }).evaluate(boxMetrics);
+		const lg = await section.getByRole('button', { name: 'Outline large' }).evaluate(boxMetrics);
+		const md = await section.getByRole('button', { name: 'Ghost' }).evaluate(boxMetrics);
+		expect(sm.paddingLeft).toBeGreaterThan(0);
+		expect(sm.paddingLeft).toBeLessThan(md.paddingLeft);
+		expect(lg.paddingLeft).toBeGreaterThan(md.paddingLeft);
+	});
+
+	test('button label never overflows its box', async () => {
+		for (const button of await section.getByRole('button').all()) {
+			const m = await button.evaluate(boxMetrics);
+			expect(
+				m.scrollWidth,
+				`label overflows in "${await button.textContent()}"`
+			).toBeLessThanOrEqual(m.clientWidth + 1);
+		}
+	});
+
+	test('keeps padding and focus ring across interactive states', async ({ page }) => {
+		const button = section.getByRole('button', { name: 'Primary click' });
+		const before = await button.evaluate(boxMetrics);
+		await button.hover();
+		const hover = await button.evaluate(boxMetrics);
+		expect(hover.paddingLeft).toBe(before.paddingLeft);
+		// Reach the button with the keyboard so :focus-visible applies
+		for (let i = 0; i < 20; i++) {
+			await page.keyboard.press('Tab');
+			if (await button.evaluate((el) => el === document.activeElement)) break;
+		}
+		expect(await button.evaluate((el) => el === document.activeElement)).toBe(true);
+		expect(await button.evaluate((el) => el.matches(':focus-visible'))).toBe(true);
+		const outline = await button.evaluate((el) => getComputedStyle(el).outlineStyle);
+		expect(outline).not.toBe('none');
+	});
 });

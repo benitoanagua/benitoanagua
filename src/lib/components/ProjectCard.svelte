@@ -34,8 +34,8 @@
 	.project {
 		position: relative;
 		min-width: 0;
-		padding: var(--space-editorial-sm) var(--space-3);
-		margin-inline: calc(var(--space-3) * -1);
+		padding: var(--space-editorial-sm) var(--space-4);
+		margin-inline: calc(var(--space-4) * -1);
 		background: transparent;
 		border: 0;
 		border-radius: var(--radius-sm);
