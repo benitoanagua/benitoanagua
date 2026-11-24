@@ -1,33 +1,12 @@
-# Cloudflare is managed through Wrangler. Keep this file as the single
-# source of truth for Pages output, D1 bindings, environments and migrations.
+# Cloudflare Pages configuration. Wrangler is the source of truth.
 name = "benitoanagua"
 pages_build_output_dir = ".svelte-kit/cloudflare"
 compatibility_date = "2026-11-24"
 compatibility_flags = ["nodejs_als"]
 
-# Shared D1 database. Both Pages environments intentionally bind the same
-# database; use separate databases only if preview data must be isolated.
+# Existing D1 database: kept shared by Preview and Production for now.
+# Do not use preview deployments for destructive writes.
 [[d1_databases]]
-binding = "DB"
-database_name = "benitoanagua-portfolio"
-database_id = "e40020ce-adfb-4c14-b223-0a7b5e3de1b1"
-migrations_dir = "migrations"
-
-[env.production]
-name = "benitoanagua"
-pages_build_output_dir = ".svelte-kit/cloudflare"
-
-[[env.production.d1_databases]]
-binding = "DB"
-database_name = "benitoanagua-portfolio"
-database_id = "e40020ce-adfb-4c14-b223-0a7b5e3de1b1"
-migrations_dir = "migrations"
-
-[env.preview]
-name = "benitoanagua-preview"
-pages_build_output_dir = ".svelte-kit/cloudflare"
-
-[[env.preview.d1_databases]]
 binding = "DB"
 database_name = "benitoanagua-portfolio"
 database_id = "e40020ce-adfb-4c14-b223-0a7b5e3de1b1"
