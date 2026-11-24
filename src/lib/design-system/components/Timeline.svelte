@@ -1,8 +1,80 @@
 <script lang="ts">
-export interface TimelineEntry{period:string;title:string;organization?:string;description?:string;href?:string}
-let{items}:{items:TimelineEntry[]}=$props();
+	export interface TimelineEntry {
+		period: string;
+		title: string;
+		organization?: string;
+		description?: string;
+		href?: string;
+	}
+	let { items }: { items: TimelineEntry[] } = $props();
 </script>
-<ol class="timeline">{#each items as item}<li><div class="period">{item.period}</div><div class="entry"><h3>{#if item.href}<a href={item.href}>{item.title}</a>{:else}{item.title}{/if}</h3>{#if item.organization}<p class="organization">{item.organization}</p>{/if}{#if item.description}<p class="description">{item.description}</p>{/if}</div></li>{/each}</ol>
+
+<ol class="ds-timeline">
+	{#each items as item}
+		<li>
+			<div class="period meta">{item.period}</div>
+			<div class="entry">
+				<h3 class="ds-entry-title">
+					{#if item.href}<a href={item.href}>{item.title}</a>{:else}{item.title}{/if}
+				</h3>
+				{#if item.organization}<p class="organization label">{item.organization}</p>{/if}
+				{#if item.description}<p class="description">{item.description}</p>{/if}
+			</div>
+		</li>
+	{/each}
+</ol>
+
 <style>
-.timeline{list-style:none;margin:0;padding:0}.timeline li{display:grid;grid-template-columns:minmax(6rem,9rem) 1fr;gap:1.25rem;padding:0 0 1.75rem}.period{color:var(--ds-muted);font:.75rem var(--ds-font);padding-top:.25rem}.entry{position:relative;border-left:1px solid var(--ds-border);padding:0 0 0 1.25rem}.entry:before{content:'';position:absolute;left:-.25rem;top:.25rem;width:.45rem;height:.45rem;border-radius:50%;background:var(--ds-primary)}.entry h3{margin:0;font:600 1rem var(--ds-font);color:var(--ds-text)}h3 a{color:inherit;text-decoration:none}h3 a:hover{text-decoration:underline}.organization{margin:.35rem 0;color:var(--ds-text);font-size:.875rem}.description{margin:.5rem 0 0;color:var(--ds-muted);font-size:.875rem;line-height:1.6}@media(max-width:520px){.timeline li{grid-template-columns:1fr;gap:.5rem}.entry{padding-left:1rem}}
+	.ds-timeline {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	.ds-timeline li {
+		display: grid;
+		grid-template-columns: minmax(6rem, 9rem) 1fr;
+		gap: var(--space-6);
+		padding: 0 0 var(--space-8);
+	}
+	.period {
+		padding-top: var(--space-1);
+	}
+	.entry {
+		position: relative;
+		border-left: var(--rule-hair) solid var(--color-outline-variant);
+		padding: 0 0 0 var(--space-6);
+	}
+	.entry::before {
+		content: '';
+		position: absolute;
+		left: calc(-1 * var(--rule-hair) - 5px);
+		top: 0.55em;
+		width: 10px;
+		height: 10px;
+		background: var(--color-on-background);
+	}
+	.ds-entry-title {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		line-height: var(--leading-section);
+		font-weight: 700;
+	}
+	.organization {
+		margin: var(--space-1) 0 0;
+		color: var(--color-on-background);
+	}
+	.description {
+		margin: var(--space-2) 0 0;
+		color: var(--color-on-surface-variant);
+	}
+	@media (max-width: 520px) {
+		.ds-timeline li {
+			grid-template-columns: 1fr;
+			gap: var(--space-2);
+		}
+		.entry {
+			padding-left: var(--space-4);
+		}
+	}
 </style>

@@ -1,7 +1,107 @@
 <script lang="ts">
-type Variant='primary'|'secondary'|'outline'|'ghost';type Size='sm'|'md'|'lg';let{variant='primary',size='md',disabled=false,loading=false,onclick,children}:{variant?:Variant;size?:Size;disabled?:boolean;loading?:boolean;onclick?:(e:MouseEvent)=>void;children?:import('svelte').Snippet}=$props();
+	type Variant = 'primary' | 'secondary' | 'outline' | 'ghost';
+	type Size = 'sm' | 'md' | 'lg';
+	let {
+		variant = 'primary',
+		size = 'md',
+		disabled = false,
+		loading = false,
+		onclick,
+		children
+	}: {
+		variant?: Variant;
+		size?: Size;
+		disabled?: boolean;
+		loading?: boolean;
+		onclick?: (e: MouseEvent) => void;
+		children?: import('svelte').Snippet;
+	} = $props();
 </script>
-<button class="ds-button ds-focus" class:secondary={variant==='secondary'} class:outline={variant==='outline'} class:ghost={variant==='ghost'} class:sm={size==='sm'} class:lg={size==='lg'} disabled={disabled||loading} aria-busy={loading} {onclick}>{#if loading}<span class="spinner" aria-hidden="true"></span>{/if}{@render children?.()}</button>
+
+<button
+	class="ds-button label"
+	class:secondary={variant === 'secondary'}
+	class:outline={variant === 'outline'}
+	class:ghost={variant === 'ghost'}
+	class:sm={size === 'sm'}
+	class:lg={size === 'lg'}
+	disabled={disabled || loading}
+	aria-busy={loading}
+	{onclick}
+>
+	{#if loading}<span class="spinner" aria-hidden="true"></span>{/if}
+	{@render children?.()}
+</button>
+
 <style>
-.ds-button{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:2.5rem;padding:0 1rem;border:1px solid transparent;border-radius:var(--ds-radius);background:var(--ds-primary);color:var(--color-on-primary);font:600 .875rem var(--ds-font);cursor:pointer;transition:filter 140ms,transform 140ms}.ds-button:hover:not(:disabled){filter:brightness(.94)}.ds-button:active:not(:disabled){transform:scale(.98)}.ds-button:disabled{opacity:.5;cursor:not-allowed}.secondary{background:var(--ds-surface);color:var(--ds-text);border-color:var(--ds-border)}.outline{background:transparent;color:var(--ds-text);border-color:var(--color-outline)}.ghost{background:transparent;color:var(--ds-text)}.sm{min-height:2rem;padding:0 .75rem;font-size:.8125rem}.lg{min-height:3rem;padding:0 1.5rem;font-size:1rem}.spinner{width:1em;height:1em;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+	.ds-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-2);
+		min-height: 3rem;
+		padding: 0 var(--space-6);
+		border: var(--rule-base) solid var(--color-on-background);
+		border-radius: var(--radius-sm);
+		background: var(--color-on-background);
+		color: var(--color-background);
+		text-decoration: none;
+	}
+	.ds-button:hover:not(:disabled) {
+		background: var(--color-primary);
+		border-color: var(--color-primary);
+	}
+	.secondary,
+	.outline {
+		background: transparent;
+		color: var(--color-on-background);
+	}
+	.secondary:hover:not(:disabled),
+	.outline:hover:not(:disabled) {
+		background: var(--color-surface-container);
+		border-color: var(--color-on-background);
+	}
+	.ghost {
+		background: transparent;
+		color: var(--color-on-background);
+		border-color: transparent;
+	}
+	.ghost:hover:not(:disabled) {
+		background: transparent;
+		border-color: transparent;
+		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+	.ds-button:disabled {
+		color: var(--color-ink-soft);
+		border-style: dashed;
+		border-color: var(--color-outline-variant);
+		background: transparent;
+		cursor: not-allowed;
+	}
+	.sm {
+		min-height: 2.75rem;
+		padding: 0 var(--space-3);
+	}
+	.lg {
+		min-height: 3.5rem;
+		padding: 0 var(--space-8);
+	}
+	.spinner {
+		width: 1em;
+		height: 1em;
+		border: 2px solid currentColor;
+		border-right-color: transparent;
+		animation: ds-spin 0.7s linear infinite;
+	}
+	@keyframes ds-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.spinner {
+			animation: none;
+		}
+	}
 </style>
