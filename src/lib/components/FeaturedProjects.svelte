@@ -12,9 +12,12 @@
 <section class="featured" aria-labelledby="featured-title">
 	<div class="head">
 		<h2 id="featured-title" class="kicker">{copy.featuredTitle}</h2>
-		<a class="more label" href={resolve('/proyectos')}>{copy.featuredCta} ↗</a>
+		<a class="more label" href={resolve('/proyectos')}>
+			{copy.featuredCta}
+			<span aria-hidden="true">↗</span>
+		</a>
 	</div>
-	<div class="grid shared-boundary">
+	<div class="project-list">
 		{#each projects as project (project.slug)}
 			<ProjectCard
 				{project}
@@ -37,19 +40,28 @@
 		align-items: baseline;
 		gap: var(--space-4);
 		flex-wrap: wrap;
-		padding-bottom: var(--space-4);
-		border-bottom: var(--rule-hair) solid var(--color-on-background);
 	}
 	.more {
-		color: var(--color-primary);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--color-on-surface-variant);
 		text-decoration: none;
+		transition: color var(--duration-fast);
 	}
-	.more:hover {
-		text-decoration: underline;
-		text-underline-offset: 4px;
+	.more span {
+		color: var(--color-primary);
+		transition: transform var(--duration-fast);
 	}
-	.grid {
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
-		border: var(--rule-hair) solid var(--color-outline-variant);
+	.more:hover { color: var(--color-primary); }
+	.more:hover span { transform: translate(2px, -2px); }
+	.project-list {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: clamp(2rem, 5vw, 5rem);
+		row-gap: var(--space-editorial-md);
+	}
+	@media (max-width: 700px) {
+		.project-list { grid-template-columns: minmax(0, 1fr); }
 	}
 </style>

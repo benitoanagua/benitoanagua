@@ -21,21 +21,16 @@
 	.ds-badge {
 		display: inline-flex;
 		align-items: center;
-		padding: 0.3rem 0.6rem;
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
+		padding: 0;
 		color: var(--color-on-surface-variant);
+		letter-spacing: var(--tracking-label);
 	}
-	.success {
-		color: var(--color-success);
-		border-color: var(--color-success);
+	.ds-badge::before {
+		content: '·';
+		margin-right: 0.45em;
+		color: currentColor;
 	}
-	.warning {
-		color: var(--color-warning);
-		border-color: var(--color-warning);
-	}
-	.danger {
-		color: var(--color-error);
-		border-color: var(--color-error);
-	}
+	.success { color: var(--color-success); }
+	.warning { color: var(--color-warning); }
+	.danger { color: var(--color-error); }
 </style>

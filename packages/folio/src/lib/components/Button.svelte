@@ -40,17 +40,15 @@
 		justify-content: center;
 		gap: var(--space-2);
 		min-height: 3rem;
-		padding: 0 var(--space-6);
-		border: var(--rule-base) solid var(--color-on-background);
+		padding: 0 var(--space-5);
+		border: 0;
 		border-radius: var(--radius-sm);
-		background: var(--color-on-background);
-		color: var(--color-background);
-		text-decoration: none;
-	}
-	.ds-button:hover:not(:disabled) {
 		background: var(--color-primary);
-		border-color: var(--color-primary);
+		color: var(--color-on-primary);
+		text-decoration: none;
+		transition: background-color var(--duration-fast), color var(--duration-fast);
 	}
+	.ds-button:hover:not(:disabled) { background: var(--color-on-background); }
 	.secondary,
 	.outline {
 		background: transparent;
@@ -58,35 +56,26 @@
 	}
 	.secondary:hover:not(:disabled),
 	.outline:hover:not(:disabled) {
-		background: var(--color-surface-container);
-		border-color: var(--color-on-background);
+		background: var(--color-surface-container-low);
+		color: var(--color-primary);
 	}
 	.ghost {
 		background: transparent;
 		color: var(--color-on-background);
-		border-color: transparent;
 	}
 	.ghost:hover:not(:disabled) {
 		background: transparent;
-		border-color: transparent;
+		color: var(--color-primary);
 		text-decoration: underline;
 		text-underline-offset: 4px;
 	}
 	.ds-button:disabled {
 		color: var(--color-ink-soft);
-		border-style: dashed;
-		border-color: var(--color-outline-variant);
-		background: transparent;
+		background: var(--color-surface-container);
 		cursor: not-allowed;
 	}
-	.sm {
-		min-height: 2.75rem;
-		padding: 0 var(--space-3);
-	}
-	.lg {
-		min-height: 3.5rem;
-		padding: 0 var(--space-8);
-	}
+	.sm { min-height: 2.75rem; padding: 0 var(--space-3); }
+	.lg { min-height: 3.5rem; padding: 0 var(--space-8); }
 	.spinner {
 		width: 1em;
 		height: 1em;
@@ -94,14 +83,8 @@
 		border-right-color: transparent;
 		animation: ds-spin 0.7s linear infinite;
 	}
-	@keyframes ds-spin {
-		to {
-			transform: rotate(360deg);
-		}
-	}
+	@keyframes ds-spin { to { transform: rotate(360deg); } }
 	@media (prefers-reduced-motion: reduce) {
-		.spinner {
-			animation: none;
-		}
+		.spinner { animation: none; }
 	}
 </style>

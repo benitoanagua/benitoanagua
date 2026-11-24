@@ -1,6 +1,4 @@
-/* FOLIO — utility classes.
-   .kicker, .meta and .label are the only places where code-forced uppercase is
-   allowed (short label roles, ≤ 4 words), besides the wordmark in PortalLayout. */
+/* FOLIO — editorial utilities. Typography and spacing establish hierarchy. */
 
 .kicker {
 	font: 800 var(--text-meta) / 1.2 var(--font-ui);
@@ -11,9 +9,10 @@
 .kicker::before {
 	content: '';
 	display: inline-block;
-	width: 10px;
-	height: 10px;
-	margin-right: 10px;
+	width: 0.35rem;
+	height: 0.35rem;
+	margin: 0 0.65rem 0.15rem 0;
+	border-radius: 50%;
 	background: currentColor;
 }
 .meta {
@@ -28,31 +27,21 @@
 	letter-spacing: var(--tracking-label);
 	text-transform: uppercase;
 }
-.rule-hair {
-	border-top: var(--rule-hair) solid var(--color-on-background);
-}
-.rule-soft {
-	border-top: var(--rule-hair) dashed var(--color-outline-variant);
-}
-.rule-thick {
-	border-top: var(--rule-thick) solid var(--color-on-background);
-}
+.rule-hair { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
+.rule-soft { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
+.rule-thick { border-top: var(--rule-hair) solid var(--color-outline-variant); }
 .rule-double {
-	height: 7px;
-	background: var(--rule-double);
+	height: 1px;
+	background: var(--color-rule-subtle);
 }
 .prose {
 	max-width: var(--measure);
 	font: var(--text-body) / var(--leading-body) var(--font-body);
 	color: var(--color-on-background);
 }
-.prose > * + * {
-	margin-top: 1em;
-}
+.prose > * + * { margin-top: 1em; }
 .prose h2,
-.prose h3 {
-	margin-top: 1.8em;
-}
+.prose h3 { margin-top: 1.8em; }
 .drop-cap::first-letter {
 	font-family: var(--font-display);
 	font-weight: 700;
@@ -62,7 +51,5 @@
 	padding: 8px 12px 0 0;
 }
 @media (prefers-reduced-motion: reduce) {
-	* {
-		scroll-behavior: auto !important;
-	}
+	* { scroll-behavior: auto !important; }
 }

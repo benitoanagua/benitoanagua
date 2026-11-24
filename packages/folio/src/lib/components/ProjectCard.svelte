@@ -39,13 +39,11 @@
 		</div>
 		<h3 class="ds-title">
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-			<a href={project.href}>{project.title}</a>
+			<a href={project.href}>{project.title}<span aria-hidden="true">↗</span></a>
 		</h3>
 		<p class="ds-description">{project.description}</p>
 		{#if project.tags?.length}
-			<ul class="tags" aria-label={labels.tech}>
-				{#each project.tags as tag (tag)}<li>{tag}</li>{/each}
-			</ul>
+			<p class="tags" aria-label={labels.tech}>{project.tags.join(' · ')}</p>
 		{/if}
 		<div class="links">
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
@@ -64,74 +62,73 @@
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		background: var(--color-surface-container);
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
+		background: transparent;
+		border: 0;
+		border-radius: 0;
 		color: var(--color-on-background);
 	}
 	.visual {
 		display: block;
 		aspect-ratio: 16 / 9;
 		overflow: hidden;
-		background: var(--color-surface-container-high);
-		border-bottom: var(--rule-hair) solid var(--color-outline-variant);
+		background: var(--color-surface-container-low);
 	}
 	.visual img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+		transition: transform var(--duration-base);
 	}
+	.visual:hover img { transform: scale(1.015); }
 	.body {
 		display: flex;
 		flex: 1;
 		flex-direction: column;
-		padding: var(--space-6);
+		padding: var(--space-5) 0 0;
 	}
 	.meta {
 		display: flex;
 		gap: var(--space-3);
+		color: var(--color-ink-soft);
 	}
 	.ds-title {
-		margin: var(--space-2) 0 0;
+		margin: var(--space-3) 0 0;
 		font-family: var(--font-display);
-		font-size: 1.5rem;
+		font-size: var(--text-section);
 		line-height: var(--leading-section);
-		font-weight: 700;
+		font-weight: 600;
 	}
 	.ds-title a {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
 		color: inherit;
+		text-decoration: none;
+		transition: color var(--duration-fast);
 	}
+	.ds-title a span { color: var(--color-primary); }
+	.ds-title a:hover { color: var(--color-primary); }
 	.ds-description {
-		margin: var(--space-2) 0 0;
+		margin: var(--space-3) 0 0;
 		font-size: var(--text-body);
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 	}
 	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-2);
-		padding: 0;
 		margin: var(--space-4) 0 0;
-		list-style: none;
-	}
-	.tags li {
-		padding: 0.2rem 0.5rem;
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
-		color: var(--color-on-surface-variant);
-		font-size: var(--text-meta);
+		color: var(--color-ink-soft);
 	}
 	.links {
 		display: flex;
-		gap: var(--space-6);
+		flex-wrap: wrap;
+		gap: var(--space-5);
 		margin-top: auto;
-		padding-top: var(--space-6);
+		padding-top: var(--space-5);
 	}
 	.links a {
 		color: var(--color-primary);
+		text-decoration: none;
 	}
-	.case {
-		margin-right: auto;
-	}
+	.links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+	.case { margin-right: auto; }
 </style>

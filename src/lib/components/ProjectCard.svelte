@@ -11,98 +11,92 @@
 	let { project, areaLabel, statusLabel }: Props = $props();
 </script>
 
-<article class="card">
-	<a class="card-link" href={resolve('/proyectos/[slug]', { slug: project.slug })}>
-		<div class="top meta">
-			<span class="area">{areaLabel}</span>
+<article class="project">
+	<a class="project-link" href={resolve('/proyectos/[slug]', { slug: project.slug })}>
+		<div class="meta-line meta">
+			<span>{areaLabel}</span>
 			<span>{project.year}</span>
 		</div>
-		<h3>{project.title}</h3>
+		<h3>{project.title}<span class="arrow" aria-hidden="true">↗</span></h3>
 		<p>{project.summary}</p>
 	</a>
-	<div class="bottom">
+	<div class="details">
 		{#if project.stack.length}
-			<ul class="tags">
-				{#each project.stack.slice(0, 4) as item (item)}
-					<li class="tag meta">{item}</li>
-				{/each}
-			</ul>
+			<p class="stack meta" aria-label="Technology stack">{project.stack.slice(0, 4).join(' · ')}</p>
 		{/if}
 		{#if statusLabel}<span class="status meta">{statusLabel}</span>{/if}
 	</div>
 </article>
 
 <style>
-	.card {
+	.project {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		gap: var(--space-4);
-		min-height: 15rem;
-		padding: var(--space-6);
-		background: var(--color-surface);
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
+		min-width: 0;
+		padding: var(--space-editorial-sm) 0;
+		background: transparent;
+		border: 0;
+		border-radius: 0;
 	}
-	.card:hover {
-		border-color: var(--color-on-background);
-	}
-	.card:has(.card-link:focus-visible) {
-		outline: var(--focus-ring);
-		outline-offset: var(--focus-offset);
-	}
-	.card-link {
+	.project-link {
 		display: flex;
 		flex-direction: column;
 		gap: var(--space-3);
 		color: inherit;
 		text-decoration: none;
 	}
-	/* Toda la tarjeta es clicable sin anidar enlaces */
-	.card-link::after {
-		content: '';
-		position: absolute;
-		inset: 0;
+	.project-link:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
 	}
-	.top {
+	.meta-line {
 		display: flex;
 		justify-content: space-between;
 		gap: var(--space-3);
+		color: var(--color-ink-soft);
 	}
 	h3 {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: var(--space-3);
 		font-family: var(--font-display);
-		font-size: 1.25rem;
+		font-size: clamp(1.35rem, 1.15rem + 0.8vw, 1.75rem);
 		line-height: var(--leading-section);
-		font-weight: 700;
-		letter-spacing: 0;
-		text-transform: none;
+		font-weight: 600;
+		letter-spacing: var(--tracking-display);
+		transition: color var(--duration-fast);
 	}
-	.card:hover h3 {
+	.arrow {
+		flex: 0 0 auto;
 		color: var(--color-primary);
+		font-family: var(--font-ui);
+		font-size: 1rem;
+		opacity: 0.65;
+		transition:
+			transform var(--duration-fast),
+			opacity var(--duration-fast);
+	}
+	.project:hover h3 { color: var(--color-primary); }
+	.project:hover .arrow {
+		opacity: 1;
+		transform: translate(3px, -3px);
 	}
 	p {
 		font-size: var(--text-meta);
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 	}
-	.bottom {
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-3);
-	}
-	.tags {
+	.details {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-2);
-		list-style: none;
+		align-items: baseline;
+		gap: var(--space-2) var(--space-4);
+		margin-top: var(--space-4);
 	}
-	.tag {
-		padding: 0.2rem 0.5rem;
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
+	.stack {
+		color: var(--color-ink-soft);
 	}
 	.status {
-		color: var(--color-on-surface-variant);
+		color: var(--color-success);
 	}
 </style>

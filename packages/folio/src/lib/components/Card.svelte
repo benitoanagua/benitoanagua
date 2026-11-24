@@ -15,17 +15,17 @@
 
 <style>
 	.ds-card {
-		background: var(--color-surface-container);
-		border: var(--rule-hair) solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
+		background: transparent;
+		border: 0;
+		border-radius: 0;
 	}
 	.ds-card-title {
-		padding: var(--space-6) var(--space-6) 0;
+		padding: 0 0 var(--space-3);
 		font-family: var(--font-display);
 		font-size: 1.25rem;
 		line-height: var(--leading-section);
 	}
 	.ds-card-content {
-		padding: var(--space-6);
+		padding: 0;
 	}
 </style>

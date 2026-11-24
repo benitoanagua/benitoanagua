@@ -1,13 +1,13 @@
-/* FOLIO typography, rules, radii, motion and reading measure tokens. */
+/* FOLIO typography, editorial spacing, subtle rules and motion tokens. */
 
 :root {
 	/* Fuentes */
 	--font-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
 	--font-body: 'Vollkorn', Georgia, 'Times New Roman', serif;
 	--font-ui: 'Mulish', system-ui, sans-serif;
-	--font-sans: var(--font-ui); /* alias de transición; eliminar usos nuevos */
+	--font-sans: var(--font-ui);
 
-	/* Escala (rem; raíz 16px). Mínimo absoluto de cualquier texto: 1rem */
+	/* Escala tipográfica: mínimo absoluto 1rem */
 	--text-meta: 1rem;
 	--text-body: 1.125rem;
 	--text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
@@ -15,40 +15,44 @@
 	--text-title: clamp(2rem, 1.5rem + 2vw, 3.25rem);
 	--text-display: clamp(2.75rem, 1.6rem + 5vw, 5.25rem);
 
-	--leading-body: 1.65;
+	--leading-body: 1.7;
 	--leading-lead: 1.5;
 	--leading-section: 1.2;
 	--leading-title: 1.08;
 	--leading-display: 1;
 
-	--tracking-display: -0.02em;
-	--tracking-label: 0.08em;
+	--tracking-display: -0.035em;
+	--tracking-label: 0.06em;
 	--tracking-kicker: 0.14em;
 	--measure: 65ch;
 
-	/* Espacio (se conservan --space-1…--space-32 de app.css) y rejilla de marginalia */
+	/* Espaciado editorial: la separación se expresa con aire, no cajas */
+	--space-editorial-sm: 1.75rem;
+	--space-editorial-md: 2.5rem;
+	--space-editorial-lg: clamp(4rem, 8vw, 7rem);
+	--space-editorial-xl: clamp(5rem, 11vw, 9rem);
 	--margin-col: 220px;
 	--margin-gap: var(--space-12);
 
-	/* Filetes */
+	/* Filetes reservados para estructura */
 	--rule-hair: 1px;
-	--rule-base: 2px; /* borde de controles */
-	--rule-thick: 4px;
+	--rule-base: 1px;
+	--rule-thick: 2px;
 	--rule-double: linear-gradient(
-		var(--color-on-background) 0 4px,
-		transparent 4px 6px,
-		var(--color-on-background) 6px 7px
+		var(--color-rule-subtle) 0 1px,
+		transparent 1px 5px,
+		var(--color-rule-subtle) 5px 6px
 	);
 
 	/* Forma */
 	--radius-sm: 2px;
-	--radius-smart: var(--radius-sm); /* alias de transición */
+	--radius-smart: var(--radius-sm);
 
 	/* Foco */
 	--focus-ring: 3px solid var(--color-primary);
 	--focus-offset: 3px;
 
-	/* Movimiento: solo respuesta a una acción; sin transform decorativo */
+	/* Movimiento */
 	--duration-fast: 150ms;
 	--duration-base: 250ms;
 }
