@@ -2,7 +2,7 @@
 
 Estado: vigente · 2026-11-24. Complementa `docs/adr/0002-svelte-native-design-system.md` y `docs/adr/0003-folio-reading-design-system.md`.
 Este documento es la referencia para decidir cómo se ve y cómo se comporta el sitio. Si el código y este documento difieren, se corrige uno de los dos en el mismo cambio.
-La norma superior es `docs/constitucion-lectura.md`: donde esta especificación y la Constitución entren en conflicto, prevalece la Constitución (ver ADR 0003).
+La norma superior es `docs/design/constitucion-lectura.md`: donde esta especificación y la Constitución entren en conflicto, prevalece la Constitución (ver ADR 0003).
 
 ## 1. Propósito y público
 

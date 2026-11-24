@@ -1,4 +1,4 @@
-# Portfolio content migration to Cloudflare D1
+# D1 portfolio content migration
 
 ## Scope
 
@@ -54,7 +54,7 @@ synchronous build-time import. Therefore the content cutover must:
 Do not switch the production site to D1 until seed data has been generated,
 the database has been populated, and parity tests pass.
 
-## Implementation status
+## Implementation notes and safe verification
 
 - `wrangler.toml` binds D1 as `DB` to `benitoanagua-portfolio`
   (`database_id = e40020ce-adfb-4c14-b223-0a7b5e3de1b1`, region ENAM).
@@ -83,7 +83,7 @@ the database has been populated, and parity tests pass.
   `wrangler d1 execute DB --local --file <file>` (use the binding name `DB`,
   not the database name, so `wrangler pages dev` sees the same local database).
 
-## Rollout
+## Rollout checklist (verify current state first)
 
 1. Apply `migrations/0001_portfolio_content.sql` to a development D1 database.
 2. Generate `migrations/0002_portfolio_seed.sql` from the existing sources.
@@ -92,5 +92,4 @@ the database has been populated, and parity tests pass.
 5. Verify Spanish and English page content against the current TOML-based output.
 6. Deploy through a preview environment, then cut over production.
 
-The migration is intentionally portfolio-only and does not touch design-system
-or catalog files.
+The migration is intentionally portfolio-only and does not touch the design system or catalog. Treat the rollout steps as a checklist, not a command to reapply already-applied migrations.

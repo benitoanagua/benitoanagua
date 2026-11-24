@@ -4,7 +4,7 @@ Status: accepted · 2026-11-23
 
 ## Context
 
-The site is organized around skills (`/habilidades`) and experience (`/experiencia`), both generated from `cv.*.toml`. `SKILLS_CONTENT_GUIDE.md` already states that project pages can be added later without changing that model. The CVs mention independent projects without names, links or screenshots, so skills lacked concrete evidence beyond job descriptions.
+The site is organized around skills (`/habilidades`) and experience (`/experiencia`), both generated from `cv.*.toml`. `docs/content/skills-and-experience.md` already states that project pages can be added later without changing that model. The CVs mention independent projects without names, links or screenshots, so skills lacked concrete evidence beyond job descriptions.
 
 ## Decision
 

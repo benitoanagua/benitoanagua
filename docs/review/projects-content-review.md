@@ -1,4 +1,6 @@
-# Contenido pendiente de confirmar (proyectos)
+# Revisión editorial pendiente de proyectos
+
+> Lista de decisiones editoriales, no fuente de contenido. Actualizada el 24-11-2026; contrastar siempre con `src/lib/data/projects.es.toml` y `projects.en.toml` antes de publicar.
 
 Los 15 proyectos de `projects.*.toml` salen de dos fuentes: tus CV (proyectos independientes) y lo que has contado de tus repositorios. No añadí métricas, clientes ni resultados. Revisa antes de publicar:
 
@@ -23,8 +25,3 @@ Los 15 proyectos de `projects.*.toml` salen de dos fuentes: tus CV (proyectos in
 ## Habilidades de proyectos sin ficha en `/habilidades`
 
 `pnpm check:content` las lista (Supabase, Fly.io, Kotlin Multiplatform, Firestore, Elementor, Adobe Illustrator…). Para que tengan página, añádelas a `[[focuses.skills]]` en `cv.es.toml` y `cv.en.toml` (tu flujo habitual).
-
-## Pendientes ya existentes en tu versión (no los toqué)
-
-- 16 avisos de `svelte-check` por CSS sin usar en `src/routes/+page.svelte` (`.path-*`, `.card-footer`).
-- Textos de portada y SEO en inglés hardcodeados en varias páginas; la portada y el SEO se prerenderizan en español.
