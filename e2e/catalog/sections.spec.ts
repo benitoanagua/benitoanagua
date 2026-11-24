@@ -1,7 +1,7 @@
 import { expect, test } from '../support/test';
 
 test.describe('Catalog sections and components', () => {
-	test('all five sections render their component examples', async ({ page }) => {
+	test('all catalog sections render their component examples', async ({ page }) => {
 		await page.goto('/');
 		const expected: Record<string, RegExp[]> = {
 			foundations: [/Palette/, /Type/, /Reading first\./],
@@ -86,6 +86,8 @@ test.describe('Catalog sections and components', () => {
 
 	test('component API navigation and state examples are exposed', async ({ page }) => {
 		await page.goto('/');
+		const navText = await page.locator('nav[aria-label="Catalog sections"]').textContent();
+		expect(navText ?? '').not.toContain(String.fromCharCode(92) + 'n');
 		await page.getByRole('link', { name: 'Component API' }).click();
 		await expect(page).toHaveURL(/#contracts$/);
 		await expect(page.locator('#contracts .contract')).toHaveCount(13);
