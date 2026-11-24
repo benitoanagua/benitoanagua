@@ -1,18 +1,20 @@
 # Portfolio — Project Guide
 
-This document is the technical entry point for the repository. The profile-facing [README.md](./README.md) is intentionally concise; this guide preserves the project overview, development workflow, deliverables, and documentation links.
+This document is the technical entry point for the repository. The profile-facing [README.md](./README.md) is intentionally concise; this guide describes the application, related work, development workflow, and documentation.
 
 ## Overview
 
 This repository contains a personal portfolio built with **SvelteKit, Svelte 5, and TypeScript**. It presents professional skills and experience with project evidence, in Spanish and English.
 
-The repository is organized as a pnpm workspace and includes three related deliverables:
+The portfolio is published at [benitoanagua.pages.dev](https://benitoanagua.pages.dev/).
 
-| Deliverable | Description | Location |
+The repository is organized as a pnpm workspace and contains these deliverables and planned extensions:
+
+| Deliverable | Description | Location / status |
 | --- | --- | --- |
-| Portfolio | Main SvelteKit application | Repository root |
-| FOLIO | Reusable Svelte 5 reading-first design system, published as `@benitoanagua/folio` | `packages/folio` |
-| FOLIO Catalog | Standalone Svelte/Vite component reference | `apps/catalog` |
+| Portfolio | Main SvelteKit application | Repository root; published on Cloudflare Pages |
+| FOLIO | Reusable Svelte 5 reading-first design system | `packages/folio`; package publication pending |
+| FOLIO Catalog | Standalone Svelte/Vite component reference | `apps/catalog`; deployment pending |
 
 ## Technology
 
@@ -30,7 +32,7 @@ The repository is organized as a pnpm workspace and includes three related deliv
 ```text
 .
 ├── apps/
-│   └── catalog/          # FOLIO component catalog
+│   └── catalog/          # FOLIO component catalog (deployment pending)
 ├── docs/
 │   ├── adr/              # Architecture decision records
 │   ├── content/          # Content authoring guidance
@@ -38,14 +40,14 @@ The repository is organized as a pnpm workspace and includes three related deliv
 │   ├── operations/       # Deployment and data operations
 │   └── review/           # Editorial review notes
 ├── e2e/                  # Playwright end-to-end tests
-├── migrations/           # Cloudflare D1 migrations
+├── migrations/            # Cloudflare D1 migrations
 ├── packages/
-│   └── folio/            # Reusable FOLIO component library
-├── scripts/              # Validation and generation scripts
-├── src/                  # Portfolio application source
-├── static/               # Static assets
-├── README.md             # Concise GitHub profile introduction
-└── PROJECT.md            # This technical project guide
+│   └── folio/            # FOLIO component library (publication pending)
+├── scripts/               # Validation and generation scripts
+├── src/                   # Portfolio application source
+├── static/                 # Static assets
+├── README.md               # Concise GitHub profile introduction
+└── PROJECT.md              # This technical project guide
 ```
 
 ## Requirements
@@ -116,11 +118,11 @@ Tests use Playwright and cover the portfolio, catalog, and FOLIO component harne
 | --- | --- |
 | `pnpm folio:check` | Type-check the FOLIO package |
 | `pnpm folio:build` | Package FOLIO for distribution |
-| `pnpm folio:publish` | Build and publish `@benitoanagua/folio` to npm |
+| `pnpm folio:publish` | Build and publish `@benitoanagua/folio` to npm (pending release) |
 | `pnpm catalog:check` | Type-check the catalog |
 | `pnpm catalog:dev` | Run the catalog development server |
 | `pnpm catalog:build` | Build the catalog |
-| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages |
+| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages (pending deployment) |
 
 ### Cloudflare and D1 operations
 
@@ -160,6 +162,7 @@ Do not commit credentials, customer information, or production records. Treat re
 
 ## Related resources
 
-- [Portfolio](https://benitoanagua.com)
-- [FOLIO on npm](https://www.npmjs.com/package/@benitoanagua/folio)
+- [Live portfolio](https://benitoanagua.pages.dev/)
 - [GitHub profile](https://github.com/benitoanagua)
+- [FOLIO source](packages/folio/)
+- [FOLIO Catalog source](apps/catalog/)
