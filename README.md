@@ -19,7 +19,7 @@ Personal professional site built with SvelteKit, Svelte 5, TypeScript and TOML c
 
 ## Requirements
 
-Node.js compatible with the Vite version in `package.json`, pnpm, and an authenticated Cloudflare session (`wrangler login`). CI requires the GitHub Actions secret `CLOUDFLARE_API_TOKEN` and variable `CLOUDFLARE_ACCOUNT_ID`.
+Node.js compatible with the Vite version in `package.json`, pnpm, and an authenticated Cloudflare session (`pnpm cf:login`). No Cloudflare credentials are stored in GitHub: CI only validates the code; all deploys and D1 operations run locally through your own Wrangler session.
 
 ## Development
 
@@ -36,35 +36,56 @@ pnpm preview
 
 ## Cloudflare / Wrangler operations
 
-`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio`; its ID and the `DB` binding are declared there. Preview and production currently share this database, matching the verified remote configuration. Preview deployments must not perform destructive writes. Cloudflare Pages uses only its supported `preview` and `production` configuration environments; branch names such as `pr-123` select preview deployment URLs, not separate Wrangler environments.
+`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`); its ID and the `DB` binding are declared there and apply to both preview and production deployments made through Wrangler. Preview and production share this single database — treat it as production data: never run destructive statements or ad-hoc seeds against it. Preview deployments must not perform destructive writes.
+
+All Cloudflare operations run from your local machine with your own Wrangler login. GitHub Actions never touches Cloudflare.
+
+### Local Cloudflare procedure
+
+Run these steps from a terminal in the repository root:
 
 ```sh
-# Authenticate once per workstation
-pnpm dlx wrangler@4 login
+# 1. Authenticate Wrangler (opens a browser; one-time per workstation)
+pnpm cf:login
 
-# Inspect Pages projects and D1 resources
-pnpm dlx wrangler@4 pages project list
-pnpm dlx wrangler@4 d1 list
+# 2. Verify the authenticated account
+pnpm cf:whoami
 
-# Apply only pending, versioned migrations
+# 3. Confirm the expected resources exist
+pnpm cf:pages:list     # Pages project "benitoanagua"
+pnpm d1:list           # D1 database "benitoanagua-portfolio"
+
+# 4. Review pending D1 migrations before applying anything
+pnpm d1:migrations:list
+# Compare the output with the files in migrations/ and read them first:
+#   migrations/0001_portfolio_content.sql  (schema)
+#   migrations/0002_portfolio_seed.sql     (content seed, idempotent upserts)
+# Only proceed if every pending file is reviewed and safe.
+
+# 5. Apply pending remote migrations (idempotent; safe to re-run)
 pnpm d1:migrations:remote
 
-# Deploy preview or production explicitly
-pnpm cf:deploy:preview
-pnpm cf:deploy:production
+# 6. Build and deploy
+pnpm cf:deploy:preview     # preview URL (*.pages.dev preview deployment)
+pnpm cf:deploy:production  # production (benitoanagua.pages.dev)
+
+# 7. Verify the deployment
+curl -s https://benitoanagua.pages.dev/ | grep -o 'portfolio-source" content="[^"]*"'
+# Expect: d1 on portfolio routes, fallback on prerendered routes (/proyectos, /design-system)
 ```
 
-The versioned migrations include the current content seed. Do not run an ad-hoc seed/export against the production database during deployment. Add schema or seed changes as a new numbered SQL migration and apply it with Wrangler.
+Notes:
 
-## CI/CD
+- `pnpm preview` runs the built output through local Pages emulation with the **local** D1 (`--local`). Remote migrations use `--remote`; local migrations use `pnpm d1:migrations:local`.
+- To inspect or seed the local D1 database, use the binding name `DB` (not the database name) so `wrangler pages dev` sees the same local database: `pnpm dlx wrangler@4 d1 execute DB --local --file <file>`.
+- The versioned migrations include the current content seed. Do not run an ad-hoc seed/export against the production database. Add schema or seed changes as a new numbered SQL migration in `migrations/` and apply it with `pnpm d1:migrations:remote`.
+- Wrangler is invoked through `pnpm dlx wrangler@4`, so no dependency or lockfile change is needed and the major version stays pinned.
 
-GitHub Actions runs validation, then calls Wrangler for preview deploys from pull requests and production deploys from `main`. Production migrations run before the production deploy. Configure:
+## CI
 
-- GitHub environment secret `CLOUDFLARE_API_TOKEN` with Cloudflare Pages deployment and D1 read/write permissions.
-- GitHub environment variable `CLOUDFLARE_ACCOUNT_ID` (account ID). Set these in the `cloudflare-preview` and `cloudflare-production` environments. The workflow skips PR preview deployment when the account ID variable is absent and fails with a clear preflight error before production migration if credentials are missing.
-- The Pages project named `benitoanagua`.
+GitHub Actions runs validation only — install, `check`, `lint`, `check:content`, `check:design` and `build`. It holds no Cloudflare credentials and performs no deploys or migrations. See `.github/workflows/ci.yml`.
 
-Turn off the competing Cloudflare Pages Git build integration in the Cloudflare dashboard after verifying this workflow. Otherwise pushes can trigger a second deployment outside the controlled Wrangler pipeline. Wrangler owns Cloudflare configuration and deploy operations; GitHub Actions is only the runner.
+If the Cloudflare Pages Git integration is enabled for this project, pushes to `main` will still trigger a Pages-side production build outside this pipeline. To keep deploys fully under local control, disable the Git integration in the Cloudflare dashboard (Pages project → Settings → Builds) and deploy with `pnpm cf:deploy:production`.
 
 Legacy URLs are redirected in `static/_redirects` to current skills, experience or CV pages.
 

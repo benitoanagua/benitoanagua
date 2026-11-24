@@ -15,8 +15,13 @@
 		"check:content": "tsx scripts/validate-content.ts",
 		"check:design": "tsx scripts/validate-design.ts",
 		"d1:export-portfolio": "tsx scripts/export-portfolio-d1.ts",
+		"d1:list": "pnpm dlx wrangler@4 d1 list",
 		"d1:migrations:local": "pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --local",
+		"d1:migrations:list": "pnpm dlx wrangler@4 d1 migrations list benitoanagua-portfolio --remote",
 		"d1:migrations:remote": "pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --remote",
+		"cf:login": "pnpm dlx wrangler@4 login",
+		"cf:whoami": "pnpm dlx wrangler@4 whoami",
+		"cf:pages:list": "pnpm dlx wrangler@4 pages project list",
 		"cf:deploy:preview": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=preview",
 		"cf:deploy:production": "pnpm build && pnpm dlx wrangler@4 pages deploy .svelte-kit/cloudflare --project-name=benitoanagua --branch=main"
 	},
