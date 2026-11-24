@@ -11,7 +11,9 @@ test.describe('Catalog sections and components', () => {
 			editorial: [
 				/SectionHeading|Pullquote|Marginalia|Clarity is a feature/,
 				/Keep the primary reading column/
-			]
+			],
+			contracts: [/The actual exported API/, /Badge/, /TextField/, /13 components/],
+			'reading-checks': [/Spanish, long content and states/, /Atención/, /Correo electrónico/, /Deshabilitado/, /Procesando/]
 		};
 		for (const [id, texts] of Object.entries(expected)) {
 			const section = page.locator(`#${id}`);
@@ -52,8 +54,31 @@ test.describe('Catalog sections and components', () => {
 			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
 		);
 		expect(overflow).toBeLessThanOrEqual(1);
-		for (const id of ['foundations', 'actions', 'content', 'forms', 'editorial']) {
+		for (const id of ['foundations', 'actions', 'content', 'forms', 'editorial', 'contracts', 'reading-checks']) {
 			await expect(page.locator(`#${id}`)).toBeVisible();
 		}
 	});
+	test('component API navigation and state examples are exposed', async ({ page }) => {
+		await page.goto('/');
+		await page.getByRole('link', { name: 'Component API' }).click();
+		await expect(page).toHaveURL(/#contracts$/);
+		await expect(page.locator('#contracts .contract')).toHaveCount(13);
+		await expect(page.locator('#reading-checks')).toBeVisible();
+		await expect(page.getByRole('button', { name: 'Deshabilitado' })).toBeDisabled();
+		const loading = page.getByRole('button', { name: 'Procesando' });
+		await expect(loading).toBeDisabled();
+		await expect(loading).toHaveAttribute('aria-busy', 'true');
+	});
+
+	test('catalog navigation is keyboard reachable', async ({ page }) => {
+		await page.goto('/');
+		await page.keyboard.press('Tab');
+		await expect(page.getByRole('button', { name: 'Switch theme' })).toBeFocused();
+		const focusStyle = await page.getByRole('button', { name: 'Switch theme' }).evaluate((el) => {
+			const style = getComputedStyle(el);
+			return style.outlineStyle !== 'none' || style.boxShadow !== 'none';
+		});
+		expect(focusStyle).toBeTruthy();
+	});
+
 });
