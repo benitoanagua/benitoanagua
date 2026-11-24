@@ -64,7 +64,7 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 - PR #11 integrada en `main` (squash): `a106ce0d15c9993667dbe8952542786ff4b3b8fc`.
 - Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.\n- El catálogo ahora incluye índice API y fixtures de lectura; se añadieron utilidades globales de foco visible y reduced motion.
-- El CI de validación en main detectó un fixture de Playwright con argumento no utilizado; corregido en el commit `76c233967d92e5f0641822dbd1763870da28cf1d`. Esperar la nueva ejecución completa antes de cerrar la fase.
+- El CI de validación en main detectó un fixture de Playwright con argumento no utilizado; corregido en el commit `5c66e5c9cfa2ce43305b0e984017acc8006cc2cb`. Esperar la nueva ejecución completa antes de cerrar la fase.
 
 ## Próximo paso
 
