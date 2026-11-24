@@ -1,0 +1,165 @@
+# Portfolio — Project Guide
+
+This document is the technical entry point for the repository. The profile-facing [README.md](./README.md) is intentionally concise; this guide preserves the project overview, development workflow, deliverables, and documentation links.
+
+## Overview
+
+This repository contains a personal portfolio built with **SvelteKit, Svelte 5, and TypeScript**. It presents professional skills and experience with project evidence, in Spanish and English.
+
+The repository is organized as a pnpm workspace and includes three related deliverables:
+
+| Deliverable | Description | Location |
+| --- | --- | --- |
+| Portfolio | Main SvelteKit application | Repository root |
+| FOLIO | Reusable Svelte 5 reading-first design system, published as `@benitoanagua/folio` | `packages/folio` |
+| FOLIO Catalog | Standalone Svelte/Vite component reference | `apps/catalog` |
+
+## Technology
+
+- SvelteKit and Svelte 5
+- TypeScript
+- Vite
+- pnpm workspaces
+- Cloudflare Pages for deployment
+- Cloudflare D1 for portfolio content storage and migrations
+- Playwright for end-to-end testing
+- Prettier and ESLint for formatting and linting
+
+## Repository structure
+
+```text
+.
+├── apps/
+│   └── catalog/          # FOLIO component catalog
+├── docs/
+│   ├── adr/              # Architecture decision records
+│   ├── content/          # Content authoring guidance
+│   ├── design/           # Design principles and specifications
+│   ├── operations/       # Deployment and data operations
+│   └── review/           # Editorial review notes
+├── e2e/                  # Playwright end-to-end tests
+├── migrations/           # Cloudflare D1 migrations
+├── packages/
+│   └── folio/            # Reusable FOLIO component library
+├── scripts/              # Validation and generation scripts
+├── src/                  # Portfolio application source
+├── static/               # Static assets
+├── README.md             # Concise GitHub profile introduction
+└── PROJECT.md            # This technical project guide
+```
+
+## Requirements
+
+- Node.js 20 or newer (required by the FOLIO package; use a version compatible with the installed Vite toolchain).
+- pnpm.
+
+## Getting started
+
+Install dependencies:
+
+```sh
+pnpm install
+```
+
+Start the development server:
+
+```sh
+pnpm dev
+```
+
+Run the main quality checks:
+
+```sh
+pnpm check
+pnpm lint
+pnpm build
+```
+
+Build all deliverables:
+
+```sh
+pnpm build:all
+```
+
+## Available scripts
+
+### Application and quality
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm dev` | Start the portfolio development server |
+| `pnpm check` | Run Svelte and TypeScript checks for the main application |
+| `pnpm check:all` | Check the portfolio, FOLIO, and catalog |
+| `pnpm lint` | Check formatting with Prettier and lint with ESLint |
+| `pnpm format` | Apply Prettier formatting |
+| `pnpm build` | Validate content and design, generate static content, and build the portfolio |
+| `pnpm build:all` | Build the portfolio, FOLIO package, and catalog |
+| `pnpm preview` | Preview the Cloudflare build locally |
+
+### End-to-end tests
+
+Tests use Playwright and cover the portfolio, catalog, and FOLIO component harness.
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm e2e` | Run the full end-to-end suite |
+| `pnpm e2e:portfolio` | Run portfolio tests |
+| `pnpm e2e:catalog` | Run catalog tests |
+| `pnpm e2e:folio` | Run FOLIO component tests |
+| `pnpm e2e:ui` | Open Playwright's interactive UI |
+| `pnpm e2e:report` | Open the latest HTML test report |
+| `pnpm e2e:install` | Install Playwright browsers |
+
+### FOLIO and catalog
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm folio:check` | Type-check the FOLIO package |
+| `pnpm folio:build` | Package FOLIO for distribution |
+| `pnpm folio:publish` | Build and publish `@benitoanagua/folio` to npm |
+| `pnpm catalog:check` | Type-check the catalog |
+| `pnpm catalog:dev` | Run the catalog development server |
+| `pnpm catalog:build` | Build the catalog |
+| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages |
+
+### Cloudflare and D1 operations
+
+The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the operational documentation and confirm the target environment before running remote commands.
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm cf:login` | Authenticate Wrangler |
+| `pnpm cf:whoami` | Show the active Cloudflare identity |
+| `pnpm cf:pages:list` | List Pages projects |
+| `pnpm cf:deploy:preview` | Build and deploy a preview branch |
+| `pnpm cf:deploy:production` | Build and deploy the production branch |
+| `pnpm d1:list` | List D1 databases |
+| `pnpm d1:migrations:local` | Apply D1 migrations locally |
+| `pnpm d1:migrations:list` | List remote migration state |
+| `pnpm d1:migrations:remote` | Apply D1 migrations remotely |
+| `pnpm d1:export-portfolio` | Export portfolio content for D1 |
+
+**Production caution:** inspect migrations, confirm the Cloudflare account and target database, and review the remote state before applying database changes or deploying.
+
+## Content and data
+
+Portfolio content is maintained in localized TOML files under `src/lib/data/`. The D1 schema and migration history are stored in `migrations/`.
+
+Do not commit credentials, customer information, or production records. Treat remote database operations as deliberate deployment actions, not routine local development steps.
+
+## Documentation
+
+- [Documentation index](docs/README.md)
+- [Architecture decisions](docs/adr/)
+- [FOLIO reading constitution](docs/design/constitucion-lectura.md)
+- [Portfolio UI/UX specification](docs/design/portfolio-ui-ux.md)
+- [Skills and experience content guide](docs/content/skills-and-experience.md)
+- [Cloudflare and Wrangler operations](docs/operations/cloudflare-wrangler.md)
+- [D1 content migration notes](docs/operations/d1-content-migration.md)
+- [Project content review queue](docs/review/projects-content-review.md)
+
+## Related resources
+
+- [Portfolio](https://benitoanagua.com)
+- [FOLIO on npm](https://www.npmjs.com/package/@benitoanagua/folio)
+- [GitHub profile](https://github.com/benitoanagua)
