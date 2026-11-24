@@ -2,7 +2,7 @@
 
 Estado: vigente · 2026-11-24. Complementa `docs/adr/0002-svelte-native-design-system.md` y `docs/adr/0003-folio-reading-design-system.md`.
 Este documento es la referencia para decidir cómo se ve y cómo se comporta el sitio. Si el código y este documento difieren, se corrige uno de los dos en el mismo cambio.
-La norma superior es `docs/constitucion-lectura.md`: donde esta especificación y la Constitución entren en conflicto, prevalece la Constitución (ver ADR 0003).
+La norma superior es `docs/design/constitucion-lectura.md`: donde esta especificación y la Constitución entren en conflicto, prevalece la Constitución (ver ADR 0003).
 
 ## 1. Propósito y público
 
@@ -36,7 +36,7 @@ Reglas:
 - Español e inglés se mantienen alineados en estructura y significado. `pnpm check:content` valida estructura, no redacción.
 - `<html lang>` se sincroniza con el idioma activo. El HTML prerenderizado es español.
 - Texto visible en lenguaje natural. No se usan identificadores internos (`SNAKE_CASE`, `::OK`, `//`) como texto de interfaz: no se traducen, no los entienden los lectores de pantalla y no informan al visitante.
-- Sin cifras, clientes ni resultados inventados (ver `SKILLS_CONTENT_GUIDE.md`).
+- Sin cifras, clientes ni resultados inventados (ver `docs/content/skills-and-experience.md`).
 
 ## 4. Fundamentos visuales
 

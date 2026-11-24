@@ -9,14 +9,14 @@ The site shipped with an "architectural outline" identity: Archivo Black in uppe
 
 Conflicts found while reading the repository:
 
-- `docs/ui-ux-spec.md` declared the outline identity as one to keep, allowed 12px minimum text, and forbade code-forced uppercase.
+- `docs/design/portfolio-ui-ux.md` declared the outline identity as one to keep, allowed 12px minimum text, and forbade code-forced uppercase.
 - The design system lived in `src/lib/design-system/` with `--ds-*` tokens, hex colors inside components, `border-radius: 999px` pills, `box-shadow` focus rings, and `font-size` values down to 0.6875rem (51 declarations of 0.75rem or less across `src/`).
 - Pre-existing breakage: `eslint.config.js` imported `eslint-plugin-storybook` (not installed), `@material/material-color-utilities` was an unused dependency, and 29 files failed `prettier --check` (the design-system files were minified to a single line).
 - `static/manifest.json` and `<meta name="theme-color">` used pure black/white, unrelated to either palette.
 
 ## Decision
 
-**FOLIO replaces "architectural outline".** The shared-boundary grid logic survives as the filete (rule) system; the rest of the identity is replaced. The Constitution of reading (`docs/constitucion-lectura.md`) is the supreme norm; where it conflicts with the previous spec, it wins.
+**FOLIO replaces "architectural outline".** The shared-boundary grid logic survives as the filete (rule) system; the rest of the identity is replaced. The Constitution of reading (`docs/design/constitucion-lectura.md`) is the supreme norm; where it conflicts with the previous spec, it wins.
 
 - **Palette:** `material-theme.css` is renamed to `theme.css` and rewritten. The Material variable names (`--color-*`) are kept as the contract used across the codebase, but values become warm paper (`#F5F0E6`), near-black ink (`#16140F`), and a single red accent `#8F1D17` (light) / `#E58A82` (dark). Secondary/tertiary collapse to ink tones; new `--color-ink-soft`, `--color-success` and `--color-warning` tokens are added. `error` shares the accent hue and is always paired with a visible label and a thick rule, never color alone.
 - **Typography:** Archivo Black, Inter, Sora and JetBrains Mono are removed. One Google Fonts request loads Playfair Display (titles), Vollkorn (body) and Mulish (UI). `--font-mono` is deleted; former mono uses become `.meta`.
@@ -25,11 +25,11 @@ Conflicts found while reading the repository:
 - **Focus:** `outline: 3px solid var(--color-primary); outline-offset: 3px` via `:focus-visible`; the `box-shadow` ring is abolished.
 - **Shape:** radii 0–2px (`--radius-sm`), no pills, no decorative circles (spinner and switch exempted if ever added). Elevation is abolished; separation comes from rules, space and tonal surfaces.
 - **Components:** the catalog grows to 13 by adding `Notice`, `Pullquote` and `Marginalia`, each with a real use on the site (`/cv` PDF language note, project/skill highlights, detail-page metadata rails). `Divider` gains a `variant` prop; `TextField` gains `error`/`type`; `SectionHeading` gains `level`/`rule`; `SocialLinks` gains `label`/`compact` rows.
-- **Docs:** this ADR, the Constitution, `docs/ui-ux-spec.md` (§4, §5, §7, §8, §10) and both READMEs are updated in the same change set, per the spec's own rule that code and document must not diverge.
+- **Docs:** this ADR, the Constitution, `docs/design/portfolio-ui-ux.md` (§4, §5, §7, §8, §10) and both READMEs are updated in the same change set, per the spec's own rule that code and document must not diverge.
 
 ## Consequences
 
-- `ui-ux-spec.md` §4 is superseded: the outline identity is replaced, the 12px floor becomes 1rem, uppercase-by-code is restricted to the three label roles, and focus moves from shadow ring to outline. §5 gains the three new components; §8 updates min text size, 48px/44px touch targets and outline focus; §10 adds `check:design`.
+- `portfolio-ui-ux.md` §4 is superseded: the outline identity is replaced, the 12px floor becomes 1rem, uppercase-by-code is restricted to the three label roles, and focus moves from shadow ring to outline. §5 gains the three new components; §8 updates min text size, 48px/44px touch targets and outline focus; §10 adds `check:design`.
 - ADR 0002 stays in force for what it decided (Svelte-native, no Strata runtime, small portfolio-focused catalog) — amended, not revoked: the catalog now includes `Notice` because `/cv` needs a language notice.
 - `--color-primary` stops meaning "brand decoration". Decorative uses (borders, big icons, markers) migrate to `--color-on-background` or `--color-outline-variant`; the accent is reserved for links, focus, kickers, active states and the italic surname in the homepage title.
 - All `--ds-*` tokens are removed; components use `--color-*`, `--space-*`, `--text-*` and `--rule-*` directly.
