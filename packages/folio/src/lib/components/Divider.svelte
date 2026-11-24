@@ -26,9 +26,9 @@
 
 <style>
 	.ds-divider { border: 0; }
-	.rule-hair { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
+	.rule-hair,
 	.rule-soft { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
-	.rule-thick { border-top: var(--rule-hair) solid var(--color-outline-variant); }
+	.rule-thick,
 	.rule-double { border-top: var(--rule-hair) solid var(--color-outline-variant); }
 	.labeled {
 		display: flex;
