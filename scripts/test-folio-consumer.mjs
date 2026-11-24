@@ -1,15 +1,10 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 const root = process.cwd();
-const rootPackage = JSON.parse(
-	execFileSync('node', ['-e', "process.stdout.write(require('fs').readFileSync('package.json', 'utf8'))"], {
-		cwd: root,
-		encoding: 'utf8'
-	})
-);
+const rootPackage = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
 const temp = mkdtempSync(join(tmpdir(), 'folio-consumer-'));
 
 try {
@@ -25,7 +20,16 @@ try {
 
 	writeFileSync(
 		join(temp, 'package.json'),
-		JSON.stringify({ name: 'folio-consumer-smoke', private: true, type: 'module', scripts: { build: 'vite build' } }, null, 2)
+		JSON.stringify(
+			{
+				name: 'folio-consumer-smoke',
+				private: true,
+				type: 'module',
+				scripts: { build: 'vite build' }
+			},
+			null,
+			2
+		)
 	);
 	writeFileSync(
 		join(temp, 'index.html'),
@@ -33,22 +37,20 @@ try {
 	);
 	writeFileSync(
 		join(temp, 'vite.config.js'),
-		"import { svelte } from '@sveltejs/vite-plugin-svelte';\\nexport default { plugins: [svelte()] };\\n"
+		"import { svelte } from '@sveltejs/vite-plugin-svelte';\nexport default { plugins: [svelte()] };\n"
 	);
-	writeFileSync(
-		join(temp, 'src-main-placeholder'),
-		''
-	);
+
 	const src = join(temp, 'src');
-	execFileSync('mkdir', ['-p', src]);
+	mkdirSync(src);
 	writeFileSync(
 		join(src, 'main.js'),
-		"import '@benitoanagua/folio/styles.css';\\nimport { mount } from 'svelte';\\nimport App from './App.svelte';\\nmount(App, { target: document.getElementById('app') });\\n"
+		"import '@benitoanagua/folio/styles.css';\nimport { mount } from 'svelte';\nimport App from './App.svelte';\nmount(App, { target: document.getElementById('app') });\n"
 	);
 	writeFileSync(
 		join(src, 'App.svelte'),
-		"<script>import { Button } from '@benitoanagua/folio';</script>\\n<Button>Packaged consumer works</Button>\\n"
+		"<script>import { Button } from '@benitoanagua/folio';</script>\n<Button>Packaged consumer works</Button>\n"
 	);
+
 	const packageTar = join(temp, tarball);
 	execFileSync(
 		'npm',
