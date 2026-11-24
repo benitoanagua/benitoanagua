@@ -33,15 +33,15 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 ### Fase 2 — Contratos de componentes
 
-- [ ] Auditar los 13 componentes contra la Constitución de lectura.
-- [ ] Documentar para cada componente: propósito, props, valores por defecto, estados, eventos, slots/snippets, semántica y ejemplos.
+- [x] Auditar los 13 componentes contra la Constitución de lectura y registrar hallazgos en `packages/folio/COMPONENTS.md`.
+- [x] Documentar props/defaults, contenido/snippets, semántica, ejemplos y límites conocidos en `packages/folio/COMPONENTS.md`.
 - [ ] Revisar texto largo, español acentuado, zoom 200%, teclado, foco y reduced motion.
 - [ ] Mantener APIs simples y compatibles; cualquier breaking change requiere versión y nota de migración.
 
 ### Fase 3 — Catálogo
 
-- [ ] Mostrar propiedades y variantes reales de cada componente, sin duplicar una API ficticia.
-- [ ] Añadir ejemplos de estados y contenido límite.
+- [ ] Mostrar una referencia navegable de API en el catálogo usando contratos de `COMPONENTS.md` (no una API ficticia).
+- [ ] Añadir ejemplos interactivos de estados y contenido límite.
 - [ ] Mostrar requisitos de accesibilidad y tokens relacionados.
 - [ ] Verificar navegación por teclado, encabezados, enlaces y tema claro/oscuro.
 
@@ -60,6 +60,12 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 - No se introduce una dependencia de Lit/Stencil ni una reescritura del portfolio.
 - Los cambios visuales respetan `docs/design/constitucion-lectura.md`.
 
+## Avance posterior a PR #11
+
+- PR #11 integrada en `main` (squash): `a106ce0d15c9993667dbe8952542786ff4b3b8fc`.
+- Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.
+- El CI asociado al head de la PR estaba en ejecución al momento de la última consulta; confirmar conclusión antes de cerrar la fase.
+
 ## Próximo paso
 
-Completar la auditoría componente por componente y mejorar la documentación del catálogo antes de ampliar el inventario. Mantener el sistema deliberadamente pequeño.
+Completar la referencia navegable en el catálogo, añadir pruebas de reflow/teclado/estados y validar el paquete sin publicar automáticamente. Mantener el sistema deliberadamente pequeño.
