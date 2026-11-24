@@ -1,5 +1,11 @@
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync, rmSync, mkdirSync, readFileSync } from 'node:fs';
+import {
+	mkdtempSync,
+	writeFileSync,
+	rmSync,
+	mkdirSync,
+	readFileSync
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -78,7 +84,9 @@ try {
 		{ cwd: temp, stdio: 'inherit' }
 	);
 	execFileSync('npm', ['run', 'build'], { cwd: temp, stdio: 'inherit' });
-	console.log('FOLIO consumer smoke test passed: packed library installed and built in an isolated Svelte 5 app.');
+	console.log(
+		'FOLIO consumer smoke test passed: packed library installed and built in an isolated Svelte 5 app.'
+	);
 } finally {
 	rmSync(temp, { recursive: true, force: true });
 }
