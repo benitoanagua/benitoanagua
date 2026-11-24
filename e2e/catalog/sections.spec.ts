@@ -72,6 +72,18 @@ test.describe('Catalog sections and components', () => {
 			await expect(page.locator(`#${id}`)).toBeVisible();
 		}
 	});
+	test('catalog reflows without horizontal overflow at narrow width', async ({ page }) => {
+		await page.setViewportSize({ width: 320, height: 800 });
+		await page.goto('/');
+		await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+		const overflow = await page.evaluate(
+			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
+		);
+		expect(overflow).toBeLessThanOrEqual(1);
+		await expect(page.locator('#reading-checks')).toBeVisible();
+		await expect(page.locator('#contracts .contract').last()).toBeVisible();
+	});
+
 	test('component API navigation and state examples are exposed', async ({ page }) => {
 		await page.goto('/');
 		await page.getByRole('link', { name: 'Component API' }).click();
