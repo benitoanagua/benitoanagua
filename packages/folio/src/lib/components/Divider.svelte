@@ -1,5 +1,5 @@
 <script lang="ts">
-	type Variant = 'hair' | 'soft' | 'thick' | 'double';
+	type Variant = 'hair' | 'soft' | 'thick' | 'double' | 'space';
 	type Orientation = 'horizontal' | 'vertical';
 	let {
 		orientation = 'horizontal',
@@ -12,7 +12,9 @@
 	} = $props();
 </script>
 
-{#if label}
+{#if variant === 'space'}
+	<div class="ds-divider space" aria-hidden="true"></div>
+{:else if label}
 	<div class="ds-divider labeled" role="separator">
 		<span class="line rule-{variant}"></span>
 		<span class="meta">{label}</span>
@@ -26,6 +28,7 @@
 
 <style>
 	.ds-divider { border: 0; }
+	.space { height: var(--space-editorial-md); }
 	.rule-hair,
 	.rule-soft { border-top: var(--rule-hair) solid var(--color-rule-subtle); }
 	.rule-thick,
