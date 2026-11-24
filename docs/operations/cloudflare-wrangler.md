@@ -49,7 +49,6 @@ Notes:
 - The versioned migrations include the current content seed. Do not run an ad-hoc seed/export against the production database. Add schema or seed changes as a new numbered SQL migration in `migrations/` and apply it with `pnpm d1:migrations:remote`.
 - Wrangler is invoked through `pnpm dlx wrangler@4`, so no dependency or lockfile change is needed and the major version stays pinned.
 
-
 ## CI
 
 GitHub Actions runs validation only — install, `check`, `lint`, `check:content`, `check:design` and `build`. It holds no Cloudflare credentials and performs no deploys or migrations. See `.github/workflows/ci.yml`.
@@ -57,7 +56,6 @@ GitHub Actions runs validation only — install, `check`, `lint`, `check:content
 If the Cloudflare Pages Git integration is enabled for this project, pushes to `main` will still trigger a Pages-side production build outside this pipeline. To keep deploys fully under local control, disable the Git integration in the Cloudflare dashboard (Pages project → Settings → Builds) and deploy with `pnpm cf:deploy:production`.
 
 Legacy URLs are redirected in `static/_redirects` to current skills, experience or CV pages.
-
 
 ## FOLIO catalog deployment
 

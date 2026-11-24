@@ -30,14 +30,6 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
-      - name: Format documentation for diagnostics
-        run: |
-          pnpm exec prettier --write docs/operations/cloudflare-wrangler.md docs/README.md
-          for file in docs/operations/cloudflare-wrangler.md docs/README.md; do
-            echo "FORMATTED_FILE:$file"
-            base64 -w0 "$file"
-            echo
-          done
       - name: Static checks
         run: |
           pnpm check
