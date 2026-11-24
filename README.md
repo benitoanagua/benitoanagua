@@ -36,7 +36,7 @@ pnpm preview
 
 ## Cloudflare / Wrangler operations
 
-`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio`; its ID and the `DB` binding are declared there. Preview and production currently share this database, matching the verified remote configuration. Preview deployments must not perform destructive writes.
+`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio`; its ID and the `DB` binding are declared there. Preview and production currently share this database, matching the verified remote configuration. Preview deployments must not perform destructive writes. Cloudflare Pages uses only its supported `preview` and `production` configuration environments; branch names such as `pr-123` select preview deployment URLs, not separate Wrangler environments.
 
 ```sh
 # Authenticate once per workstation
