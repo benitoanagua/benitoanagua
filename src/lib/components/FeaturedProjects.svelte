@@ -46,7 +46,7 @@
 		color: var(--color-primary);
 	}
 	.more {
-		font-size: 0.7rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 		color: var(--color-primary);
 		text-decoration: none;

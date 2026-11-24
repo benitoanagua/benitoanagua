@@ -31,7 +31,7 @@ Reglas:
 
 ## 3. Idioma y contenido
 
-- Todo texto de interfaz proviene de `site.{es,en}.toml` (navegación, portada, pie) o de `projects-copy.ts` (proyectos). No se escriben ternarios `lang.current === 'en' ? … : …` en las páginas.
+- Todo texto de interfaz proviene de `site.{es,en}.toml` (navegación, portada, pie) `ui-copy.ts` (habilidades, experiencia, CV, errores) o `projects-copy.ts` (proyectos). No se escriben ternarios `lang.current === 'en' ? … : …` en las páginas.
 - Español e inglés se mantienen alineados en estructura y significado. `pnpm check:content` valida estructura, no redacción.
 - `<html lang>` se sincroniza con el idioma activo. El HTML prerenderizado es español.
 - Texto visible en lenguaje natural. No se usan identificadores internos (`SNAKE_CASE`, `::OK`, `//`) como texto de interfaz: no se traducen, no los entienden los lectores de pantalla y no informan al visitante.
@@ -91,10 +91,21 @@ Estados de contenido de una tarjeta de proyecto:
 - Cambio de idioma y de tema: dos botones agrupados, siempre visibles, con `aria-label` localizado.
 - Puntos de corte: 640, 768 y 1024px. Se diseña de móvil hacia arriba.
 
+## 7b. Exploración y orientación
+
+- **Habilidades:** búsqueda por nombre, categoría o área profesional (sin tildes ni mayúsculas) y salto directo a cada categoría. El número de resultados se anuncia con `aria-live`. Si no hay resultados, se dice qué se buscó y se ofrece limpiar la búsqueda.
+- **Experiencia:** cada área profesional muestra las habilidades de esa área como enlaces directos. No hay enlaces genéricos repetidos por puesto.
+- **Detalle de habilidad:** evidencia, proyectos relacionados, otras habilidades de la misma categoría y un siguiente paso claro (CV o contacto). Ninguna página termina sin una acción.
+- **Detalle de proyecto:** vuelve a la lista y propone proyectos relacionados.
+- **CV:** el idioma de los PDF se indica antes de la descarga. Si la interfaz está en inglés se avisa que los documentos están en español.
+- **Página de error:** `+error.svelte` explica qué pasó en lenguaje claro y ofrece inicio y secciones principales. No se indexa.
+
 ## 8. Accesibilidad (criterios verificables)
 
-- Objetivo táctil mínimo de 44×44px en menú móvil, idioma y tema.
-- Foco visible en todo elemento interactivo (`outline` de 3px con color primario).
+- Objetivo táctil mínimo de 44×44px en menú móvil, idioma, tema, filtros, chips de habilidades y botones de acción.
+- Tamaño mínimo de texto de 12px (0.75rem), también en etiquetas mono y metadatos.
+- Foco visible en todo elemento interactivo (anillo `--ring-primary`; en modo de alto contraste, contorno del sistema).
+- Los saltos a anclas descuentan la barra fija (`scroll-padding-top`).
 - Contraste mínimo WCAG AA (4.5:1 texto normal, 3:1 texto grande y componentes).
 - Un solo `h1` por página; jerarquía de encabezados sin saltos.
 - Landmarks: `header`, `nav` con `aria-label`, `main#main`, `footer`.
@@ -123,5 +134,6 @@ Revisión manual: portada y una página de detalle en 360px y 1280px, en ambos t
 
 - Unificar las dos `ProjectCard` (sección 5).
 - Campo de imagen en `Project` y estado definido para tarjetas sin imagen.
-- Resolver los avisos de `svelte-check` por CSS sin usar en `src/routes/+page.svelte` (`.path-*`, `.card-footer`).
+- Anclas de categoría en `/habilidades` dependen del idioma; si se quiere enlazar a una categoría desde otra página hace falta un identificador estable por categoría.
+- El idioma se resuelve en el navegador: un visitante con navegador en inglés ve primero el HTML en español y luego cambia.
 - Textos de SEO por página todavía en inglés fijo en algunas rutas.

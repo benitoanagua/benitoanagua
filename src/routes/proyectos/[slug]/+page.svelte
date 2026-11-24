@@ -4,11 +4,13 @@
 	import { lang } from '$lib/state/lang.svelte';
 	import { getProject, getProjects, hasSkillPage } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
+	import { uiCopy } from '$lib/data/ui-copy';
 	import { slugify } from '$lib/utils/slug';
 
 	let { data }: { data: { slug: string } } = $props();
 
 	const copy = $derived(projectsCopy(lang.current));
+	const ui = $derived(uiCopy(lang.current).projects);
 	const project = $derived(getProject(data.slug));
 	const related = $derived(
 		getProjects()
@@ -39,7 +41,7 @@
 			<a class="back mono" href="/proyectos">← {copy.back}</a>
 
 			<header>
-				<p class="eyebrow mono">{copy.areas[project.area].toUpperCase()} / PROJECT</p>
+				<p class="eyebrow mono">{copy.areas[project.area]} / {ui.detailEyebrow}</p>
 				<h1>{project.title}</h1>
 				<p class="lead">{project.summary}</p>
 				<dl class="meta mono">
@@ -139,7 +141,7 @@
 		padding: clamp(1.5rem, 4vw, 3rem) var(--space-4) var(--space-20);
 	}
 	.back {
-		font-size: 0.7rem;
+		font-size: 0.75rem;
 		color: var(--color-primary);
 		text-decoration: none;
 	}
@@ -152,8 +154,8 @@
 		gap: 1.25rem;
 	}
 	.eyebrow {
-		font-size: 0.65rem;
-		letter-spacing: 0.14em;
+		font-size: 0.75rem;
+		letter-spacing: 0.06em;
 		color: var(--color-primary);
 	}
 	h1 {
@@ -222,7 +224,7 @@
 		list-style: none;
 	}
 	.tags li {
-		font-size: 0.72rem;
+		font-size: 0.75rem;
 		padding: 0.2rem 0.55rem;
 		border: 1px solid var(--color-outline-variant);
 		color: var(--color-on-surface-variant);

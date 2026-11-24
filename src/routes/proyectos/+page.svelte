@@ -6,9 +6,11 @@
 	import { lang } from '$lib/state/lang.svelte';
 	import { getProjects } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
+	import { uiCopy } from '$lib/data/ui-copy';
 	import { PROJECT_AREAS } from '$lib/types/Project';
 
 	const copy = $derived(projectsCopy(lang.current));
+	const ui = $derived(uiCopy(lang.current).projects);
 	const all = $derived(getProjects());
 	const areas = $derived(PROJECT_AREAS.filter((a) => all.some((p) => p.area === a)));
 
@@ -34,7 +36,7 @@
 <PortalLayout>
 	<div class="page">
 		<header>
-			<p class="eyebrow mono">PROJECTS / SELECTED WORK</p>
+			<p class="eyebrow mono">{ui.eyebrow}</p>
 			<h1>{copy.title}</h1>
 			<p class="lead">{copy.lead}</p>
 		</header>
@@ -85,8 +87,8 @@
 		border: 1px solid var(--color-outline-variant);
 	}
 	.eyebrow {
-		font-size: 0.65rem;
-		letter-spacing: 0.14em;
+		font-size: 0.75rem;
+		letter-spacing: 0.06em;
 		color: var(--color-primary);
 		margin-bottom: 1.25rem;
 	}
@@ -113,7 +115,8 @@
 		gap: 0.5rem;
 	}
 	.chip {
-		font-size: 0.72rem;
+		min-height: 44px;
+		font-size: 0.75rem;
 		font-weight: 700;
 		padding: 0.5rem 0.9rem;
 		background: transparent;
@@ -134,7 +137,7 @@
 		border-color: var(--color-on-surface);
 	}
 	.count {
-		font-size: 0.72rem;
+		font-size: 0.75rem;
 		color: var(--color-on-surface-variant);
 	}
 	.grid {

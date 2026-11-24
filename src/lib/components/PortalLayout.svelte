@@ -233,7 +233,11 @@
 	}
 
 	.logo-meta {
-		font-size: 0.5rem;
+		max-width: 22rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 0.75rem;
 		color: var(--color-primary);
 		font-weight: 700;
 		opacity: 0.7;
@@ -258,7 +262,7 @@
 
 	.toolbar-link {
 		font-family: var(--font-mono);
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 		text-decoration: none;
 		color: var(--color-on-surface-variant);
@@ -291,7 +295,7 @@
 		align-items: center;
 		justify-content: center;
 		font-family: var(--font-mono);
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 		color: var(--color-on-surface);
 		transition: background 0.2s;
@@ -393,7 +397,7 @@
 		gap: var(--space-2);
 		text-decoration: none;
 		color: var(--color-on-surface-variant);
-		font-size: 0.6875rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 		transition: color 0.2s;
 	}
@@ -407,7 +411,7 @@
 	}
 
 	.module-label {
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 		color: var(--color-primary);
 		margin-bottom: var(--space-6);
@@ -456,7 +460,7 @@
 	}
 
 	.legal {
-		font-size: 0.5625rem;
+		font-size: 0.75rem;
 		opacity: 0.5;
 	}
 
@@ -519,5 +523,10 @@
 	.toolbar-logo:focus-visible {
 		outline: 3px solid var(--color-primary);
 		outline-offset: 2px;
+	}
+	@media (max-width: 767px) {
+		.logo-meta {
+			display: none;
+		}
 	}
 </style>

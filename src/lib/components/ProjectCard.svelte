@@ -67,7 +67,7 @@
 	.top {
 		display: flex;
 		justify-content: space-between;
-		font-size: 0.68rem;
+		font-size: 0.75rem;
 		color: var(--color-on-surface-variant);
 	}
 	.area {
@@ -97,13 +97,13 @@
 		list-style: none;
 	}
 	.tags li {
-		font-size: 0.65rem;
+		font-size: 0.75rem;
 		padding: 0.15rem 0.45rem;
 		border: 1px solid var(--color-outline-variant);
 		color: var(--color-on-surface-variant);
 	}
 	.status {
-		font-size: 0.65rem;
+		font-size: 0.75rem;
 		color: var(--color-on-surface-variant);
 	}
 </style>

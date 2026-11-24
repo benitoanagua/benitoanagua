@@ -172,7 +172,7 @@
 	}
 
 	.hero-label {
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		opacity: 0.4;
 		letter-spacing: 0.2em;
 		margin-bottom: var(--space-6);
@@ -248,7 +248,7 @@
 		gap: var(--space-4);
 	}
 	.section-tag {
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		opacity: 0.4;
 		border-left: 3px solid var(--color-primary);
 		padding-left: var(--space-2);
@@ -279,7 +279,7 @@
 	}
 
 	.node-title {
-		font-size: 0.625rem;
+		font-size: 0.75rem;
 		opacity: 0.4;
 	}
 
@@ -305,7 +305,7 @@
 		color: var(--color-primary);
 	}
 	.node-link span:first-child {
-		font-size: 0.6875rem;
+		font-size: 0.75rem;
 		font-weight: 700;
 	}
 
@@ -319,7 +319,7 @@
 		flex-direction: column;
 	}
 	.edu-bit .year {
-		font-size: 0.6875rem;
+		font-size: 0.75rem;
 		color: var(--color-primary);
 		font-weight: 700;
 	}
@@ -329,7 +329,7 @@
 	}
 	.capability-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
 	.capability-links>a{display:grid;grid-template-columns:1fr auto;gap:.8rem;padding:1.5rem;border:1px solid var(--color-outline-variant);background:var(--color-surface);color:inherit;text-decoration:none}
-	.capability-links>a .mono{grid-column:1/-1;font-size:.65rem;color:var(--color-primary);letter-spacing:.1em}
+	.capability-links>a .mono{grid-column:1/-1;font-size: 0.75rem;color:var(--color-primary);letter-spacing:.04em}
 	.capability-links>a strong{font-size:clamp(1rem,2vw,1.5rem);line-height:1.4;font-weight:500}
 	.capability-links>a .material-symbols-outlined{color:var(--color-primary)}
 	@media(max-width:900px){.capability-links{grid-template-columns:1fr}}

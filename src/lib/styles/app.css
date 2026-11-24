@@ -61,6 +61,7 @@
 }
 
 html {
+	scroll-padding-top: 5rem;
 	font-family: var(--font-body);
 	line-height: 1.6;
 	/* generous height for rigid layout */
@@ -157,4 +158,11 @@ button:active,
 * {
 	scrollbar-color: var(--color-outline) var(--color-background);
 	scrollbar-width: thin;
+}
+
+/* Alto contraste: la sombra del anillo de foco no se muestra; se usa contorno */
+@media (forced-colors: active) {
+	:focus-visible {
+		outline: 2px solid CanvasText;
+	}
 }
