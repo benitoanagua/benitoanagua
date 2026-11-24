@@ -3,6 +3,7 @@
 ## Scope
 
 This migration covers only the portfolio's information in Spanish and English:
+
 - CV data: public profile, education, focus areas, skills and role history.
 - Localized site metadata, navigation, home and footer content.
 - Authored skill narratives.
@@ -12,13 +13,13 @@ It does not migrate or modify the design system, project catalog/case studies, s
 
 ## Current source inventory
 
-| Source | Content |
-| --- | --- |
-| `src/lib/data/cv.es.toml`, `cv.en.toml` | Profile, education, focus areas, skills and role history |
-| `src/lib/data/site.es.toml`, `site.en.toml` | Localized site metadata and content |
-| `src/lib/data/skill-stories.ts` | Authored skill narratives in Spanish and English |
-| `src/routes/cv/+page.svelte` | Public labels and paths for current CV PDFs |
-| CV PDFs / image files | Assets, not D1 content; retain in Pages static assets or R2 |
+| Source                                      | Content                                                     |
+| ------------------------------------------- | ----------------------------------------------------------- |
+| `src/lib/data/cv.es.toml`, `cv.en.toml`     | Profile, education, focus areas, skills and role history    |
+| `src/lib/data/site.es.toml`, `site.en.toml` | Localized site metadata and content                         |
+| `src/lib/data/skill-stories.ts`             | Authored skill narratives in Spanish and English            |
+| `src/routes/cv/+page.svelte`                | Public labels and paths for current CV PDFs                 |
+| CV PDFs / image files                       | Assets, not D1 content; retain in Pages static assets or R2 |
 
 ## Storage format
 
@@ -41,6 +42,7 @@ before applying it to a D1 database.
 The current app imports TOML as raw modules and prerenders routes to static
 HTML. A D1 binding is available only in the Cloudflare runtime, not as a
 synchronous build-time import. Therefore the content cutover must:
+
 1. Bind the D1 database in the Pages/Worker configuration.
 2. Add server-side portfolio data access through `event.platform.env`.
 3. Refactor portfolio routes/loaders to load localized content asynchronously.
@@ -51,6 +53,26 @@ synchronous build-time import. Therefore the content cutover must:
 
 Do not switch the production site to D1 until seed data has been generated,
 the database has been populated, and parity tests pass.
+
+## Implementation status
+
+- `wrangler.toml` binds D1 as `DB` (`database_name = benitoanagua-portfolio`).
+  `database_id` is a nil-UUID placeholder until the remote database is created.
+- `src/lib/server/portfolio-content.ts` reads `portfolio_content` and
+  `portfolio_cv_documents` with parameterized queries, validates payloads and
+  falls back to the bundled TOML/TS sources when the binding is absent, the
+  route is prerenderable, or D1 fails.
+- `src/lib/state/portfolio.svelte.ts` holds the localized payload; the root
+  layout load populates it and ships both locales to the client so the
+  client-side language toggle keeps working without refetching.
+- `/`, `/habilidades`, `/habilidades/[slug]`, `/experiencia` and `/cv` are
+  server-rendered (`prerender = false`) because prerendered HTML cannot read
+  D1. `/proyectos`, `/proyectos/[slug]` and `/design-system` remain
+  prerendered and use the TOML fallback at build time.
+- Local workflow: apply `migrations/0001_portfolio_content.sql` and the
+  generated `migrations/0002_portfolio_seed.sql` with
+  `wrangler d1 execute DB --local --file <file>` (use the binding name `DB`,
+  not the database name, so `wrangler pages dev` sees the same local database).
 
 ## Rollout
 

@@ -12,9 +12,7 @@ function sqlString(value: string): string {
 function insertContent(locale: string, key: string, payload: unknown, source: string): string {
 	return [
 		'INSERT INTO portfolio_content (locale, content_key, payload_json, source_path)',
-		'VALUES (' +
-			[locale, key, JSON.stringify(payload), source].map(sqlString).join(', ') +
-			')',
+		'VALUES (' + [locale, key, JSON.stringify(payload), source].map(sqlString).join(', ') + ')',
 		'ON CONFLICT(locale, content_key) DO UPDATE SET',
 		'payload_json = excluded.payload_json,',
 		'source_path = excluded.source_path,',
@@ -27,9 +25,7 @@ function insertDocument(locale: string, key: string, label: string, path: string
 		'INSERT INTO portfolio_cv_documents',
 		'(locale, document_key, label, public_path, mime_type, sort_order, is_current)',
 		'VALUES (' +
-			[locale, key, label, path, 'application/pdf', String(order), '1']
-				.map(sqlString)
-				.join(', ') +
+			[locale, key, label, path, 'application/pdf', String(order), '1'].map(sqlString).join(', ') +
 			')',
 		'ON CONFLICT(locale, document_key) DO UPDATE SET',
 		'label = excluded.label, public_path = excluded.public_path,',
@@ -57,15 +53,25 @@ for (const locale of locales) {
 
 	statements.push(insertContent(locale, 'cv', cv, `src/lib/data/cv.${locale}.toml`));
 	statements.push(insertContent(locale, 'site', site, `src/lib/data/site.${locale}.toml`));
-	statements.push(
-		insertContent(locale, 'skill_stories', stories, 'src/lib/data/skill-stories.ts')
-	);
+	statements.push(insertContent(locale, 'skill_stories', stories, 'src/lib/data/skill-stories.ts'));
 }
 
 const documents = [
-	['business-analyst', 'Analista de Aplicaciones de Negocio', '/cv/BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf'],
-	['digital-design-instructor', 'Docente de Diseño Digital', '/cv/BenitoAnagua_DocenteDiseno_2026_ES.pdf'],
-	['full-stack-developer', 'Senior Full Stack Developer', '/cv/BenitoAnagua_FullStackSenior_2026_ES.pdf'],
+	[
+		'business-analyst',
+		'Analista de Aplicaciones de Negocio',
+		'/cv/BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf'
+	],
+	[
+		'digital-design-instructor',
+		'Docente de Diseño Digital',
+		'/cv/BenitoAnagua_DocenteDiseno_2026_ES.pdf'
+	],
+	[
+		'full-stack-developer',
+		'Senior Full Stack Developer',
+		'/cv/BenitoAnagua_FullStackSenior_2026_ES.pdf'
+	],
 	['product-designer', 'Product Designer', '/cv/BenitoAnagua_ProductDesigner_2026_ES.pdf']
 ] as const;
 

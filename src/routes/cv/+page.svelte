@@ -4,15 +4,9 @@
 	import { lang } from '$lib/state/lang.svelte';
 	import { uiCopy } from '$lib/data/ui-copy';
 
-	const files = [
-		{
-			label: 'Analista de Aplicaciones de Negocio',
-			file: 'BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf'
-		},
-		{ label: 'Docente de Diseño Digital', file: 'BenitoAnagua_DocenteDiseno_2026_ES.pdf' },
-		{ label: 'Senior Full Stack Developer', file: 'BenitoAnagua_FullStackSenior_2026_ES.pdf' },
-		{ label: 'Product Designer', file: 'BenitoAnagua_ProductDesigner_2026_ES.pdf' }
-	];
+	let { data } = $props();
+
+	const files = $derived(data.documents[lang.current] ?? data.documents.es);
 
 	const copy = $derived(uiCopy(lang.current).cv);
 </script>
@@ -40,8 +34,8 @@
 				</p>
 			{/if}
 			<div class="documents">
-				{#each files as file (file.file)}
-					<a class="document" href={'/cv/' + file.file} download rel="external">
+				{#each files as file (file.key)}
+					<a class="document" href={file.publicPath} download rel="external">
 						<span class="meta doc-format">PDF · ES · 2026</span>
 						<h3>{file.label}</h3>
 						<span class="download label">{copy.download} ↓</span>

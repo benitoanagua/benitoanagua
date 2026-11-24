@@ -16,9 +16,15 @@ declare global {
 			};
 			site?: import('$lib/types/Site').SiteData;
 			focus?: unknown;
+			portfolio?: import('$lib/types/Portfolio').PortfolioContent | null;
+			portfolioSource?: import('$lib/types/Portfolio').PortfolioContentSource | null;
 		}
 		// interface PageState {}
-		// interface Platform {}
+		interface Platform {
+			env: {
+				DB?: import('$lib/types/Portfolio').D1DatabaseLike;
+			};
+		}
 	}
 }
 

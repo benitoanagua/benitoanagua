@@ -2,9 +2,14 @@ import type { LayoutServerLoad } from './$types';
 import { loadSiteData } from '$lib/data/site-loader';
 import { getPersonalInfo } from '$lib/data/cv-loader';
 import { getProject } from '$lib/data/projects-loader';
+import { loadPortfolioContent } from '$lib/server/portfolio-content';
+import { portfolioStore } from '$lib/state/portfolio.svelte';
 import { SITE_URL, OG_IMAGES } from '$lib/config';
 
-export const load: LayoutServerLoad = async ({ url }) => {
+export const load: LayoutServerLoad = async ({ url, platform }) => {
+	const portfolio = await loadPortfolioContent(platform);
+	portfolioStore.content = portfolio.content;
+	portfolioStore.source = portfolio.source;
 	const site = loadSiteData();
 	const personal = getPersonalInfo();
 	const currentPath = url.pathname;
@@ -57,6 +62,8 @@ export const load: LayoutServerLoad = async ({ url }) => {
 			author: personal.name,
 			email: personal.email
 		},
-		site
+		site,
+		portfolio: portfolio.content,
+		portfolioSource: portfolio.source
 	};
 };

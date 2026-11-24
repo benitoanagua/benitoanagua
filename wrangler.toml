@@ -3,5 +3,16 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 compatibility_date = "2026-02-19"
 compatibility_flags = ["nodejs_als"]
 
+# D1 binding for portfolio content. `database_id` is a nil-UUID placeholder:
+# the remote database has not been created yet (Cloudflare API unreachable
+# from this environment). Replace it with the real id from
+# `wrangler d1 create benitoanagua-portfolio` before deploying. Local
+# development and `--local` migrations work without a real database.
+[[d1_databases]]
+binding = "DB"
+database_name = "benitoanagua-portfolio"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+
 [env.production]
 name = "benitoanagua-production"

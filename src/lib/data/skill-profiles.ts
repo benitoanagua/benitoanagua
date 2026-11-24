@@ -4,6 +4,7 @@ import { lang } from '$lib/state/lang.svelte';
 import cvEs from './cv.es.toml?raw';
 import cvEn from './cv.en.toml?raw';
 import { skillStories } from './skill-stories';
+import { portfolioStore } from '$lib/state/portfolio.svelte';
 
 export interface SkillEvidence {
 	focusName: string;
@@ -23,6 +24,8 @@ export interface SkillProfile {
 }
 
 function dataFor(language: 'es' | 'en'): CVData {
+	const localized = portfolioStore.content?.cv[language];
+	if (localized) return localized;
 	return parse(language === 'en' ? cvEn : cvEs) as CVData;
 }
 function slugify(value: string): string {
@@ -93,7 +96,8 @@ function buildProfiles(language: 'es' | 'en'): SkillProfile[] {
 				? `En mi experiencia profesional, ${profile.name} aparece aplicada en responsabilidades como ${selected.map((item) => `${item.experience.position} en ${item.experience.company}`).join('; ')}. Las descripciones de estos puestos muestran el contexto de trabajo documentado en mi CV.`
 				: `Mi CV incluye ${profile.name} entre las capacidades de ${profile.focusTitles.join(', ')}, pero no la menciona literalmente en las descripciones de los puestos. Por eso presento esas funciones como contexto profesional relacionado, no como prueba directa de una implementación concreta.`;
 		}
-		const authored = skillStories[profile.slug]?.[language];
+		const stories = portfolioStore.content?.skillStories ?? skillStories;
+		const authored = stories[profile.slug]?.[language];
 		if (authored) profile.narrative = authored;
 	}
 	return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name, language));
