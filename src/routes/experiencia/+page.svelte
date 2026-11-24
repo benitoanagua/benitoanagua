@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
-	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
+	import SectionHeading from '$folio/components/SectionHeading.svelte';
 	import { getExperienceGroups, getSkillProfiles } from '$lib/data/skill-profiles';
 	import { uiCopy } from '$lib/data/ui-copy';
 	import { lang } from '$lib/state/lang.svelte';

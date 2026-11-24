@@ -3,10 +3,10 @@
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SkillProjects from '$lib/components/SkillProjects.svelte';
-	import Marginalia from '$lib/design-system/components/Marginalia.svelte';
-	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
-	import Notice from '$lib/design-system/components/Notice.svelte';
-	import Pullquote from '$lib/design-system/components/Pullquote.svelte';
+	import Marginalia from '$folio/components/Marginalia.svelte';
+	import SectionHeading from '$folio/components/SectionHeading.svelte';
+	import Notice from '$folio/components/Notice.svelte';
+	import Pullquote from '$folio/components/Pullquote.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getSkillProfiles, type SkillProfile } from '$lib/data/skill-profiles';
 	import { getPersonalInfo } from '$lib/data/cv-loader';

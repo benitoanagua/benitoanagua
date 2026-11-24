@@ -2,8 +2,8 @@
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
-	import Badge from '$lib/design-system/components/Badge.svelte';
-	import Divider from '$lib/design-system/components/Divider.svelte';
+	import Badge from '$folio/components/Badge.svelte';
+	import Divider from '$folio/components/Divider.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getProject, getProjects, hasSkillPage } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
