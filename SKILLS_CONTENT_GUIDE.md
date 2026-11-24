@@ -21,3 +21,12 @@ The portfolio is now organized around professional capabilities and the experien
 - Keep enterprise and operational examples anonymized. Do not publish customer records, production identifiers, financial/tax data or internal screenshots.
 - Keep Spanish and English narratives aligned in meaning.
 - Add project pages later as separate evidence, not as a prerequisite for skill pages.
+
+## Projects (separate evidence layer)
+
+Projects live in `src/lib/data/projects.es.toml` and `projects.en.toml` (same slugs, areas, `stack` and `skills` in both files). They are **evidence next to** the CV-based skill model, not a prerequisite for it.
+
+1. Add a `[[projects]]` block to both files. Required: `slug`, `area` (`dev | design | graphic | analysis | games`), `year`, `title`, `role`, `summary`, `highlights`. Optional: `featured = true`, `status` (`wip | done | spec`), `context`, `result`, `links` (`repo`, `demo`, `case`).
+2. `skills` uses the skill's name. If its slug matches a skill in the CV TOML, the project links to `/habilidades/<slug>` and that skill page lists the project automatically. If it does not match, it is shown as plain text (add the skill to the CV TOML to get a page).
+3. Run `pnpm check:content` (it also runs before `pnpm build`). Errors: es/en mismatch, invalid area/status/slug. Warnings: skills without a page, projects without links.
+4. Same editorial principles as above: no invented clients, metrics or outcomes. Leave `result` and `links` out until they can be backed up.

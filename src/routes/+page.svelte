@@ -4,14 +4,28 @@
 	import { SITE_URL } from '$lib/config';
 	import { lang } from '$lib/state/lang.svelte';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
+	import FeaturedProjects from '$lib/components/FeaturedProjects.svelte';
+	import { projectsCopy } from '$lib/data/projects-copy';
 
 	const personal = $derived(getPersonalInfo());
 	const education = $derived(getEducation());
 	const site = $derived(loadSiteData());
 
-	const navItems = $derived(lang.current === 'en'
-		? [{ label: 'Skills', href: '/habilidades' }, { label: 'Experience', href: '/experiencia' }, { label: 'CV', href: '/cv' }]
-		: [{ label: 'Habilidades', href: '/habilidades' }, { label: 'Experiencia', href: '/experiencia' }, { label: 'CV', href: '/cv' }]);
+	const profileLd = $derived(
+		JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'ProfilePage',
+			mainEntity: {
+				'@type': 'Person',
+				name: personal.name,
+				description: site.meta.description,
+				url: SITE_URL,
+				jobTitle: 'Business Applications Analyst, Software Developer and Product Designer',
+				knowsAbout: ['Software Development', 'Product Design', 'Functional Analysis', 'Business Applications', 'Digital Design']
+			}
+		}).replace(/</g, '\\u003c')
+	);
+
 
 </script>
 
@@ -24,23 +38,10 @@
 	/>
 
 	<!-- Schema.org markup for home page -->
-	<script type="application/ld+json">
-		{{
-			"@context": "https://schema.org",
-			"@type": "ProfilePage",
-			"mainEntity": {{
-				"@type": "Person",
-				"name": "{personal.name}",
-				"description": "{site.meta.description}",
-				"url": "{SITE_URL}",
-				"jobTitle": "Business Applications Analyst, Software Developer and Product Designer",
-				"knowsAbout": ["Software Development", "Product Design", "Functional Analysis", "Business Applications", "Digital Design"]
-			}}
-		}}
-	</script>
+	{@html `<script type="application/ld+json">${profileLd}</` + 'script>'}
 </svelte:head>
 
-<PortalLayout {navItems}>
+<PortalLayout>
 	<div class="lobby-container">
 		<!-- ══ LOBBY HERO: Structural Narrative ══ -->
 		<section class="lobby-hero">
@@ -78,8 +79,11 @@
 		<div class="shared-boundary capability-links">
 			<a href="/habilidades"><span class="mono">01 / SKILLS</span><strong>{lang.current === 'en' ? 'Explore skills through professional evidence' : 'Explora habilidades a través de experiencia profesional'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
 			<a href="/experiencia"><span class="mono">02 / EXPERIENCE</span><strong>{lang.current === 'en' ? 'Browse roles, responsibilities and career context' : 'Recorre puestos, responsabilidades y trayectoria'}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
+			<a href="/proyectos"><span class="mono">03 / PROJECTS</span><strong>{projectsCopy(lang.current).homeCard}</strong><span class="material-symbols-outlined">arrow_outward</span></a>
 		</div>
 		</section>
+		<FeaturedProjects />
+
 		<!-- ══ CONNECTIVE NODES: Linear Modules ══ -->
 		<section class="nodes-section">
 			<div class="shared-boundary nodes-grid">
@@ -431,10 +435,10 @@
 		font-size: 0.8125rem;
 		opacity: 0.8;
 	}
-	.capability-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+	.capability-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
 	.capability-links>a{display:grid;grid-template-columns:1fr auto;gap:.8rem;padding:1.5rem;border:1px solid var(--color-outline-variant);background:var(--color-surface);color:inherit;text-decoration:none}
 	.capability-links>a .mono{grid-column:1/-1;font-size:.65rem;color:var(--color-primary);letter-spacing:.1em}
 	.capability-links>a strong{font-size:clamp(1rem,2vw,1.5rem);line-height:1.4;font-weight:500}
 	.capability-links>a .material-symbols-outlined{color:var(--color-primary)}
-	@media(max-width:640px){.capability-links{grid-template-columns:1fr}}
+	@media(max-width:900px){.capability-links{grid-template-columns:1fr}}
 </style>

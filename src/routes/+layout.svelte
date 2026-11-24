@@ -6,6 +6,21 @@
 
 	let { children, data } = $props();
 
+	// JSON-LD válido y seguro para incrustar en HTML
+	const jsonLd = $derived(
+		JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'Person',
+			name: data.seo.author,
+			url: data.seo.canonical,
+			image: data.seo.ogImage,
+			jobTitle: 'Business Applications Analyst, Software Developer and Product Designer',
+			description: data.seo.description,
+			email: data.seo.email,
+			sameAs: [SOCIAL_LINKS.linkedin, SOCIAL_LINKS.github]
+		}).replace(/</g, '\\u003c')
+	);
+
 	onMount(() => {
 		if (browser) {
 			const saved = localStorage.getItem('theme') as 'light' | 'dark' | null;
@@ -54,22 +69,7 @@
 	<meta name="twitter:image" content={data.seo.ogImage} />
 
 	<!-- Structured Data (JSON-LD) -->
-	<script type="application/ld+json">
-		{{
-			"@context": "https://schema.org",
-			"@type": "Person",
-			"name": "{data.seo.author}",
-			"url": "{data.seo.canonical}",
-			"image": "{data.seo.ogImage}",
-			"jobTitle": "Business Applications Analyst, Software Developer and Product Designer",
-			"description": "{data.seo.description}",
-			"email": "{data.seo.email}",
-			"sameAs": [
-				"{SOCIAL_LINKS.linkedin}",
-				"{SOCIAL_LINKS.github}"
-			]
-		}}
-	</script>
+	{@html `<script type="application/ld+json">${jsonLd}</` + 'script>'}
 
 	<!-- Font preconnects -->
 	<link rel="preconnect" href="https://fonts.googleapis.com" />

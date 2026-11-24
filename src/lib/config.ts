@@ -9,6 +9,6 @@ export const OG_IMAGES = { default: '/og-image.png' };
 
 // Social Links
 export const SOCIAL_LINKS = {
-	linkedin: 'https://linkedin.com/in/benito-anagua',
-	github: 'https://github.com/benito-anagua'
+	linkedin: 'https://www.linkedin.com/in/benito-anagua',
+	github: 'https://github.com/benitoanagua'
 };

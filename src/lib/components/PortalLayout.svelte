@@ -5,18 +5,19 @@
 	import type { PersonalInfo } from '$lib/types/CV';
 
 	import { lang } from '$lib/state/lang.svelte';
-
-	interface NavItem {
-		label: string;
-		href: string;
-	}
+	import { getNavItems } from '$lib/data/nav';
 
 	interface Props {
-		navItems?: NavItem[];
 		children?: import('svelte').Snippet;
 	}
 
-	let { navItems = [], children }: Props = $props();
+	let { children }: Props = $props();
+
+	// Navegación única (src/lib/data/nav.ts)
+	const navItems = $derived(getNavItems());
+	function isActive(href: string) {
+		return page.url.pathname === href || page.url.pathname.startsWith(href + '/');
+	}
 
 	// Datos reactivos al idioma
 	const site = $derived(loadSiteData());
@@ -74,7 +75,12 @@
 
 				<nav class="toolbar-nav">
 					{#each navItems as item}
-						<a href={item.href} class="toolbar-link" class:active={page.url.pathname === item.href}>
+						<a
+							href={item.href}
+							class="toolbar-link"
+							class:active={isActive(item.href)}
+							aria-current={isActive(item.href) ? 'page' : undefined}
+						>
 							{item.label}
 						</a>
 					{/each}
@@ -107,6 +113,12 @@
 			</div>
 		</div>
 	</header>
+
+	<nav class="mobile-nav mono" aria-label="Main">
+		{#each navItems as item}
+			<a href={item.href} class:active={isActive(item.href)}>{item.label}</a>
+		{/each}
+	</nav>
 
 	<main class="portal-content">
 		{@render children?.()}
@@ -503,5 +515,33 @@
 		height: 1px;
 		background: var(--color-primary);
 		opacity: 0.3;
+	}
+
+	/* ── NAV MÓVIL: la barra superior solo muestra el menú en escritorio ── */
+	.mobile-nav {
+		display: flex;
+		gap: var(--space-1);
+		overflow-x: auto;
+		padding: var(--space-2) var(--space-4);
+		background: var(--color-surface);
+		border-bottom: 1px solid var(--color-outline-variant);
+	}
+	.mobile-nav a {
+		flex: 0 0 auto;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-decoration: none;
+		color: var(--color-on-surface-variant);
+		padding: var(--space-2) var(--space-3);
+		border: 1px solid transparent;
+	}
+	.mobile-nav a.active {
+		color: var(--color-on-surface);
+		border-color: var(--color-outline);
+	}
+	@media (min-width: 1024px) {
+		.mobile-nav {
+			display: none;
+		}
 	}
 </style>

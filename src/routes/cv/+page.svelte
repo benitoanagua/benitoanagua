@@ -2,19 +2,6 @@
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 
-	const navItems = $derived(
-		lang.current === 'en'
-			? [
-				{ label: 'Skills', href: '/habilidades' },
-				{ label: 'Experience', href: '/experiencia' },
-				{ label: 'CV', href: '/cv' }
-			]
-			: [
-				{ label: 'Habilidades', href: '/habilidades' },
-				{ label: 'Experiencia', href: '/experiencia' },
-				{ label: 'CV', href: '/cv' }
-			]
-	);
 
 	const files = [
 		{ label: 'Analista de Aplicaciones de Negocio', file: 'BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf' },
@@ -45,7 +32,7 @@
 	<meta name="description" content={copy.intro} />
 </svelte:head>
 
-<PortalLayout {navItems}>
+<PortalLayout>
 	<div class="cv-page">
 		<header>
 			<p class="eyebrow mono">DOCUMENTS / CURRENT CV</p>

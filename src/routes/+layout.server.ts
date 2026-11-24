@@ -1,6 +1,7 @@
 import type { LayoutServerLoad } from './$types';
 import { loadSiteData } from '$lib/data/site-loader';
 import { getPersonalInfo } from '$lib/data/cv-loader';
+import { getProject } from '$lib/data/projects-loader';
 import { SITE_URL, OG_IMAGES } from '$lib/config';
 
 export const load: LayoutServerLoad = async ({ url }) => {
@@ -16,7 +17,18 @@ export const load: LayoutServerLoad = async ({ url }) => {
 	let pageDescription = site.meta.description;
 	let pageKeywords = 'professional skills, work experience, software development, product design';
 
-	if (currentPath === '/habilidades' || currentPath.startsWith('/habilidades/')) {
+	if (currentPath === '/proyectos') {
+		pageTitle = `Projects — ${personal.name}`;
+		pageDescription = 'Selected personal, independent and professional projects, linked to the skills they applied';
+		pageKeywords = 'projects, case studies, software development, design systems, board games';
+	} else if (currentPath.startsWith('/proyectos/')) {
+		const project = getProject(currentPath.split('/').pop() ?? '', 'es');
+		if (project) {
+			pageTitle = `${project.title} — ${personal.name}`;
+			pageDescription = project.summary;
+			pageKeywords = project.stack.join(', ');
+		}
+	} else if (currentPath === '/habilidades' || currentPath.startsWith('/habilidades/')) {
 		pageTitle = `Skills & Professional Evidence — ${personal.name}`;
 		pageDescription = 'Professional skills connected to responsibilities and roles documented in the CV';
 		pageKeywords = 'skills, professional experience, software development, product design, functional analysis';

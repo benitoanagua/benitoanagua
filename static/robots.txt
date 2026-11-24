@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Allow: /proyectos
 
 Sitemap: https://benitoanagua.pages.dev/sitemap.xml

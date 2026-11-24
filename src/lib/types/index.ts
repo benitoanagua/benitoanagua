@@ -6,3 +6,4 @@ export type {
 	SiteNav,
 	SiteMeta
 } from './Site';
+export type { Project, ProjectArea, ProjectLinks, ProjectStatus, ProjectsData } from './Project';
