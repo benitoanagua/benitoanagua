@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS portfolio_content (
   locale TEXT NOT NULL CHECK (locale IN ('es', 'en')),
   content_key TEXT NOT NULL CHECK (
-    content_key IN ('cv', 'site', 'skill_stories', 'ui_copy')
+    content_key IN ('cv', 'site', 'skill_stories')
   ),
   payload_json TEXT NOT NULL CHECK (json_valid(payload_json)),
   source_path TEXT NOT NULL,
