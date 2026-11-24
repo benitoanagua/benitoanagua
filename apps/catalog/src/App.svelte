@@ -116,7 +116,7 @@
 		<SectionHeading eyebrow="03 / CONTENT" title="Project, timeline, links and metric" />
 		<div class="grid">
 			<Card title="ProjectCard">
-				<ProjectCard project={project} />
+				<ProjectCard {project} />
 			</Card>
 			<Card title="Timeline">
 				<Timeline items={timeline} />
@@ -157,10 +157,7 @@
 	</section>
 
 	<section id="editorial">
-		<SectionHeading
-			eyebrow="05 / EDITORIAL"
-			title="SectionHeading, Pullquote and Marginalia"
-		/>
+		<SectionHeading eyebrow="05 / EDITORIAL" title="SectionHeading, Pullquote and Marginalia" />
 		<div class="grid">
 			<Card title="Pullquote">
 				<Pullquote cite="FOLIO principle">Clarity is a feature, not decoration.</Pullquote>
@@ -174,8 +171,8 @@
 						</div>
 					{/snippet}
 					<p>
-						Keep the primary reading column focused. Supporting information belongs in the
-						margin and remains readable on narrow screens.
+						Keep the primary reading column focused. Supporting information belongs in the margin
+						and remains readable on narrow screens.
 					</p>
 				</Marginalia>
 			</Card>

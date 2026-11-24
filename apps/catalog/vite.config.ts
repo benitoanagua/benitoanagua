@@ -7,7 +7,7 @@ export default defineConfig({
 	plugins: [svelte()],
 	resolve: {
 		alias: {
-			'$folio': fileURLToPath(new URL('../../packages/folio/src/lib', import.meta.url))
+			$folio: fileURLToPath(new URL('../../packages/folio/src/lib', import.meta.url))
 		}
 	},
 	build: {

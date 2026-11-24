@@ -30,14 +30,6 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
-      - name: Format source for diagnostics
-        run: |
-          pnpm exec prettier --write apps/catalog/src/App.svelte apps/catalog/vite.config.ts svelte.config.js
-          for file in apps/catalog/src/App.svelte apps/catalog/vite.config.ts svelte.config.js; do
-            echo "PRETTIER_FILE:$file"
-            base64 -w0 "$file"
-            echo
-          done
       - name: Static checks
         run: |
           pnpm check

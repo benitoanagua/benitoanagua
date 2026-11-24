@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url';
 const config = {
 	kit: {
 		alias: {
-			'$folio': fileURLToPath(new URL('./packages/folio/src/lib', import.meta.url))
+			$folio: fileURLToPath(new URL('./packages/folio/src/lib', import.meta.url))
 		},
 		adapter: adapter({
 			fallback: 'plaintext',
