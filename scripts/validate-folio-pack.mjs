@@ -11,10 +11,18 @@ const expected = {
 };
 const contractErrors = [];
 if (manifest.name !== expected.name) contractErrors.push('unexpected package name');
-if (manifest.peerDependencies?.svelte !== expected.sveltePeer) contractErrors.push('Svelte 5 peer dependency missing');
-if (manifest.exports?.['.']?.svelte !== expected.entry) contractErrors.push('Svelte entry export missing');
-if (manifest.exports?.['.']?.types !== expected.types) contractErrors.push('type entry export missing');
-if (manifest.exports?.['./styles.css'] !== expected.stylesheet) contractErrors.push('stylesheet export missing');
+if (manifest.peerDependencies?.svelte !== expected.sveltePeer) {
+	contractErrors.push('Svelte 5 peer dependency missing');
+}
+if (manifest.exports?.['.']?.svelte !== expected.entry) {
+	contractErrors.push('Svelte entry export missing');
+}
+if (manifest.exports?.['.']?.types !== expected.types) {
+	contractErrors.push('type entry export missing');
+}
+if (manifest.exports?.['./styles.css'] !== expected.stylesheet) {
+	contractErrors.push('stylesheet export missing');
+}
 if (contractErrors.length) {
 	console.error(`FOLIO manifest contract failed: ${contractErrors.join('; ')}`);
 	process.exit(1);
