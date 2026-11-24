@@ -40,11 +40,11 @@ pnpm preview
 
 ```sh
 # Authenticate once per workstation
-pnpm exec wrangler login
+pnpm dlx wrangler@4 login
 
 # Inspect Pages projects and D1 resources
-pnpm exec wrangler pages project list
-pnpm exec wrangler d1 list
+pnpm dlx wrangler@4 pages project list
+pnpm dlx wrangler@4 d1 list
 
 # Apply only pending, versioned migrations
 pnpm d1:migrations:remote
@@ -60,8 +60,8 @@ The versioned migrations include the current content seed. Do not run an ad-hoc 
 
 GitHub Actions runs validation, then calls Wrangler for preview deploys from pull requests and production deploys from `main`. Production migrations run before the production deploy. Configure:
 
-- GitHub secret `CLOUDFLARE_API_TOKEN` with Pages write and D1 edit permissions.
-- GitHub variable `CLOUDFLARE_ACCOUNT_ID`.
+- GitHub environment secret `CLOUDFLARE_API_TOKEN` with Cloudflare Pages deployment and D1 read/write permissions.
+- GitHub environment variable `CLOUDFLARE_ACCOUNT_ID` (account ID). Set these in the `cloudflare-preview` and `cloudflare-production` environments. The workflow skips PR preview deployment when the account ID variable is absent and fails with a clear preflight error before production migration if credentials are missing.
 - The Pages project named `benitoanagua`.
 
 Turn off the competing Cloudflare Pages Git build integration in the Cloudflare dashboard after verifying this workflow. Otherwise pushes can trigger a second deployment outside the controlled Wrangler pipeline. Wrangler owns Cloudflare configuration and deploy operations; GitHub Actions is only the runner.
