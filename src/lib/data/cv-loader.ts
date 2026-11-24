@@ -9,7 +9,6 @@ export function loadCVData(): CVData {
 	return parse(raw) as CVData;
 }
 
-
 export function getPersonalInfo() {
 	const cvData = loadCVData();
 	return cvData.personal;

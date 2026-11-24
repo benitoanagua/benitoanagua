@@ -59,7 +59,13 @@ const es: ProjectsCopy = {
 	skillProjectsTitle: 'Proyectos donde la apliqué',
 	skillProjectsLead: 'Evidencia concreta además de la experiencia laboral.',
 	homeCard: 'Explora el trabajo propio: apps, sistemas de diseño y juegos',
-	areas: { dev: 'Desarrollo', design: 'Diseño', graphic: 'Gráfico', analysis: 'Análisis', games: 'Juegos' },
+	areas: {
+		dev: 'Desarrollo',
+		design: 'Diseño',
+		graphic: 'Gráfico',
+		analysis: 'Análisis',
+		games: 'Juegos'
+	},
 	statuses: { wip: 'En desarrollo', done: 'Terminado', spec: 'En especificación' }
 };
 
@@ -90,7 +96,13 @@ const en: ProjectsCopy = {
 	skillProjectsTitle: 'Projects where I applied it',
 	skillProjectsLead: 'Concrete evidence beyond work experience.',
 	homeCard: 'Explore personal work: apps, design systems and games',
-	areas: { dev: 'Development', design: 'Design', graphic: 'Graphic', analysis: 'Analysis', games: 'Games' },
+	areas: {
+		dev: 'Development',
+		design: 'Design',
+		graphic: 'Graphic',
+		analysis: 'Analysis',
+		games: 'Games'
+	},
 	statuses: { wip: 'In progress', done: 'Completed', spec: 'In specification' }
 };
 

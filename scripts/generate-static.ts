@@ -49,18 +49,32 @@ function generateSitemapXml(siteUrl: string): string {
 		{ path: '/habilidades', priority: '0.95', changefreq: 'weekly' },
 		{ path: '/proyectos', priority: '0.9', changefreq: 'weekly' },
 		{ path: '/experiencia', priority: '0.95', changefreq: 'monthly' },
-		{ path: '/cv', priority: '0.8', changefreq: 'monthly' },
+		{ path: '/cv', priority: '0.8', changefreq: 'monthly' }
 	];
-	const projectsRaw = fs.readFileSync(path.join(projectRoot, 'src/lib/data/projects.es.toml'), 'utf-8');
+	const projectsRaw = fs.readFileSync(
+		path.join(projectRoot, 'src/lib/data/projects.es.toml'),
+		'utf-8'
+	);
 	for (const project of (parse(projectsRaw) as { projects: { slug: string }[] }).projects)
 		routes.push({ path: `/proyectos/${project.slug}`, priority: '0.7', changefreq: 'monthly' });
-	const skillSlug = (value: string) => value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+	const skillSlug = (value: string) =>
+		value
+			.normalize('NFD')
+			.replace(/[\u0300-\u036f]/g, '')
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, '-')
+			.replace(/^-|-$/g, '');
 	for (const language of ['es', 'en']) {
-		const cv = parse(fs.readFileSync(path.join(projectRoot, `src/lib/data/cv.${language}.toml`), 'utf-8')) as { focuses: { skills?: { items?: string[] }[] }[] };
-		for (const focus of cv.focuses) for (const category of focus.skills ?? []) for (const skill of category.items ?? []) {
-			const slug = skillSlug(skill);
-			if (slug && !routes.some((route) => route.path === `/habilidades/${slug}`)) routes.push({ path: `/habilidades/${slug}`, priority: '0.65', changefreq: 'monthly' });
-		}
+		const cv = parse(
+			fs.readFileSync(path.join(projectRoot, `src/lib/data/cv.${language}.toml`), 'utf-8')
+		) as { focuses: { skills?: { items?: string[] }[] }[] };
+		for (const focus of cv.focuses)
+			for (const category of focus.skills ?? [])
+				for (const skill of category.items ?? []) {
+					const slug = skillSlug(skill);
+					if (slug && !routes.some((route) => route.path === `/habilidades/${slug}`))
+						routes.push({ path: `/habilidades/${slug}`, priority: '0.65', changefreq: 'monthly' });
+				}
 	}
 
 	const today = new Date().toISOString().split('T')[0];

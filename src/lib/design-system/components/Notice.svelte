@@ -11,7 +11,13 @@
 	} = $props();
 </script>
 
-<div class="ds-notice" class:success={tone === 'success'} class:warning={tone === 'warning'} class:error={tone === 'error'} role={tone === 'error' ? 'alert' : 'status'}>
+<div
+	class="ds-notice"
+	class:success={tone === 'success'}
+	class:warning={tone === 'warning'}
+	class:error={tone === 'error'}
+	role={tone === 'error' ? 'alert' : 'status'}
+>
 	<p class="ds-notice-text">
 		<span class="label tone">{label}</span>
 		<span class="sep" aria-hidden="true">—</span>

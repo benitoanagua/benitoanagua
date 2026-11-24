@@ -19,7 +19,12 @@
 	const surname = $derived(personal.name.slice(firstName.length).trim());
 
 	const paths = $derived([
-		{ href: '/habilidades', num: '§ 01', label: site.home.skills_label, text: site.home.skills_text },
+		{
+			href: '/habilidades',
+			num: '§ 01',
+			label: site.home.skills_label,
+			text: site.home.skills_text
+		},
 		{
 			href: '/experiencia',
 			num: '§ 02',
@@ -39,7 +44,13 @@
 				description: site.meta.description,
 				url: SITE_URL,
 				jobTitle: 'Business Applications Analyst, Software Developer and Product Designer',
-				knowsAbout: ['Software Development', 'Product Design', 'Functional Analysis', 'Business Applications', 'Digital Design']
+				knowsAbout: [
+					'Software Development',
+					'Product Design',
+					'Functional Analysis',
+					'Business Applications',
+					'Digital Design'
+				]
 			}
 		}).replace(/</g, '\\u003c')
 	);

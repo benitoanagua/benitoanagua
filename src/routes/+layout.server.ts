@@ -19,7 +19,8 @@ export const load: LayoutServerLoad = async ({ url }) => {
 
 	if (currentPath === '/proyectos') {
 		pageTitle = `Projects — ${personal.name}`;
-		pageDescription = 'Selected personal, independent and professional projects, linked to the skills they applied';
+		pageDescription =
+			'Selected personal, independent and professional projects, linked to the skills they applied';
 		pageKeywords = 'projects, case studies, software development, design systems, board games';
 	} else if (currentPath.startsWith('/proyectos/')) {
 		const project = getProject(currentPath.split('/').pop() ?? '', 'es');
@@ -30,12 +31,16 @@ export const load: LayoutServerLoad = async ({ url }) => {
 		}
 	} else if (currentPath === '/habilidades' || currentPath.startsWith('/habilidades/')) {
 		pageTitle = `Skills & Professional Evidence — ${personal.name}`;
-		pageDescription = 'Professional skills connected to responsibilities and roles documented in the CV';
-		pageKeywords = 'skills, professional experience, software development, product design, functional analysis';
+		pageDescription =
+			'Professional skills connected to responsibilities and roles documented in the CV';
+		pageKeywords =
+			'skills, professional experience, software development, product design, functional analysis';
 	} else if (currentPath === '/experiencia') {
 		pageTitle = `Professional Experience — ${personal.name}`;
-		pageDescription = 'Career history, responsibilities and professional context across software, design, analysis and teaching';
-		pageKeywords = 'professional experience, career, software developer, product designer, business analyst, instructor';
+		pageDescription =
+			'Career history, responsibilities and professional context across software, design, analysis and teaching';
+		pageKeywords =
+			'professional experience, career, software developer, product designer, business analyst, instructor';
 	} else if (currentPath === '/cv') {
 		pageTitle = `CV & Professional Documents — ${personal.name}`;
 		pageDescription = 'Current role-specific curriculum vitae documents';

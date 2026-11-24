@@ -19,11 +19,7 @@
 		<span class="line rule-{variant}"></span>
 	</div>
 {:else if orientation === 'vertical'}
-	<div
-		class="ds-divider vertical"
-		role="separator"
-		aria-orientation="vertical"
-	></div>
+	<div class="ds-divider vertical" role="separator" aria-orientation="vertical"></div>
 {:else}
 	<div class="ds-divider rule-{variant}" role="separator"></div>
 {/if}

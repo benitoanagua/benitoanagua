@@ -4,7 +4,10 @@
 	import { uiCopy } from '$lib/data/ui-copy';
 
 	const files = [
-		{ label: 'Analista de Aplicaciones de Negocio', file: 'BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf' },
+		{
+			label: 'Analista de Aplicaciones de Negocio',
+			file: 'BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf'
+		},
 		{ label: 'Docente de Diseño Digital', file: 'BenitoAnagua_DocenteDiseno_2026_ES.pdf' },
 		{ label: 'Senior Full Stack Developer', file: 'BenitoAnagua_FullStackSenior_2026_ES.pdf' },
 		{ label: 'Product Designer', file: 'BenitoAnagua_ProductDesigner_2026_ES.pdf' }
@@ -30,7 +33,9 @@
 			<h2 class="section-title">{copy.current}</h2>
 			{#if copy.languageNote}
 				<p class="note">
-					{#if copy.languageNoteLabel}<span class="meta">{copy.languageNoteLabel} — </span>{/if}{copy.languageNote}
+					{#if copy.languageNoteLabel}<span class="meta"
+							>{copy.languageNoteLabel} —
+						</span>{/if}{copy.languageNote}
 				</p>
 			{/if}
 			<div class="documents">

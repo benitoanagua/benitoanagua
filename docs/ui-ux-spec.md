@@ -44,11 +44,11 @@ Identidad: **FOLIO**, sistema de lectura tipográfica derivado de la estructura 
 
 **Tipografía** (cargada una sola vez desde `src/app.html`, con `display=swap`; los iconos usan `display=block`):
 
-| Fuente                             | Rol                                            |
-| ---------------------------------- | ---------------------------------------------- |
-| Playfair Display (`--font-display`) | Títulos y display                              |
-| Vollkorn (`--font-body`)           | Texto corrido                                  |
-| Mulish (`--font-ui`)               | Interfaz: etiquetas, controles, navegación     |
+| Fuente                              | Rol                                        |
+| ----------------------------------- | ------------------------------------------ |
+| Playfair Display (`--font-display`) | Títulos y display                          |
+| Vollkorn (`--font-body`)            | Texto corrido                              |
+| Mulish (`--font-ui`)                | Interfaz: etiquetas, controles, navegación |
 
 No hay fuente monoespaciada. Las antiguas etiquetas `mono` usan la clase `.meta`. Los tamaños viven en `tokens.css` (`--text-*`); el mínimo absoluto de cualquier texto es `1rem`, también en etiquetas y metadatos (Constitución, Art. 4). Las mayúsculas por código solo se permiten en los roles de etiqueta corta `.kicker`, `.meta` y `.label`, y en el logotipo; nunca en títulos ni texto corrido. Líneas de texto de 40–75 caracteres (medida por defecto `65ch`).
 

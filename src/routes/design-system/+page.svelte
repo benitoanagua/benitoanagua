@@ -73,8 +73,8 @@
 			<p class="eyebrow kicker">DESIGN SYSTEM / SVELTE 5</p>
 			<h1>Made for a<br /><em>portfolio.</em></h1>
 			<p class="intro">
-				A focused set of native Svelte components for presenting projects, experience, impact,
-				and ways to connect.
+				A focused set of native Svelte components for presenting projects, experience, impact, and
+				ways to connect.
 			</p>
 			<Button
 				onclick={() => document.getElementById('catalog')?.scrollIntoView({ behavior: 'smooth' })}
@@ -160,8 +160,8 @@
 							</div>
 						{/snippet}
 						<p class="mi-body">
-							The main column carries the reading text; the aside carries metadata, context
-							or short annotations that would interrupt the flow.
+							The main column carries the reading text; the aside carries metadata, context or short
+							annotations that would interrupt the flow.
 						</p>
 					</Marginalia>
 				</Card>

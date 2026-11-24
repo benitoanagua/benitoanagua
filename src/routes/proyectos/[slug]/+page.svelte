@@ -48,10 +48,19 @@
 				<h1>{project.title}</h1>
 				<p class="lead">{project.summary}</p>
 				<dl class="facts">
-					<div><dt class="meta">{copy.role}</dt><dd>{project.role}</dd></div>
-					<div><dt class="meta">{copy.year}</dt><dd>{project.year}</dd></div>
+					<div>
+						<dt class="meta">{copy.role}</dt>
+						<dd>{project.role}</dd>
+					</div>
+					<div>
+						<dt class="meta">{copy.year}</dt>
+						<dd>{project.year}</dd>
+					</div>
 					{#if project.status}
-						<div><dt class="meta">{copy.status}</dt><dd>{copy.statuses[project.status]}</dd></div>
+						<div>
+							<dt class="meta">{copy.status}</dt>
+							<dd>{copy.statuses[project.status]}</dd>
+						</div>
 					{/if}
 				</dl>
 			</header>

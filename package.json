@@ -5,14 +5,15 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "tsx scripts/validate-content.ts && tsx scripts/generate-static.ts && vite build",
+		"build": "tsx scripts/validate-content.ts && tsx scripts/validate-design.ts && tsx scripts/generate-static.ts && vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"check:content": "tsx scripts/validate-content.ts"
+		"check:content": "tsx scripts/validate-content.ts",
+		"check:design": "tsx scripts/validate-design.ts"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",

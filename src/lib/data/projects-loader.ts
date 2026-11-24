@@ -29,7 +29,10 @@ export function getProjectSlugs(): string[] {
 }
 
 /** Proyectos que aplican una habilidad (por slug de /habilidades/<slug>). */
-export function getProjectsForSkill(skillSlug: string, language: Language = lang.current): Project[] {
+export function getProjectsForSkill(
+	skillSlug: string,
+	language: Language = lang.current
+): Project[] {
 	return getProjects(language).filter((p) => p.skills.some((s) => slugify(s) === skillSlug));
 }
 

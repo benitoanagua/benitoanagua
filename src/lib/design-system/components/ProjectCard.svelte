@@ -44,9 +44,7 @@
 			</ul>
 		{/if}
 		<div class="links">
-			<a class="case label" href={project.href}
-				>{labels.case} <span aria-hidden="true">↗</span></a
-			>
+			<a class="case label" href={project.href}>{labels.case} <span aria-hidden="true">↗</span></a>
 			{#if project.sourceHref}
 				<a class="label" href={project.sourceHref} target="_blank" rel="noreferrer"
 					>{labels.source} <span aria-hidden="true">↗</span></a
