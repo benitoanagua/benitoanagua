@@ -33,7 +33,7 @@
 		"catalog:dev": "vite --config apps/catalog/vite.config.ts --host 0.0.0.0",
 		"catalog:build": "vite build --config apps/catalog/vite.config.ts",
 		"catalog:pages:create": "pnpm dlx wrangler@4 pages project create benitoanagua-design-system --production-branch main",
-		"build:all": "pnpm build && pnpm folio:build && pnpm folio:pack:check && pnpm catalog:build",
+		"build:all": "pnpm build && pnpm folio:build && pnpm folio:pack:check && pnpm folio:consumer:check && pnpm catalog:build",
 		"e2e": "playwright test",
 		"e2e:ui": "playwright test --ui",
 		"e2e:headed": "playwright test --headed",
@@ -42,7 +42,8 @@
 		"e2e:portfolio": "playwright test e2e/portfolio",
 		"e2e:catalog": "playwright test e2e/catalog",
 		"e2e:folio": "playwright test e2e/folio",
-		"folio:pack:check": "node scripts/validate-folio-pack.mjs"
+		"folio:pack:check": "node scripts/validate-folio-pack.mjs",
+		"folio:consumer:check": "node scripts/test-folio-consumer.mjs"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.14.0",
