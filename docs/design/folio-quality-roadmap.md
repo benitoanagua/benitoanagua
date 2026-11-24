@@ -47,8 +47,8 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 ### Fase 4 — Distribución
 
-- [ ] Verificar `pnpm folio:build` y revisar el contenido de `npm pack`.
-- [ ] Confirmar exports, declaraciones de tipos, CSS y peer dependency Svelte 5.
+- [x] Ejecutar `pnpm folio:build` en CI y añadir `pnpm folio:pack:check` para validar el contenido del tarball (`dist/index.js`, tipos, CSS y README).
+- [x] Comprobar exports empaquetados, declaraciones de tipos, CSS y manifest/peer dependency Svelte 5 mediante el smoke check.
 - [ ] Probar instalación en un proyecto Svelte 5 mínimo separado.
 - [ ] Publicar manualmente una versión cuando el paquete y el catálogo estén validados; nunca publicar automáticamente desde CI.
 
@@ -63,7 +63,7 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 ## Avance posterior a PR #11
 
 - PR #11 integrada en `main` (squash): `a106ce0d15c9993667dbe8952542786ff4b3b8fc`.
-- Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.\n- El catálogo ahora incluye índice API y fixtures de lectura; se añadieron utilidades globales de foco visible y reduced motion.
+- Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.\n- El catálogo ahora incluye índice API y fixtures de lectura; se añadieron utilidades globales de foco visible y reduced motion.\n- Se incorporó un smoke check del tarball al script `build:all` y al CI; la publicación sigue manual y pendiente..
 - El CI de validación en main detectó un fixture de Playwright con argumento no utilizado; corregido en el commit `5c66e5c9cfa2ce43305b0e984017acc8006cc2cb`. Esperar la nueva ejecución completa antes de cerrar la fase.
 
 ## Próximo paso
