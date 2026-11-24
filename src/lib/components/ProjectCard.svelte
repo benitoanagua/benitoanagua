@@ -18,7 +18,7 @@
 			<span>{project.year}</span>
 		</div>
 		<h3>{project.title}<span class="arrow" aria-hidden="true">↗</span></h3>
-		<p>{project.summary}</p>
+		<p class="summary">{project.summary}</p>
 	</a>
 	<div class="details">
 		{#if project.stack.length}
@@ -35,10 +35,9 @@
 		padding: var(--space-editorial-sm) var(--space-3);
 		margin-inline: calc(var(--space-3) * -1);
 		background: transparent;
+		border: 0;
 		border-radius: var(--radius-sm);
 		transition: background-color var(--duration-fast);
-		border: 0;
-		border-radius: 0;
 	}
 	.project-link {
 		display: flex;
@@ -89,8 +88,8 @@
 		font-size: var(--text-meta);
 		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
-		max-width: 62ch;
 	}
+	.summary { max-width: 62ch; }
 	.details {
 		display: flex;
 		flex-wrap: wrap;
