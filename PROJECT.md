@@ -10,11 +10,11 @@ The portfolio is published at [benitoanagua.pages.dev](https://benitoanagua.page
 
 The repository is organized as a pnpm workspace and contains these deliverables and planned extensions:
 
-| Deliverable | Description | Location / status |
-| --- | --- | --- |
-| Portfolio | Main SvelteKit application | Repository root; published on Cloudflare Pages |
-| FOLIO | Reusable Svelte 5 reading-first design system | `packages/folio`; package publication pending |
-| FOLIO Catalog | Standalone Svelte/Vite component reference | `apps/catalog`; deployment pending |
+| Deliverable   | Description                                   | Location / status                              |
+| ------------- | --------------------------------------------- | ---------------------------------------------- |
+| Portfolio     | Main SvelteKit application                    | Repository root; published on Cloudflare Pages |
+| FOLIO         | Reusable Svelte 5 reading-first design system | `packages/folio`; package publication pending  |
+| FOLIO Catalog | Standalone Svelte/Vite component reference    | `apps/catalog`; deployment pending             |
 
 ## Technology
 
@@ -87,59 +87,59 @@ pnpm build:all
 
 ### Application and quality
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm dev` | Start the portfolio development server |
-| `pnpm check` | Run Svelte and TypeScript checks for the main application |
-| `pnpm check:all` | Check the portfolio, FOLIO, and catalog |
-| `pnpm lint` | Check formatting with Prettier and lint with ESLint |
-| `pnpm format` | Apply Prettier formatting |
-| `pnpm build` | Validate content and design, generate static content, and build the portfolio |
-| `pnpm build:all` | Build the portfolio, FOLIO package, and catalog |
-| `pnpm preview` | Preview the Cloudflare build locally |
+| Command          | Purpose                                                                       |
+| ---------------- | ----------------------------------------------------------------------------- |
+| `pnpm dev`       | Start the portfolio development server                                        |
+| `pnpm check`     | Run Svelte and TypeScript checks for the main application                     |
+| `pnpm check:all` | Check the portfolio, FOLIO, and catalog                                       |
+| `pnpm lint`      | Check formatting with Prettier and lint with ESLint                           |
+| `pnpm format`    | Apply Prettier formatting                                                     |
+| `pnpm build`     | Validate content and design, generate static content, and build the portfolio |
+| `pnpm build:all` | Build the portfolio, FOLIO package, and catalog                               |
+| `pnpm preview`   | Preview the Cloudflare build locally                                          |
 
 ### End-to-end tests
 
 Tests use Playwright and cover the portfolio, catalog, and FOLIO component harness.
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm e2e` | Run the full end-to-end suite |
-| `pnpm e2e:portfolio` | Run portfolio tests |
-| `pnpm e2e:catalog` | Run catalog tests |
-| `pnpm e2e:folio` | Run FOLIO component tests |
-| `pnpm e2e:ui` | Open Playwright's interactive UI |
-| `pnpm e2e:report` | Open the latest HTML test report |
-| `pnpm e2e:install` | Install Playwright browsers |
+| Command              | Purpose                          |
+| -------------------- | -------------------------------- |
+| `pnpm e2e`           | Run the full end-to-end suite    |
+| `pnpm e2e:portfolio` | Run portfolio tests              |
+| `pnpm e2e:catalog`   | Run catalog tests                |
+| `pnpm e2e:folio`     | Run FOLIO component tests        |
+| `pnpm e2e:ui`        | Open Playwright's interactive UI |
+| `pnpm e2e:report`    | Open the latest HTML test report |
+| `pnpm e2e:install`   | Install Playwright browsers      |
 
 ### FOLIO and catalog
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm folio:check` | Type-check the FOLIO package |
-| `pnpm folio:build` | Package FOLIO for distribution |
-| `pnpm folio:publish` | Build and publish `@benitoanagua/folio` to npm (pending release) |
-| `pnpm catalog:check` | Type-check the catalog |
-| `pnpm catalog:dev` | Run the catalog development server |
-| `pnpm catalog:build` | Build the catalog |
-| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages (pending deployment) |
+| Command               | Purpose                                                          |
+| --------------------- | ---------------------------------------------------------------- |
+| `pnpm folio:check`    | Type-check the FOLIO package                                     |
+| `pnpm folio:build`    | Package FOLIO for distribution                                   |
+| `pnpm folio:publish`  | Build and publish `@benitoanagua/folio` to npm (pending release) |
+| `pnpm catalog:check`  | Type-check the catalog                                           |
+| `pnpm catalog:dev`    | Run the catalog development server                               |
+| `pnpm catalog:build`  | Build the catalog                                                |
+| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages (pending deployment)      |
 
 ### Cloudflare and D1 operations
 
 The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the operational documentation and confirm the target environment before running remote commands.
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm cf:login` | Authenticate Wrangler |
-| `pnpm cf:whoami` | Show the active Cloudflare identity |
-| `pnpm cf:pages:list` | List Pages projects |
-| `pnpm cf:deploy:preview` | Build and deploy a preview branch |
+| Command                     | Purpose                                |
+| --------------------------- | -------------------------------------- |
+| `pnpm cf:login`             | Authenticate Wrangler                  |
+| `pnpm cf:whoami`            | Show the active Cloudflare identity    |
+| `pnpm cf:pages:list`        | List Pages projects                    |
+| `pnpm cf:deploy:preview`    | Build and deploy a preview branch      |
 | `pnpm cf:deploy:production` | Build and deploy the production branch |
-| `pnpm d1:list` | List D1 databases |
-| `pnpm d1:migrations:local` | Apply D1 migrations locally |
-| `pnpm d1:migrations:list` | List remote migration state |
-| `pnpm d1:migrations:remote` | Apply D1 migrations remotely |
-| `pnpm d1:export-portfolio` | Export portfolio content for D1 |
+| `pnpm d1:list`              | List D1 databases                      |
+| `pnpm d1:migrations:local`  | Apply D1 migrations locally            |
+| `pnpm d1:migrations:list`   | List remote migration state            |
+| `pnpm d1:migrations:remote` | Apply D1 migrations remotely           |
+| `pnpm d1:export-portfolio`  | Export portfolio content for D1        |
 
 **Production caution:** inspect migrations, confirm the Cloudflare account and target database, and review the remote state before applying database changes or deploying.
 

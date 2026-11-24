@@ -40,8 +40,9 @@ test.describe('Catalog accessibility', () => {
 
 		await page.emulateMedia({ reducedMotion: 'reduce' });
 		const loading = page.getByRole('button', { name: 'Procesando' });
-		const animation = await loading.locator('.spinner').evaluate((el) => getComputedStyle(el).animationName);
+		const animation = await loading
+			.locator('.spinner')
+			.evaluate((el) => getComputedStyle(el).animationName);
 		expect(animation).toBe('none');
 	});
-
 });

@@ -65,7 +65,6 @@
 	}
 }
 
-
 /* Keyboard focus is part of the component contract, not a consumer override. */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
 	outline: 3px solid var(--color-primary);

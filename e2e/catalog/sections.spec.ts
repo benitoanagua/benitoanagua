@@ -13,7 +13,13 @@ test.describe('Catalog sections and components', () => {
 				/Keep the primary reading column/
 			],
 			contracts: [/The actual exported API/, /Badge/, /TextField/, /13 components/],
-			'reading-checks': [/Spanish, long content and states/, /Atención/, /Correo electrónico/, /Deshabilitado/, /Procesando/]
+			'reading-checks': [
+				/Spanish, long content and states/,
+				/Atención/,
+				/Correo electrónico/,
+				/Deshabilitado/,
+				/Procesando/
+			]
 		};
 		for (const [id, texts] of Object.entries(expected)) {
 			const section = page.locator(`#${id}`);
@@ -54,7 +60,15 @@ test.describe('Catalog sections and components', () => {
 			() => document.documentElement.scrollWidth - document.documentElement.clientWidth
 		);
 		expect(overflow).toBeLessThanOrEqual(1);
-		for (const id of ['foundations', 'actions', 'content', 'forms', 'editorial', 'contracts', 'reading-checks']) {
+		for (const id of [
+			'foundations',
+			'actions',
+			'content',
+			'forms',
+			'editorial',
+			'contracts',
+			'reading-checks'
+		]) {
 			await expect(page.locator(`#${id}`)).toBeVisible();
 		}
 	});
@@ -80,5 +94,4 @@ test.describe('Catalog sections and components', () => {
 		});
 		expect(focusStyle).toBeTruthy();
 	});
-
 });
