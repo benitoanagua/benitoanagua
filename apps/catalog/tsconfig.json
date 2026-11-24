@@ -4,7 +4,12 @@
 		"noEmit": true,
 		"strict": true,
 		"moduleResolution": "bundler",
-		"skipLibCheck": true
+		"skipLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"$folio": ["../../packages/folio/src/lib"],
+			"$folio/*": ["../../packages/folio/src/lib/*"]
+		}
 	},
 	"include": ["src/**/*", "../../packages/folio/src/lib/**/*"]
 }

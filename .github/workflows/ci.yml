@@ -32,7 +32,7 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - name: Static checks
         run: |
-          pnpm check
+          pnpm check:all
           pnpm lint
           pnpm check:content
           pnpm check:design

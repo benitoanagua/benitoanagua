@@ -74,7 +74,7 @@ if (unlinked.size)
 const noLinks = projects.es.filter((p) => !p.links);
 if (noLinks.length)
 	warnings.push(
-		`${noLinks.length}/${projects.es.length} proyectos sin enlaces (repo/demo/caso). Ver CONTENIDO_PENDIENTE.md`
+		`${noLinks.length}/${projects.es.length} proyectos sin enlaces (repo/demo/caso). Ver docs/review/projects-content-review.md`
 	);
 
 for (const w of warnings) console.warn(`⚠ ${w}`);
