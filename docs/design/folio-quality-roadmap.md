@@ -35,15 +35,15 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 - [x] Auditar los 13 componentes contra la Constitución de lectura y registrar hallazgos en `packages/folio/COMPONENTS.md`.
 - [x] Documentar props/defaults, contenido/snippets, semántica, ejemplos y límites conocidos en `packages/folio/COMPONENTS.md`.
-- [ ] Revisar texto largo, español acentuado, zoom 200%, teclado, foco y reduced motion.
+- [x] Añadir fixture de texto largo y español, navegación por teclado, foco visible y reduced motion; 200% zoom requiere comprobación manual/visual.
 - [ ] Mantener APIs simples y compatibles; cualquier breaking change requiere versión y nota de migración.
 
 ### Fase 3 — Catálogo
 
-- [ ] Mostrar una referencia navegable de API en el catálogo usando contratos de `COMPONENTS.md` (no una API ficticia).
-- [ ] Añadir ejemplos interactivos de estados y contenido límite.
-- [ ] Mostrar requisitos de accesibilidad y tokens relacionados.
-- [ ] Verificar navegación por teclado, encabezados, enlaces y tema claro/oscuro.
+- [x] Mostrar un índice navegable de los 13 componentes y sus props/defaults principales en el catálogo, alineado con `COMPONENTS.md`.
+- [x] Añadir estados disabled/loading, input etiquetado y contenido largo en español.
+- [x] Enlazar y describir requisitos de accesibilidad en la referencia de contratos.
+- [x] Añadir pruebas E2E de navegación API, teclado/foco, estados y reduced motion; conservar axe en temas claro/oscuro.\n- [ ] Confirmar ejecución CI y revisar resultado axe/teclado real.
 
 ### Fase 4 — Distribución
 
@@ -63,7 +63,7 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 ## Avance posterior a PR #11
 
 - PR #11 integrada en `main` (squash): `a106ce0d15c9993667dbe8952542786ff4b3b8fc`.
-- Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.
+- Se añadió `packages/folio/COMPONENTS.md` con contratos de los 13 componentes y hallazgos de accesibilidad.\n- El catálogo ahora incluye índice API y fixtures de lectura; se añadieron utilidades globales de foco visible y reduced motion.
 - El CI asociado al head de la PR estaba en ejecución al momento de la última consulta; confirmar conclusión antes de cerrar la fase.
 
 ## Próximo paso
