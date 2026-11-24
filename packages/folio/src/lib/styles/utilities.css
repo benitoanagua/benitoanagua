@@ -64,3 +64,27 @@
 		scroll-behavior: auto !important;
 	}
 }
+
+
+/* Keyboard focus is part of the component contract, not a consumer override. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+	outline: 3px solid var(--color-primary);
+	outline-offset: 3px;
+}
+
+@media (forced-colors: active) {
+	:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+		outline-color: CanvasText;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
