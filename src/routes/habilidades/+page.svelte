@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
@@ -10,8 +11,8 @@
 	import { lang } from '$lib/state/lang.svelte';
 
 	const copy = $derived(uiCopy(lang.current).skills);
-	const skills = $derived(getSkillProfiles());
-	const categories = $derived(getSkillCategories());
+	const skills = $derived(getSkillProfiles(page.data.portfolio));
+	const categories = $derived(getSkillCategories(page.data.portfolio));
 
 	let query = $state('');
 	const normalize = (value: string) =>

@@ -4,7 +4,7 @@ import { lang } from '$lib/state/lang.svelte';
 import cvEs from './cv.es.toml?raw';
 import cvEn from './cv.en.toml?raw';
 import { skillStories } from './skill-stories';
-import { portfolioStore } from '$lib/state/portfolio.svelte';
+import type { PortfolioContent } from '$lib/types/Portfolio';
 
 export interface SkillEvidence {
 	focusName: string;
@@ -23,8 +23,8 @@ export interface SkillProfile {
 	evidence: SkillEvidence[];
 }
 
-function dataFor(language: 'es' | 'en'): CVData {
-	const localized = portfolioStore.content?.cv[language];
+function dataFor(language: 'es' | 'en', content?: PortfolioContent | null): CVData {
+	const localized = content?.cv[language];
 	if (localized) return localized;
 	return parse(language === 'en' ? cvEn : cvEs) as CVData;
 }
@@ -36,8 +36,8 @@ function slugify(value: string): string {
 		.replace(/[^a-z0-9]+/g, '-')
 		.replace(/^-|-$/g, '');
 }
-function buildProfiles(language: 'es' | 'en'): SkillProfile[] {
-	const cv = dataFor(language);
+function buildProfiles(language: 'es' | 'en', content?: PortfolioContent | null): SkillProfile[] {
+	const cv = dataFor(language, content);
 	const bySlug = new Map<string, SkillProfile>();
 	for (const focus of cv.focuses) {
 		for (const group of focus.skills ?? []) {
@@ -96,30 +96,36 @@ function buildProfiles(language: 'es' | 'en'): SkillProfile[] {
 				? `En mi experiencia profesional, ${profile.name} aparece aplicada en responsabilidades como ${selected.map((item) => `${item.experience.position} en ${item.experience.company}`).join('; ')}. Las descripciones de estos puestos muestran el contexto de trabajo documentado en mi CV.`
 				: `Mi CV incluye ${profile.name} entre las capacidades de ${profile.focusTitles.join(', ')}, pero no la menciona literalmente en las descripciones de los puestos. Por eso presento esas funciones como contexto profesional relacionado, no como prueba directa de una implementación concreta.`;
 		}
-		const stories = portfolioStore.content?.skillStories ?? skillStories;
+		const stories = content?.skillStories ?? skillStories;
 		const authored = stories[profile.slug]?.[language];
 		if (authored) profile.narrative = authored;
 	}
 	return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name, language));
 }
-export function getSkillProfiles(): SkillProfile[] {
-	return buildProfiles(lang.current === 'en' ? 'en' : 'es');
+export function getSkillProfiles(content?: PortfolioContent | null): SkillProfile[] {
+	return buildProfiles(lang.current === 'en' ? 'en' : 'es', content);
 }
-export function getSkillProfile(slug: string): SkillProfile | undefined {
-	const current = getSkillProfiles().find((skill) => skill.slug === slug);
+export function getSkillProfile(
+	slug: string,
+	content?: PortfolioContent | null
+): SkillProfile | undefined {
+	const current = getSkillProfiles(content).find((skill) => skill.slug === slug);
 	if (current) return current;
-	const alternate = buildProfiles(lang.current === 'en' ? 'es' : 'en');
+	const alternate = buildProfiles(lang.current === 'en' ? 'es' : 'en', content);
 	return alternate.find((skill) => skill.slug === slug);
 }
-export function getSkillProfileEntries(): { slug: string }[] {
-	const all = [...buildProfiles('es'), ...buildProfiles('en')];
+export function getSkillProfileEntries(content?: PortfolioContent | null): { slug: string }[] {
+	const all = [...buildProfiles('es', content), ...buildProfiles('en', content)];
 	return [...new Set(all.map((skill) => skill.slug))].map((slug) => ({ slug }));
 }
-export function getExperienceGroups(): { focus: Focus; experiences: Experience[] }[] {
-	return dataFor(lang.current === 'en' ? 'en' : 'es')
+export function getExperienceGroups(content?: PortfolioContent | null): {
+	focus: Focus;
+	experiences: Experience[];
+}[] {
+	return dataFor(lang.current === 'en' ? 'en' : 'es', content)
 		.focuses.map((focus) => ({ focus, experiences: focus.experiences ?? [] }))
 		.filter((group) => group.experiences.length > 0);
 }
-export function getSkillCategories(): string[] {
-	return [...new Set(getSkillProfiles().map((skill) => skill.category))];
+export function getSkillCategories(content?: PortfolioContent | null): string[] {
+	return [...new Set(getSkillProfiles(content).map((skill) => skill.category))];
 }

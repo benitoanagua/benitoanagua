@@ -56,15 +56,24 @@ the database has been populated, and parity tests pass.
 
 ## Implementation status
 
-- `wrangler.toml` binds D1 as `DB` (`database_name = benitoanagua-portfolio`).
-  `database_id` is a nil-UUID placeholder until the remote database is created.
+- `wrangler.toml` binds D1 as `DB` to `benitoanagua-portfolio`
+  (`database_id = e40020ce-adfb-4c14-b223-0a7b5e3de1b1`, region ENAM).
+  Migrations `0001_portfolio_content.sql` and `0002_portfolio_seed.sql` are
+  applied remotely via `wrangler d1 migrations apply benitoanagua-portfolio
+--remote`. The Pages project's **preview** environment already has the `DB`
+  binding; **production** still needs it (dashboard or `wrangler pages deploy`
+  to the production branch).
 - `src/lib/server/portfolio-content.ts` reads `portfolio_content` and
   `portfolio_cv_documents` with parameterized queries, validates payloads and
   falls back to the bundled TOML/TS sources when the binding is absent, the
   route is prerenderable, or D1 fails.
-- `src/lib/state/portfolio.svelte.ts` holds the localized payload; the root
-  layout load populates it and ships both locales to the client so the
-  client-side language toggle keeps working without refetching.
+- `src/routes/+layout.server.ts` resolves the localized payload per request
+  (no shared mutable server state) and returns it in the layout data; the
+  synchronous loaders accept it as an explicit parameter and fall back to the
+  bundled TOML sources. Components read it via `page.data.portfolio` (or
+  `parent()` in universal loads), so both locales reach the client for the
+  language toggle without refetching. A `portfolio-source` meta tag exposes
+  whether the payload came from `d1` or `fallback` for verification.
 - `/`, `/habilidades`, `/habilidades/[slug]`, `/experiencia` and `/cv` are
   server-rendered (`prerender = false`) because prerendered HTML cannot read
   D1. `/proyectos`, `/proyectos/[slug]` and `/design-system` remain

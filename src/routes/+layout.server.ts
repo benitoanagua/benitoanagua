@@ -3,15 +3,12 @@ import { loadSiteData } from '$lib/data/site-loader';
 import { getPersonalInfo } from '$lib/data/cv-loader';
 import { getProject } from '$lib/data/projects-loader';
 import { loadPortfolioContent } from '$lib/server/portfolio-content';
-import { portfolioStore } from '$lib/state/portfolio.svelte';
 import { SITE_URL, OG_IMAGES } from '$lib/config';
 
 export const load: LayoutServerLoad = async ({ url, platform }) => {
 	const portfolio = await loadPortfolioContent(platform);
-	portfolioStore.content = portfolio.content;
-	portfolioStore.source = portfolio.source;
-	const site = loadSiteData();
-	const personal = getPersonalInfo();
+	const site = loadSiteData(portfolio.content);
+	const personal = getPersonalInfo(portfolio.content);
 	const currentPath = url.pathname;
 	const isProduction = !url.hostname.includes('localhost');
 	const canonicalUrl = isProduction

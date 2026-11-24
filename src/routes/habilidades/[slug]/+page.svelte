@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SkillProjects from '$lib/components/SkillProjects.svelte';
@@ -15,9 +16,9 @@
 
 	const skill = $derived(data.skill);
 	const copy = $derived(uiCopy(lang.current).skillDetail);
-	const personal = $derived(getPersonalInfo());
+	const personal = $derived(getPersonalInfo(page.data.portfolio));
 	const related = $derived(
-		getSkillProfiles()
+		getSkillProfiles(page.data.portfolio)
 			.filter((s) => s.category === skill.category && s.slug !== skill.slug)
 			.slice(0, 8)
 	);

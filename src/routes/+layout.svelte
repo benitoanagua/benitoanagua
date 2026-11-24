@@ -6,16 +6,8 @@
 	import '$lib/design-system/tokens.css';
 	import '$lib/design-system/utilities.css';
 	import { lang } from '$lib/state/lang.svelte';
-	import { portfolioStore } from '$lib/state/portfolio.svelte';
 
 	let { children, data } = $props();
-
-	// Hydrate the shared portfolio store (D1 content or TOML fallback) so the
-	// synchronous loaders can resolve the active language on the client.
-	$effect.pre(() => {
-		portfolioStore.content = data.portfolio ?? null;
-		portfolioStore.source = data.portfolioSource ?? null;
-	});
 
 	// JSON-LD válido y seguro para incrustar en HTML
 	const jsonLd = $derived(
@@ -68,6 +60,8 @@
 	<meta name="author" content={data.seo.author} />
 	<meta name="creator" content={data.seo.author} />
 	<link rel="canonical" href={data.seo.canonical} />
+	<!-- Content source for D1 migration verification (public, non-sensitive) -->
+	<meta name="portfolio-source" content={data.portfolioSource ?? 'unknown'} />
 
 	<!-- Open Graph / Social Media -->
 	<meta property="og:type" content="website" />

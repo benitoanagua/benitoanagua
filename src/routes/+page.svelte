@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { getPersonalInfo, getEducation } from '$lib/data/cv-loader';
 	import { loadSiteData } from '$lib/data/site-loader';
 	import { SITE_URL } from '$lib/config';
@@ -9,9 +10,9 @@
 	import FeaturedProjects from '$lib/components/FeaturedProjects.svelte';
 	import { projectsCopy } from '$lib/data/projects-copy';
 
-	const personal = $derived(getPersonalInfo());
-	const education = $derived(getEducation());
-	const site = $derived(loadSiteData());
+	const personal = $derived(getPersonalInfo(page.data.portfolio));
+	const education = $derived(getEducation(page.data.portfolio));
+	const site = $derived(loadSiteData(page.data.portfolio));
 	const navItems = $derived(getNavItems());
 	const projectsUi = $derived(projectsCopy(lang.current));
 

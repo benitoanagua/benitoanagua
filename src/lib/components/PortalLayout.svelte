@@ -20,9 +20,9 @@
 		return page.url.pathname === href || page.url.pathname.startsWith(href + '/');
 	}
 
-	// Datos reactivos al idioma
-	const site = $derived(loadSiteData());
-	const personal = $derived(getPersonalInfo());
+	// Datos reactivos al idioma (contenido del portafolio vía layout data)
+	const site = $derived(loadSiteData(page.data.portfolio));
+	const personal = $derived(getPersonalInfo(page.data.portfolio));
 
 	// Resuelve la URL de un link del footer usando href_key → PersonalInfo
 	function resolveHref(link: { href_key: string; mailto?: boolean }): string {

@@ -6,8 +6,9 @@ import type { EntryGenerator, PageLoad } from './$types';
 // for documentation and in case prerendering is re-enabled later.
 export const prerender = false;
 export const entries: EntryGenerator = () => getSkillProfileEntries();
-export const load: PageLoad = ({ params }) => {
-	const skill = getSkillProfile(params.slug);
+export const load: PageLoad = async ({ params, parent }) => {
+	const { portfolio } = await parent();
+	const skill = getSkillProfile(params.slug, portfolio);
 	if (!skill) error(404, 'Skill not found');
 	return { skill };
 };

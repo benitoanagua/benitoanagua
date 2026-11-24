@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
@@ -7,8 +8,8 @@
 	import { lang } from '$lib/state/lang.svelte';
 
 	const copy = $derived(uiCopy(lang.current).experience);
-	const groups = $derived(getExperienceGroups());
-	const skills = $derived(getSkillProfiles());
+	const groups = $derived(getExperienceGroups(page.data.portfolio));
+	const skills = $derived(getSkillProfiles(page.data.portfolio));
 	const skillsFor = (focusName: string) =>
 		skills.filter((s) => s.focusNames.includes(focusName)).slice(0, 8);
 </script>

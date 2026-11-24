@@ -130,7 +130,12 @@ function assembleContent(rows: ContentRow[]): PortfolioContent | null {
 function resolveDb(platform?: App.Platform) {
 	try {
 		return platform?.env?.DB;
-	} catch {
+	} catch (error) {
+		// Expected for prerenderable routes while the Cloudflare emulation is
+		// active; anything else is logged without secrets.
+		if (!(error instanceof Error) || !error.message.includes('prerenderable')) {
+			console.warn('[portfolio-content] D1 binding unavailable:', error);
+		}
 		return undefined;
 	}
 }
@@ -151,8 +156,11 @@ export async function loadPortfolioContent(
 			.prepare('SELECT locale, content_key, payload_json FROM portfolio_content')
 			.all<ContentRow>();
 		const content = assembleContent(results ?? []);
-		return content ? { content, source: 'd1' } : fallbackResult();
-	} catch {
+		if (content) return { content, source: 'd1' };
+		console.warn('[portfolio-content] D1 payload failed validation; using TOML fallback');
+		return fallbackResult();
+	} catch (error) {
+		console.warn('[portfolio-content] D1 read failed; using TOML fallback:', error);
 		return fallbackResult();
 	}
 }
@@ -231,7 +239,8 @@ export async function loadCvDocuments(
 			if (documents[locale].length === 0) documents[locale] = CV_DOCUMENTS_FALLBACK;
 		}
 		return documents;
-	} catch {
+	} catch (error) {
+		console.warn('[portfolio-content] D1 documents read failed; using fallback:', error);
 		return fallback;
 	}
 }
