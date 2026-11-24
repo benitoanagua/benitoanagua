@@ -1,14 +1,14 @@
 # Benito Anagua
 
-I’m a software engineer focused on building useful digital products, thoughtful user experiences, and maintainable software. I work across product development, frontend architecture, design systems, and the engineering practices that help ideas become reliable products.
+I’m a software engineer focused on building useful digital products, thoughtful user experiences, and maintainable software. I work across product development, frontend architecture, and the engineering practices that help ideas become reliable products.
 
 My work brings together practical problem-solving, clear interfaces, and systems designed to evolve.
 
 ## Explore
 
-- **[Portfolio](https://benitoanagua.com)** — selected work, experience, and professional background.
-- **[FOLIO](https://www.npmjs.com/package/@benitoanagua/folio)** — a Svelte 5 reading-first design system, built as a reusable component library.
-- **[FOLIO Catalog](https://benitoanagua-design-system.pages.dev)** — an interactive reference for exploring the design system.
+- **[Portfolio](https://benitoanagua.pages.dev/)** — selected work, experience, and professional background.
+- **FOLIO** — a Svelte 5 reading-first design system and reusable component library. *In development; package publication is pending.*
+- **FOLIO Catalog** — an interactive component reference for FOLIO. *In development; deployment is pending.*
 - **[Projects and repositories](https://github.com/benitoanagua?tab=repositories)** — experiments, products, and open-source work.
 
 ## What I care about
@@ -26,7 +26,7 @@ Svelte · SvelteKit · TypeScript · JavaScript · Node.js · Design Systems · 
 ## Get in touch
 
 - [GitHub](https://github.com/benitoanagua)
-- [Portfolio and contact](https://benitoanagua.com)
+- [Portfolio and contact](https://benitoanagua.pages.dev/)
 
 ---
 
