@@ -15,8 +15,8 @@
 </script>
 
 <nav class="ds-social" class:compact aria-label={label}>
-	{#each items as item}
-		<a href={item.href} target="_blank" rel="noreferrer">
+	{#each items as item (item.href)}
+		<a href={item.href} target="_blank" rel="noreferrer external">
 			{item.label}<span class="arrow" aria-hidden="true">↗</span>
 		</a>
 	{/each}

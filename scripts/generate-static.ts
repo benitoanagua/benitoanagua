@@ -98,7 +98,7 @@ ${entries}
 }
 
 // Generate manifest.json
-function generateManifestJson(siteUrl: string): string {
+function generateManifestJson(): string {
 	const manifest = {
 		name: 'Benito Anagua — Skills & Experience',
 		short_name: 'Benito Anagua',
@@ -154,7 +154,7 @@ async function main() {
 		console.log('✓ Generated static/sitemap.xml');
 
 		// Generate manifest.json
-		const manifestJson = generateManifestJson(siteUrl);
+		const manifestJson = generateManifestJson();
 		fs.writeFileSync(path.join(STATIC_DIR, 'manifest.json'), manifestJson);
 		console.log('✓ Generated static/manifest.json');
 

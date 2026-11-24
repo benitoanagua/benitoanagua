@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import { loadSiteData } from '$lib/data/site-loader';
 	import { getPersonalInfo } from '$lib/data/cv-loader';
 	import type { PersonalInfo } from '$lib/types/CV';
@@ -62,7 +63,7 @@
 	<header class="portal-toolbar">
 		<div class="rule-double toolbar-double" aria-hidden="true"></div>
 		<div class="toolbar-inner">
-			<a href="/" class="toolbar-logo">
+			<a href={resolve('/')} class="toolbar-logo">
 				<span class="logo-name">{personal.name.toUpperCase()}</span>
 			</a>
 
@@ -70,9 +71,9 @@
 				<span class="logo-tagline meta">{site.meta.tagline}</span>
 
 				<nav class="toolbar-nav" aria-label={site.nav.main_aria}>
-					{#each navItems as item}
+					{#each navItems as item (item.href)}
 						<a
-							href={item.href}
+							href={resolve(item.href)}
 							class="toolbar-link label"
 							class:active={isActive(item.href)}
 							aria-current={isActive(item.href) ? 'page' : undefined}
@@ -107,8 +108,8 @@
 	</header>
 
 	<nav class="mobile-nav" aria-label={site.nav.main_aria}>
-		{#each navItems as item}
-			<a href={item.href} class="label" class:active={isActive(item.href)}>{item.label}</a>
+		{#each navItems as item (item.href)}
+			<a href={resolve(item.href)} class="label" class:active={isActive(item.href)}>{item.label}</a>
 		{/each}
 	</nav>
 
@@ -128,8 +129,13 @@
 				</div>
 				<p class="module-bio">{site.footer.bio}</p>
 				<div class="module-signals">
-					{#each site.footer.sections.links.links as link}
-						<a href={resolveHref(link)} target="_blank" rel="noopener" class="signal-link meta">
+					{#each site.footer.sections.links.links as link (link.href_key)}
+						<a
+							href={resolveHref(link)}
+							target="_blank"
+							rel="noopener external"
+							class="signal-link meta"
+						>
 							<span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
 							<span class="link-label">{link.label}</span>
 						</a>
@@ -141,9 +147,9 @@
 			<div class="baseboard-module module--channels">
 				<h3 class="module-label kicker">{site.footer.sections.contact.title}</h3>
 				<ul class="channel-list">
-					{#each site.footer.sections.contact.links as link}
+					{#each site.footer.sections.contact.links as link (link.href_key)}
 						<li>
-							<a href={resolveHref(link)} class="channel-node meta">
+							<a href={resolveHref(link)} rel="external" class="channel-node meta">
 								<span class="material-symbols-outlined" aria-hidden="true">{link.icon}</span>
 								<span class="label-txt">{link.label}</span>
 							</a>

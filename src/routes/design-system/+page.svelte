@@ -90,7 +90,7 @@
 				description="Project cards make the work, context, technologies, and next step easy to scan."
 			/>
 			<div class="project-grid">
-				{#each projects as project}
+				{#each projects as project (project.title)}
 					<ProjectCard {project} />
 				{/each}
 			</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
 	import { getExperienceGroups, getSkillProfiles } from '$lib/data/skill-profiles';
@@ -25,7 +26,7 @@
 			<p class="lead">{copy.intro}</p>
 		</header>
 
-		{#each groups as group}
+		{#each groups as group (group.focus.name)}
 			{@const related = skillsFor(group.focus.name)}
 			<section class="group" aria-labelledby={`area-${group.focus.name}`}>
 				<div class="group-head">
@@ -34,7 +35,7 @@
 				</div>
 
 				<div class="roles">
-					{#each group.experiences as experience}
+					{#each group.experiences as experience (experience)}
 						<article class="role">
 							<p class="meta role-meta">
 								{experience.period} · {experience.company}
@@ -50,7 +51,9 @@
 						<p class="meta">{copy.skillsHere}</p>
 						<ul>
 							{#each related as skill (skill.slug)}
-								<li><a href={`/habilidades/${skill.slug}`}>{skill.name}</a></li>
+								<li>
+									<a href={resolve('/habilidades/[slug]', { slug: skill.slug })}>{skill.name}</a>
+								</li>
 							{/each}
 						</ul>
 					</div>
@@ -58,7 +61,7 @@
 			</section>
 		{/each}
 
-		<a class="all-skills label" href="/habilidades">{copy.allSkills} ↗</a>
+		<a class="all-skills label" href={resolve('/habilidades')}>{copy.allSkills} ↗</a>
 	</div>
 </PortalLayout>
 

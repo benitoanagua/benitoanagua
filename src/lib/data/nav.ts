@@ -1,8 +1,9 @@
 import { lang, type Language } from '$lib/state/lang.svelte';
+import type { Pathname } from '$app/types';
 
 export interface NavItem {
 	label: string;
-	href: string;
+	href: Pathname;
 }
 
 /** Navegación principal única (antes estaba repetida en cada página). */

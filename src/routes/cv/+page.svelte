@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { uiCopy } from '$lib/data/ui-copy';
@@ -27,7 +28,7 @@
 			<p class="eyebrow kicker">{copy.eyebrow}</p>
 			<h1>{copy.title}</h1>
 			<p class="lead">{copy.intro}</p>
-			<a class="primary label" href="/habilidades">{copy.explore} ↗</a>
+			<a class="primary label" href={resolve('/habilidades')}>{copy.explore} ↗</a>
 		</header>
 		<section class="documents-section">
 			<h2 class="section-title">{copy.current}</h2>
@@ -39,8 +40,8 @@
 				</p>
 			{/if}
 			<div class="documents">
-				{#each files as file}
-					<a class="document" href={'/cv/' + file.file} download>
+				{#each files as file (file.file)}
+					<a class="document" href={'/cv/' + file.file} download rel="external">
 						<span class="meta doc-format">PDF · ES · 2026</span>
 						<h3>{file.label}</h3>
 						<span class="download label">{copy.download} ↓</span>

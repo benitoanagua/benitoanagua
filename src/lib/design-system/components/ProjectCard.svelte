@@ -27,6 +27,7 @@
 
 <article class="ds-project-card">
 	{#if project.image}
+		<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a class="visual" href={project.href} aria-label={labels.view + ' ' + project.title}>
 			<img src={project.image} alt={project.imageAlt || project.title} loading="lazy" />
 		</a>
@@ -36,17 +37,21 @@
 			{#if project.category}<span>{project.category}</span>{/if}
 			{#if project.year}<span>{project.year}</span>{/if}
 		</div>
-		<h3 class="ds-title"><a href={project.href}>{project.title}</a></h3>
+		<h3 class="ds-title">
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={project.href}>{project.title}</a>
+		</h3>
 		<p class="ds-description">{project.description}</p>
 		{#if project.tags?.length}
 			<ul class="tags" aria-label={labels.tech}>
-				{#each project.tags as tag}<li>{tag}</li>{/each}
+				{#each project.tags as tag (tag)}<li>{tag}</li>{/each}
 			</ul>
 		{/if}
 		<div class="links">
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a class="case label" href={project.href}>{labels.case} <span aria-hidden="true">↗</span></a>
 			{#if project.sourceHref}
-				<a class="label" href={project.sourceHref} target="_blank" rel="noreferrer"
+				<a class="label" href={project.sourceHref} target="_blank" rel="noreferrer external"
 					>{labels.source} <span aria-hidden="true">↗</span></a
 				>
 			{/if}

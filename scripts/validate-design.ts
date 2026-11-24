@@ -19,8 +19,6 @@ const errors: string[] = [];
 const warnings: string[] = [];
 const err = (file: string, line: number, msg: string) =>
 	errors.push(`${path.relative(root, file)}:${line} — ${msg}`);
-const warn = (file: string, line: number, msg: string) =>
-	warnings.push(`${path.relative(root, file)}:${line} — ${msg}`);
 
 /* ── Recolección de archivos ── */
 function walk(dir: string, out: string[] = []): string[] {
@@ -32,7 +30,6 @@ function walk(dir: string, out: string[] = []): string[] {
 	return out;
 }
 const files = walk(SRC);
-const rel = (f: string) => path.relative(root, f);
 const TOKENS = path.join(SRC, 'lib/design-system/tokens.css');
 const THEME = path.join(SRC, 'lib/styles/theme.css');
 const UTILITIES = path.join(SRC, 'lib/design-system/utilities.css');
@@ -69,7 +66,6 @@ function minPx(value: string, depth = 0): number | null {
 }
 
 /* ── Reglas sobre archivos fuente ── */
-const DECL = /([\w-]+)\s*:\s*([^;{}]+);/g;
 for (const file of files) {
 	const src = fs.readFileSync(file, 'utf-8');
 	const lines = src.split('\n');

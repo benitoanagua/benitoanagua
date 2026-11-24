@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SkillProjects from '$lib/components/SkillProjects.svelte';
 	import Marginalia from '$lib/design-system/components/Marginalia.svelte';
@@ -40,7 +41,7 @@
 					<span class="mi-val">{skill.focusTitles.length}</span>
 				</div>
 				<div class="mi">
-					<a class="mi-back" href="/habilidades">← {copy.back}</a>
+					<a class="mi-back" href={resolve('/habilidades')}>← {copy.back}</a>
 				</div>
 			{/snippet}
 
@@ -50,7 +51,7 @@
 				<p class="drop-cap summary">{skill.summary}</p>
 				{#if skill.narrative}<Pullquote>{skill.narrative}</Pullquote>{/if}
 				<ul class="focus-list">
-					{#each skill.focusTitles as focus}<li>{focus}</li>{/each}
+					{#each skill.focusTitles as focus (focus)}<li>{focus}</li>{/each}
 				</ul>
 			</div>
 		</Marginalia>
@@ -60,7 +61,7 @@
 		<section aria-labelledby="evidence-title">
 			<SectionHeading eyebrow={copy.evidenceEyebrow} title={copy.evidenceTitle} />
 			<div class="evidence-list">
-				{#each skill.evidence as item}
+				{#each skill.evidence as item (item)}
 					<article class="evidence-card">
 						<div class="meta-row">
 							<span class="meta">{item.experience.period}</span>
@@ -80,7 +81,7 @@
 				<h2 id="related-title" class="related-title">{copy.related}</h2>
 				<ul class="chips">
 					{#each related as item (item.slug)}
-						<li><a href={`/habilidades/${item.slug}`}>{item.name}</a></li>
+						<li><a href={resolve('/habilidades/[slug]', { slug: item.slug })}>{item.name}</a></li>
 					{/each}
 				</ul>
 			</section>
@@ -91,8 +92,8 @@
 			<h2 id="next-title">{copy.nextTitle}</h2>
 			<p>{copy.nextText}</p>
 			<div class="actions">
-				<a class="btn label primary" href="/cv">{copy.cv}</a>
-				<a class="btn label" href={`mailto:${personal.email}`}>{copy.contact}</a>
+				<a class="btn label primary" href={resolve('/cv')}>{copy.cv}</a>
+				<a class="btn label" href={`mailto:${personal.email}`} rel="external">{copy.contact}</a>
 			</div>
 		</section>
 	</article>

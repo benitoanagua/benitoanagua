@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
 	import TextField from '$lib/design-system/components/TextField.svelte';
@@ -72,7 +73,7 @@
 			<nav class="jump" aria-label={copy.categoriesLabel}>
 				<span class="jump-label meta">{copy.categoriesLabel}</span>
 				<ul>
-					{#each groups as group}
+					{#each groups as group (group.id)}
 						<li>
 							<a class="jump-link" href={`#${group.id}`}>
 								{group.category} <span class="count">{group.items.length}</span>
@@ -95,14 +96,14 @@
 				</div>
 				<div class="skill-grid">
 					{#each group.items as skill (skill.slug)}
-						<a class="skill-card" href={`/habilidades/${skill.slug}`}>
+						<a class="skill-card" href={resolve('/habilidades/[slug]', { slug: skill.slug })}>
 							<div class="skill-name">
 								<h3>{skill.name}</h3>
 								<span class="arrow" aria-hidden="true">↗</span>
 							</div>
 							<p>{copy.roles(skill.focusTitles.length)}</p>
 							<ul class="focus-tags">
-								{#each skill.focusTitles as focus}
+								{#each skill.focusTitles as focus (focus)}
 									<li>{focus}</li>
 								{/each}
 							</ul>

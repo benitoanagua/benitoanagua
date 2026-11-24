@@ -10,12 +10,17 @@
 </script>
 
 <ol class="ds-timeline">
-	{#each items as item}
+	{#each items as item (item)}
 		<li>
 			<div class="period meta">{item.period}</div>
 			<div class="entry">
 				<h3 class="ds-entry-title">
-					{#if item.href}<a href={item.href}>{item.title}</a>{:else}{item.title}{/if}
+					{#if item.href}
+						<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+						<a href={item.href}>{item.title}</a>
+					{:else}
+						{item.title}
+					{/if}
 				</h3>
 				{#if item.organization}<p class="organization label">{item.organization}</p>{/if}
 				{#if item.description}<p class="description">{item.description}</p>{/if}

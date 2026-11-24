@@ -14,8 +14,8 @@ declare global {
 				author: string;
 				email: string;
 			};
-			site?: any;
-			focus?: any;
+			site?: import('$lib/types/Site').SiteData;
+			focus?: unknown;
 		}
 		// interface PageState {}
 		// interface Platform {}

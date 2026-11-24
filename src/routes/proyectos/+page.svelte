@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { replaceState } from '$app/navigation';
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
@@ -24,7 +25,9 @@
 
 	function select(next: string) {
 		area = next;
-		replaceState(next === 'all' ? location.pathname : `?area=${next}`, {});
+		const base = resolve('/proyectos');
+		// eslint-disable-next-line svelte/no-navigation-without-resolve -- el query ?area= no forma parte de la ruta
+		replaceState(next === 'all' ? base : `${base}?area=${next}`, {});
 	}
 </script>
 
@@ -46,7 +49,7 @@
 				<button class="chip label" aria-pressed={area === 'all'} onclick={() => select('all')}>
 					{copy.filterAll} <span>{all.length}</span>
 				</button>
-				{#each areas as a}
+				{#each areas as a (a)}
 					<button class="chip label" aria-pressed={area === a} onclick={() => select(a)}>
 						{copy.areas[a]} <span>{all.filter((p) => p.area === a).length}</span>
 					</button>

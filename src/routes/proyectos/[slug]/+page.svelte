@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Badge from '$lib/design-system/components/Badge.svelte';
@@ -43,7 +44,7 @@
 			<header class="masthead">
 				<div class="meta-row">
 					<p class="eyebrow kicker">{copy.areas[project.area]} / {ui.detailEyebrow}</p>
-					<a class="back label" href="/proyectos">← {copy.back}</a>
+					<a class="back label" href={resolve('/proyectos')}>← {copy.back}</a>
 				</div>
 				<h1>{project.title}</h1>
 				<p class="lead">{project.summary}</p>
@@ -76,7 +77,7 @@
 				<section class="block">
 					<h2 class="block-title">{copy.highlights}</h2>
 					<ul class="highlights">
-						{#each project.highlights as item}
+						{#each project.highlights as item (item)}
 							<li>{item}</li>
 						{/each}
 					</ul>
@@ -94,7 +95,7 @@
 				<section class="block">
 					<h2 class="block-title">{copy.stack}</h2>
 					<ul class="stack">
-						{#each project.stack as item}
+						{#each project.stack as item (item)}
 							<li><Badge>{item}</Badge></li>
 						{/each}
 					</ul>
@@ -104,10 +105,10 @@
 			<section class="block">
 				<h2 class="block-title">{copy.skills}</h2>
 				<ul class="chips">
-					{#each project.skills as skill}
+					{#each project.skills as skill (skill)}
 						<li>
 							{#if hasSkillPage(skill)}
-								<a href={`/habilidades/${slugify(skill)}`}>{skill}</a>
+								<a href={resolve('/habilidades/[slug]', { slug: slugify(skill) })}>{skill}</a>
 							{:else}
 								<span>{skill}</span>
 							{/if}
@@ -120,8 +121,10 @@
 				<section class="block">
 					<h2 class="block-title">{copy.links}</h2>
 					<div class="actions">
-						{#each links as l}
-							<a class="btn label" href={l.href} rel="noopener" target="_blank">{l.label} ↗</a>
+						{#each links as l (l.href)}
+							<a class="btn label" href={l.href} rel="noopener external" target="_blank"
+								>{l.label} ↗</a
+							>
 						{/each}
 					</div>
 				</section>
@@ -145,7 +148,7 @@
 			<Divider />
 
 			<footer class="foot">
-				<a class="label" href="/proyectos">← {copy.back}</a>
+				<a class="label" href={resolve('/proyectos')}>← {copy.back}</a>
 			</footer>
 		</article>
 	{/if}

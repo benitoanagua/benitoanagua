@@ -76,6 +76,7 @@
 	<meta name="twitter:image" content={data.seo.ogImage} />
 
 	<!-- Structured Data (JSON-LD) -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${jsonLd}</` + 'script>'}
 
 	<!-- Font preconnects -->

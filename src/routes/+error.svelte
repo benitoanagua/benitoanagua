@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import { getNavItems } from '$lib/data/nav';
 	import { uiCopy } from '$lib/data/ui-copy';
@@ -23,9 +24,9 @@
 			<p>{notFound ? copy.notFoundText : copy.genericText}</p>
 		</div>
 		<ul class="error-links">
-			<li><a class="home label" href="/">{copy.home}</a></li>
-			{#each links as item}
-				<li><a href={item.href}>{item.label}</a></li>
+			<li><a class="home label" href={resolve('/')}>{copy.home}</a></li>
+			{#each links as item (item.href)}
+				<li><a href={resolve(item.href)}>{item.label}</a></li>
 			{/each}
 		</ul>
 	</section>

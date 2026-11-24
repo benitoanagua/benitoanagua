@@ -4,6 +4,7 @@
 	import { SITE_URL } from '$lib/config';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getNavItems } from '$lib/data/nav';
+	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import FeaturedProjects from '$lib/components/FeaturedProjects.svelte';
 	import { projectsCopy } from '$lib/data/projects-copy';
@@ -20,18 +21,23 @@
 
 	const paths = $derived([
 		{
-			href: '/habilidades',
+			href: resolve('/habilidades'),
 			num: '§ 01',
 			label: site.home.skills_label,
 			text: site.home.skills_text
 		},
 		{
-			href: '/experiencia',
+			href: resolve('/experiencia'),
 			num: '§ 02',
 			label: site.home.experience_label,
 			text: site.home.experience_text
 		},
-		{ href: '/proyectos', num: '§ 03', label: navItems[1].label, text: projectsUi.homeCard }
+		{
+			href: resolve('/proyectos'),
+			num: '§ 03',
+			label: navItems[1].label,
+			text: projectsUi.homeCard
+		}
 	]);
 
 	const profileLd = $derived(
@@ -65,6 +71,7 @@
 	/>
 
 	<!-- Schema.org markup for home page -->
+	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 	{@html `<script type="application/ld+json">${profileLd}</` + 'script>'}
 </svelte:head>
 
@@ -84,7 +91,8 @@
 		<section class="paths" aria-labelledby="paths-title">
 			<h2 id="paths-title" class="kicker paths-title">{site.home.explore_title}</h2>
 			<div class="capability-links">
-				{#each paths as path}
+				{#each paths as path (path.href)}
+					<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- href ya viene de resolve() -->
 					<a class="cap-link" href={path.href}>
 						<span class="cap-num kicker">{path.num}</span>
 						<span class="cap-title">{path.label}</span>
@@ -108,7 +116,7 @@
 							<span>{site.home.email_label}</span>
 							<span aria-hidden="true">↗</span>
 						</a>
-						<a href={personal.linkedin} target="_blank" rel="noopener" class="node-link">
+						<a href={personal.linkedin} target="_blank" rel="noopener external" class="node-link">
 							<span>{site.home.linkedin_label}</span>
 							<span aria-hidden="true">↗</span>
 						</a>
@@ -118,7 +126,7 @@
 				<div class="node-box education-module">
 					<h2 class="kicker node-title">{site.home.education_title}</h2>
 					<div class="edu-bits">
-						{#each education.slice(0, 2) as edu}
+						{#each education.slice(0, 2) as edu (edu)}
 							<div class="edu-bit">
 								<span class="year meta">{edu.year}</span>
 								<span class="info">{edu.degree} — {edu.institution}</span>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { Project } from '$lib/types/Project';
 
 	interface Props {
@@ -11,7 +12,7 @@
 </script>
 
 <article class="card">
-	<a class="card-link" href={`/proyectos/${project.slug}`}>
+	<a class="card-link" href={resolve('/proyectos/[slug]', { slug: project.slug })}>
 		<div class="top meta">
 			<span class="area">{areaLabel}</span>
 			<span>{project.year}</span>
@@ -22,7 +23,7 @@
 	<div class="bottom">
 		{#if project.stack.length}
 			<ul class="tags">
-				{#each project.stack.slice(0, 4) as item}
+				{#each project.stack.slice(0, 4) as item (item)}
 					<li class="tag meta">{item}</li>
 				{/each}
 			</ul>

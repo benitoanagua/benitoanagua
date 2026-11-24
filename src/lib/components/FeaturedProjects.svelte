@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import ProjectCard from './ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getFeaturedProjects } from '$lib/data/projects-loader';
@@ -11,7 +12,7 @@
 <section class="featured" aria-labelledby="featured-title">
 	<div class="head">
 		<h2 id="featured-title" class="kicker">{copy.featuredTitle}</h2>
-		<a class="more label" href="/proyectos">{copy.featuredCta} ↗</a>
+		<a class="more label" href={resolve('/proyectos')}>{copy.featuredCta} ↗</a>
 	</div>
 	<div class="grid shared-boundary">
 		{#each projects as project (project.slug)}
