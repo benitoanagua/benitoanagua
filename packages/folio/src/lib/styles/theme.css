@@ -1,7 +1,4 @@
-/* FOLIO — reading-first design system
-   Warm paper, near-black ink, a single red "corrector's ink" accent.
-   Material variable names are kept as the contract used across the codebase;
-   only the values change. Clarity is verified by scripts/validate-design.ts (R7). */
+/* FOLIO — warm editorial surfaces, quiet structure and accessible contrast. */
 
 :root {
 	--color-primary: #8f1d17;
@@ -26,7 +23,7 @@
 	--color-surface-dim: #dfd6c0;
 	--color-surface-bright: #f5f0e6;
 	--color-surface-container-lowest: #f5f0e6;
-	--color-surface-container-low: #f1ebdd;
+	--color-surface-container-low: #f2ede2;
 	--color-surface-container: #ede6d6;
 	--color-surface-container-high: #e6decb;
 	--color-surface-container-highest: #dfd6c0;
@@ -36,6 +33,7 @@
 	--color-ink-soft: #6a6354;
 	--color-outline: #6a6354;
 	--color-outline-variant: #bdb29b;
+	--color-rule-subtle: #d9d0bd;
 	--color-success: #2f5339;
 	--color-warning: #7a5c1e;
 	--color-shadow: #000000;
@@ -68,7 +66,7 @@
 	--color-surface-dim: #16140f;
 	--color-surface-bright: #353128;
 	--color-surface-container-lowest: #100f0b;
-	--color-surface-container-low: #1c1a14;
+	--color-surface-container-low: #1b1914;
 	--color-surface-container: #221f18;
 	--color-surface-container-high: #2b2820;
 	--color-surface-container-highest: #353128;
@@ -78,6 +76,7 @@
 	--color-ink-soft: #a59c88;
 	--color-outline: #a59c88;
 	--color-outline-variant: #4a453a;
+	--color-rule-subtle: #302c23;
 	--color-success: #86b894;
 	--color-warning: #c9a25e;
 	--color-shadow: #000000;
