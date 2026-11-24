@@ -39,6 +39,7 @@ jobs:
           pnpm build
           pnpm folio:build
           pnpm folio:pack:check
+          pnpm folio:consumer:check
           pnpm catalog:build
 
   e2e:
