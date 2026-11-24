@@ -24,12 +24,12 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 ## Fases
 
-### Fase 1 — Correcciones de calidad (en curso)
+### Fase 1 — Correcciones de calidad (completada)
 
 - [x] Corregir la variante `outline` de Button: borde visible y estado hover consistente.
 - [x] Corregir Divider `thick` y `double`: utilizar grosor y estilo distintos.
 - [x] Añadir pruebas E2E que protejan esos contratos visuales.
-- [ ] Ejecutar CI y resolver cualquier regresión detectada.
+- [x] Ejecutar CI y resolver regresiones detectadas (CI #62 completó `success` sobre `625db6192e0d15e7455ce76d44c636b689a2f4c2`).
 
 ### Fase 2 — Contratos de componentes
 
@@ -43,13 +43,13 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 - [x] Mostrar un índice navegable de los 13 componentes y sus props/defaults principales en el catálogo, alineado con `COMPONENTS.md`.
 - [x] Añadir estados disabled/loading, input etiquetado y contenido largo en español.
 - [x] Enlazar y describir requisitos de accesibilidad en la referencia de contratos.
-- [x] Añadir pruebas E2E de navegación API, teclado/foco, estados y reduced motion; conservar axe en temas claro/oscuro.\n- [ ] Confirmar ejecución CI y revisar resultado axe/teclado real.
+- [x] Añadir pruebas E2E de navegación API, teclado/foco, estados y reduced motion; conservar axe en temas claro/oscuro.\n- [x] Confirmar CI #62 `success`; los tests axe en tema claro/oscuro y los checks de teclado/reduced motion pasaron.\n- [ ] Realizar revisión manual de teclado, zoom 200% y contraste en navegadores reales.
 
 ### Fase 4 — Distribución
 
 - [x] Ejecutar `pnpm folio:build` en CI y añadir `pnpm folio:pack:check` para validar el contenido del tarball (`dist/index.js`, tipos, CSS y README).
 - [x] Comprobar exports empaquetados, declaraciones de tipos, CSS y manifest/peer dependency Svelte 5 mediante el smoke check.
-- [ ] Probar instalación en un proyecto Svelte 5 mínimo separado.
+- [ ] Probar instalación y build desde un proyecto Svelte 5 mínimo separado.
 - [ ] Publicar manualmente una versión cuando el paquete y el catálogo estén validados; nunca publicar automáticamente desde CI.
 
 ## Criterios de aceptación
