@@ -1,4 +1,24 @@
 import { execFileSync } from 'node:child_process';
+import { readFileSync } from 'node:fs';
+
+const manifest = JSON.parse(readFileSync('./packages/folio/package.json', 'utf8'));
+const expected = {
+	name: '@benitoanagua/folio',
+	sveltePeer: '^5.0.0',
+	entry: './dist/index.js',
+	types: './dist/index.d.ts',
+	stylesheet: './dist/styles.css'
+};
+const contractErrors = [];
+if (manifest.name !== expected.name) contractErrors.push('unexpected package name');
+if (manifest.peerDependencies?.svelte !== expected.sveltePeer) contractErrors.push('Svelte 5 peer dependency missing');
+if (manifest.exports?.['.']?.svelte !== expected.entry) contractErrors.push('Svelte entry export missing');
+if (manifest.exports?.['.']?.types !== expected.types) contractErrors.push('type entry export missing');
+if (manifest.exports?.['./styles.css'] !== expected.stylesheet) contractErrors.push('stylesheet export missing');
+if (contractErrors.length) {
+	console.error(`FOLIO manifest contract failed: ${contractErrors.join('; ')}`);
+	process.exit(1);
+}
 
 const output = execFileSync('npm', ['pack', '--dry-run', '--json', './packages/folio'], {
 	encoding: 'utf8'
