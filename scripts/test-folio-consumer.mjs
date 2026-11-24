@@ -85,7 +85,7 @@ try {
 	);
 	execFileSync('npm', ['run', 'build'], { cwd: temp, stdio: 'inherit' });
 	console.log(
-		'FOLIO consumer smoke test passed: packed library installed and built in an isolated Svelte 5 app.'
+		'FOLIO packed consumer smoke test passed.'
 	);
 } finally {
 	rmSync(temp, { recursive: true, force: true });
