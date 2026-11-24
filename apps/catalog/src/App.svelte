@@ -36,6 +36,22 @@
 	};
 	const links = [{ label: 'GitHub', href: 'https://github.com/benitoanagua' }];
 
+	const contracts = [
+		{ name: 'Badge', props: 'tone?', defaults: 'neutral', detail: 'neutral · success · warning · danger' },
+		{ name: 'Button', props: 'variant?, size?, disabled?, loading?, onclick?', defaults: 'primary · md · false · false', detail: 'primary · secondary · outline · ghost; sm · md · lg' },
+		{ name: 'Card', props: 'title?', defaults: '—', detail: 'children; title is a visual label, add semantic headings in content' },
+		{ name: 'Divider', props: 'orientation?, variant?, label?', defaults: 'horizontal · soft', detail: 'hair · soft · thick · double · space' },
+		{ name: 'Marginalia', props: 'aside (snippet)', defaults: '—', detail: 'children + aside snippet; linear DOM reading order' },
+		{ name: 'Metric', props: 'value, label, note?', defaults: '—', detail: 'value and descriptive label required' },
+		{ name: 'Notice', props: 'label, tone?', defaults: 'note', detail: 'note · success · warning · error' },
+		{ name: 'ProjectCard', props: 'project, labels?', defaults: 'View / View case study / Source / Technologies', detail: 'project: title, description, href; optional image, year, category, tags, sourceHref' },
+		{ name: 'Pullquote', props: 'cite?', defaults: '—', detail: 'children; blockquote with optional citation' },
+		{ name: 'SectionHeading', props: 'title, eyebrow?, description?, align?, level?, rule?', defaults: 'left · 2 · false', detail: 'left · center; heading level 2 or 3' },
+		{ name: 'SocialLinks', props: 'items, compact?, label?', defaults: 'false · Social and professional links', detail: 'items: label + href; named nav' },
+		{ name: 'TextField', props: 'label, id, value?, placeholder?, hint?, type?, error?', defaults: "'' · '' · text", detail: 'visible label; hint/error associated to input' },
+		{ name: 'Timeline', props: 'items', defaults: '—', detail: 'period, title; optional organization, description, href' }
+	];
+
 	function toggleTheme() {
 		theme = theme === 'light' ? 'dark' : 'light';
 		document.documentElement.setAttribute('data-theme', theme);
@@ -63,7 +79,7 @@
 		<a href="#actions">Actions</a>
 		<a href="#content">Content</a>
 		<a href="#forms">Forms</a>
-		<a href="#editorial">Editorial</a>
+		<a href="#editorial">Editorial</a>\n\t\t<a href="#contracts">Component API</a>\n\t\t<a href="#reading-checks">Reading checks</a>
 	</nav>
 
 	<section id="foundations">
