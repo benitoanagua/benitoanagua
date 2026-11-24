@@ -30,4 +30,18 @@ test.describe('Catalog accessibility', () => {
 		);
 		expect(serious.map((v) => `${v.id}: ${v.help}`)).toEqual([]);
 	});
+	test('keyboard focus is visible and reduced motion is honored', async ({ page }) => {
+		await page.goto('/');
+		const themeButton = page.getByRole('button', { name: 'Switch theme' });
+		await page.keyboard.press('Tab');
+		await expect(themeButton).toBeFocused();
+		const outline = await themeButton.evaluate((el) => getComputedStyle(el).outlineStyle);
+		expect(outline).toBe('solid');
+
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		const loading = page.getByRole('button', { name: 'Procesando' });
+		const animation = await loading.locator('.spinner').evaluate((el) => getComputedStyle(el).animationName);
+		expect(animation).toBe('none');
+	});
+
 });
