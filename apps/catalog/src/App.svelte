@@ -44,7 +44,6 @@
 
 <svelte:head>
 	<title>FOLIO — Component Catalog</title>
-	<meta name="description" content="Svelte 5 components, tokens and usage examples for FOLIO." />
 </svelte:head>
 
 <main class="catalog">
@@ -181,7 +180,9 @@
 
 	<footer>
 		<p class="meta">FOLIO · SVELTE 5 · COMPONENT REFERENCE</p>
-		<a href="https://github.com/benitoanagua/benitoanagua">Source repository ↗</a>
+		<a href="https://github.com/benitoanagua/benitoanagua" target="_blank" rel="noreferrer external"
+			>Source repository ↗</a
+		>
 	</footer>
 </main>
 

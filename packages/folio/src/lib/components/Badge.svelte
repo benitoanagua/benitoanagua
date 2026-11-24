@@ -30,7 +30,13 @@
 		margin-right: 0.45em;
 		color: currentColor;
 	}
-	.success { color: var(--color-success); }
-	.warning { color: var(--color-warning); }
-	.danger { color: var(--color-error); }
+	.success {
+		color: var(--color-success);
+	}
+	.warning {
+		color: var(--color-warning);
+	}
+	.danger {
+		color: var(--color-error);
+	}
 </style>

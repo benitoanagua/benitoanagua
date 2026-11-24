@@ -48,6 +48,7 @@
 	/* Forma */
 	--radius-sm: 2px;
 	--radius-smart: var(--radius-sm);
+	--radius-full: 50%;
 
 	/* Foco */
 	--focus-ring: 3px solid var(--color-primary);

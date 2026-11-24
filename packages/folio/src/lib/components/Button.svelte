@@ -46,9 +46,13 @@
 		background: var(--color-primary);
 		color: var(--color-on-primary);
 		text-decoration: none;
-		transition: background-color var(--duration-fast), color var(--duration-fast);
+		transition:
+			background-color var(--duration-fast),
+			color var(--duration-fast);
 	}
-	.ds-button:hover:not(:disabled) { background: var(--color-on-background); }
+	.ds-button:hover:not(:disabled) {
+		background: var(--color-on-background);
+	}
 	.secondary,
 	.outline {
 		background: transparent;
@@ -74,8 +78,14 @@
 		background: var(--color-surface-container);
 		cursor: not-allowed;
 	}
-	.sm { min-height: 2.75rem; padding: 0 var(--space-3); }
-	.lg { min-height: 3.5rem; padding: 0 var(--space-8); }
+	.sm {
+		min-height: 2.75rem;
+		padding: 0 var(--space-3);
+	}
+	.lg {
+		min-height: 3.5rem;
+		padding: 0 var(--space-8);
+	}
 	.spinner {
 		width: 1em;
 		height: 1em;
@@ -83,8 +93,14 @@
 		border-right-color: transparent;
 		animation: ds-spin 0.7s linear infinite;
 	}
-	@keyframes ds-spin { to { transform: rotate(360deg); } }
+	@keyframes ds-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
 	@media (prefers-reduced-motion: reduce) {
-		.spinner { animation: none; }
+		.spinner {
+			animation: none;
+		}
 	}
 </style>
