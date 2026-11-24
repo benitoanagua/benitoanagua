@@ -1,6 +1,10 @@
 <script lang="ts">
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import SkillProjects from '$lib/components/SkillProjects.svelte';
+	import Marginalia from '$lib/design-system/components/Marginalia.svelte';
+	import SectionHeading from '$lib/design-system/components/SectionHeading.svelte';
+	import Notice from '$lib/design-system/components/Notice.svelte';
+	import Pullquote from '$lib/design-system/components/Pullquote.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getSkillProfiles, type SkillProfile } from '$lib/data/skill-profiles';
 	import { getPersonalInfo } from '$lib/data/cv-loader';
@@ -25,29 +29,42 @@
 
 <PortalLayout>
 	<article class="detail">
-		<a class="back mono" href="/habilidades">← {copy.back}</a>
+		<Marginalia>
+			{#snippet aside()}
+				<div class="mi">
+					<span class="meta">{copy.categoryLabel}</span>
+					<span class="mi-val">{skill.category}</span>
+				</div>
+				<div class="mi">
+					<span class="meta">{copy.areasLabel}</span>
+					<span class="mi-val">{skill.focusTitles.length}</span>
+				</div>
+				<div class="mi">
+					<a class="mi-back" href="/habilidades">← {copy.back}</a>
+				</div>
+			{/snippet}
 
-		<header>
-			<p class="eyebrow mono">{skill.category} / {copy.eyebrow}</p>
-			<h1>{skill.name}</h1>
-			<p class="summary">{skill.summary}</p>
-			{#if skill.narrative}<p class="narrative">{skill.narrative}</p>{/if}
-			<ul class="focus-list">
-				{#each skill.focusTitles as focus}<li>{focus}</li>{/each}
-			</ul>
-		</header>
+			<div class="prose detail-body">
+				<p class="kicker">{skill.category} / {copy.eyebrow}</p>
+				<h1>{skill.name}</h1>
+				<p class="drop-cap summary">{skill.summary}</p>
+				{#if skill.narrative}<Pullquote>{skill.narrative}</Pullquote>{/if}
+				<ul class="focus-list">
+					{#each skill.focusTitles as focus}<li>{focus}</li>{/each}
+				</ul>
+			</div>
+		</Marginalia>
+
+		<SkillProjects slug={skill.slug} />
 
 		<section aria-labelledby="evidence-title">
-			<div class="section-title">
-				<p class="eyebrow mono">{copy.evidenceEyebrow}</p>
-				<h2 id="evidence-title">{copy.evidenceTitle}</h2>
-			</div>
+			<SectionHeading eyebrow={copy.evidenceEyebrow} title={copy.evidenceTitle} />
 			<div class="evidence-list">
 				{#each skill.evidence as item}
 					<article class="evidence-card">
-						<div class="meta mono">
-							<span>{item.experience.period}</span>
-							<span>{item.relevance === 'direct' ? copy.direct : copy.context}</span>
+						<div class="meta-row">
+							<span class="meta">{item.experience.period}</span>
+							<span class="rel">{item.relevance === 'direct' ? copy.direct : copy.context}</span>
 						</div>
 						<h3>{item.experience.position}</h3>
 						<p class="company">{item.experience.company} · {item.focusTitle}</p>
@@ -55,28 +72,27 @@
 					</article>
 				{/each}
 			</div>
-			<p class="note">{copy.note}</p>
+			<Notice tone="note" label={copy.noteLabel}>{copy.note}</Notice>
 		</section>
-
-		<SkillProjects slug={skill.slug} />
 
 		{#if related.length}
 			<section aria-labelledby="related-title">
-				<h2 id="related-title" class="small-title">{copy.related}</h2>
+				<h2 id="related-title" class="related-title">{copy.related}</h2>
 				<ul class="chips">
 					{#each related as item (item.slug)}
-						<li><a class="mono" href={`/habilidades/${item.slug}`}>{item.name}</a></li>
+						<li><a href={`/habilidades/${item.slug}`}>{item.name}</a></li>
 					{/each}
 				</ul>
 			</section>
 		{/if}
 
 		<section class="next" aria-labelledby="next-title">
-			<h2 id="next-title" class="small-title">{copy.nextTitle}</h2>
+			<div class="rule-thick" aria-hidden="true"></div>
+			<h2 id="next-title">{copy.nextTitle}</h2>
 			<p>{copy.nextText}</p>
 			<div class="actions">
-				<a class="btn primary mono" href="/cv">{copy.cv}</a>
-				<a class="btn mono" href={`mailto:${personal.email}`}>{copy.contact}</a>
+				<a class="btn label primary" href="/cv">{copy.cv}</a>
+				<a class="btn label" href={`mailto:${personal.email}`}>{copy.contact}</a>
 			</div>
 		</section>
 	</article>
@@ -88,173 +104,170 @@
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: var(--space-16);
 	}
-	.back {
+	.mi {
+		display: grid;
+		gap: var(--space-1);
+	}
+	.mi-val {
+		font-size: var(--text-meta);
+		color: var(--color-on-background);
+	}
+	.mi-back {
 		display: inline-flex;
 		align-items: center;
-		align-self: flex-start;
-		min-height: 44px;
-		font-size: 0.75rem;
+		min-height: 2.75rem;
 		color: var(--color-primary);
+		font-size: var(--text-meta);
+		font-weight: 700;
 		text-decoration: none;
 	}
-	header {
-		padding: clamp(2rem, 6vw, 5rem);
-		border: 1px solid var(--color-outline-variant);
-		background: var(--color-surface);
+	.mi-back:hover {
+		text-decoration: underline;
+		text-underline-offset: 4px;
 	}
-	.eyebrow {
-		font-size: 0.75rem;
-		letter-spacing: 0.06em;
-		color: var(--color-primary);
-		margin-bottom: 1rem;
+	.detail-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
 	}
-	h1 {
-		font-size: clamp(2.5rem, 7vw, 5.5rem);
-		line-height: 1.02;
-		letter-spacing: -0.05em;
-		text-transform: none;
+	.detail-body .kicker {
+		margin-bottom: var(--space-4);
+	}
+	.detail-body h1 {
+		margin-top: 0;
 	}
 	.summary {
-		font-size: 1.05rem;
-		line-height: 1.8;
-		color: var(--color-on-surface-variant);
-		max-width: 66ch;
-		margin-top: 1.5rem;
-	}
-	.narrative {
-		font-size: 0.95rem;
-		line-height: 1.8;
-		max-width: 66ch;
-		margin-top: 1rem;
-		padding-left: 1rem;
-		border-left: 2px solid var(--color-primary);
+		margin-top: var(--space-6);
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
 	}
 	.focus-list {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
-		margin-top: 1.5rem;
+		gap: var(--space-3);
+		margin-top: var(--space-8);
 		list-style: none;
 	}
 	.focus-list li {
-		font-size: 0.75rem;
-		padding: 0.4rem 0.6rem;
-		border: 1px solid var(--color-outline-variant);
+		font-size: var(--text-meta);
+		padding: 0.35rem 0.6rem;
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
 	}
 	section {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
-	}
-	.section-title h2 {
-		font-size: clamp(1.5rem, 3vw, 2.5rem);
-		text-transform: none;
-	}
-	.small-title {
-		font-size: 1.25rem;
-		text-transform: none;
+		gap: var(--space-6);
 	}
 	.evidence-list {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0.8rem;
+		gap: var(--space-4);
 	}
 	.evidence-card {
-		padding: 1.2rem;
-		border: 1px solid var(--color-outline-variant);
-		background: var(--color-surface);
+		padding: var(--space-6);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
+		background: var(--color-surface-container);
 	}
-	.meta {
+	.meta-row {
 		display: flex;
 		justify-content: space-between;
-		gap: 0.8rem;
-		font-size: 0.75rem;
-		color: var(--color-primary);
+		gap: var(--space-4);
+	}
+	.rel {
+		font-size: var(--text-meta);
+		color: var(--color-on-surface-variant);
+		font-style: italic;
 	}
 	.evidence-card h3 {
-		font-size: 1.1rem;
+		margin-top: var(--space-4);
+		font-size: 1.25rem;
 		text-transform: none;
-		margin-top: 1rem;
 	}
 	.company {
-		font-size: 0.8125rem;
+		font-size: var(--text-meta);
 		color: var(--color-on-surface-variant);
-		margin-top: 0.3rem;
+		margin-top: var(--space-1);
 	}
 	.description {
-		font-size: 0.9rem;
-		line-height: 1.7;
+		font-size: var(--text-meta);
+		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
-		margin-top: 0.8rem;
+		margin-top: var(--space-3);
 		max-width: 66ch;
 	}
-	.note {
-		font-size: 0.8125rem;
-		line-height: 1.7;
-		color: var(--color-on-surface-variant);
-		border-left: 2px solid var(--color-primary);
-		padding-left: 1rem;
+	.related-title {
+		font-size: var(--text-section);
 	}
 	.chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: var(--space-3);
 		list-style: none;
 	}
 	.chips a {
 		display: inline-flex;
 		align-items: center;
-		min-height: 44px;
-		padding: 0 var(--space-3);
-		font-size: 0.75rem;
+		min-height: 2.75rem;
+		padding: 0 var(--space-4);
+		font-size: var(--text-meta);
 		font-weight: 700;
 		text-decoration: none;
 		color: var(--color-on-surface-variant);
-		border: 1px solid var(--color-outline-variant);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
 	}
 	.chips a:hover {
-		color: var(--color-on-surface);
-		border-color: var(--color-outline);
+		color: var(--color-on-background);
+		border-color: var(--color-on-background);
 	}
 	.next {
-		padding: clamp(1.5rem, 4vw, 2.5rem);
-		border: 1px solid var(--color-outline-variant);
-		background: var(--color-surface);
+		padding: var(--space-8) 0 0;
+	}
+	.next h2 {
+		font-size: var(--text-section);
 	}
 	.next p {
-		max-width: 56ch;
+		max-width: var(--measure);
 		color: var(--color-on-surface-variant);
-		line-height: 1.7;
+		line-height: var(--leading-body);
 	}
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		gap: var(--space-4);
 	}
 	.btn {
 		display: inline-flex;
 		align-items: center;
-		min-height: 44px;
-		padding: 0 var(--space-4);
-		font-size: 0.75rem;
-		font-weight: 700;
+		min-height: 3rem;
+		padding: 0 var(--space-6);
+		border: var(--rule-base) solid var(--color-on-background);
+		border-radius: var(--radius-sm);
+		color: var(--color-on-background);
 		text-decoration: none;
-		color: var(--color-on-surface);
-		border: 1px solid var(--color-outline);
 	}
 	.btn.primary {
+		background: var(--color-on-background);
+		color: var(--color-background);
+	}
+	.btn.primary:hover {
 		background: var(--color-primary);
-		color: var(--color-on-primary);
 		border-color: var(--color-primary);
+	}
+	.btn:hover {
+		background: var(--color-surface-container);
 	}
 	@media (max-width: 700px) {
 		.evidence-list {
 			grid-template-columns: 1fr;
 		}
-		.meta {
+		.meta-row {
 			flex-direction: column;
+			gap: var(--space-1);
 		}
 	}
 </style>

@@ -12,7 +12,7 @@
 
 <article class="card">
 	<a class="card-link" href={`/proyectos/${project.slug}`}>
-		<div class="top mono">
+		<div class="top meta">
 			<span class="area">{areaLabel}</span>
 			<span>{project.year}</span>
 		</div>
@@ -23,11 +23,11 @@
 		{#if project.stack.length}
 			<ul class="tags">
 				{#each project.stack.slice(0, 4) as item}
-					<li class="mono">{item}</li>
+					<li class="tag meta">{item}</li>
 				{/each}
 			</ul>
 		{/if}
-		{#if statusLabel}<span class="status mono">{statusLabel}</span>{/if}
+		{#if statusLabel}<span class="status meta">{statusLabel}</span>{/if}
 	</div>
 </article>
 
@@ -37,15 +37,24 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		gap: 1rem;
+		gap: var(--space-4);
 		min-height: 15rem;
-		padding: 1.5rem;
+		padding: var(--space-6);
 		background: var(--color-surface);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
+	}
+	.card:hover {
+		border-color: var(--color-on-background);
+	}
+	.card:has(.card-link:focus-visible) {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
 	}
 	.card-link {
 		display: flex;
 		flex-direction: column;
-		gap: 0.75rem;
+		gap: var(--space-3);
 		color: inherit;
 		text-decoration: none;
 	}
@@ -55,55 +64,44 @@
 		position: absolute;
 		inset: 0;
 	}
-	.card-link:focus-visible {
-		box-shadow: none;
+	.top {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-3);
 	}
-	.card:has(.card-link:focus-visible) {
-		box-shadow: inset var(--ring-primary);
+	h3 {
+		font-family: var(--font-display);
+		font-size: 1.25rem;
+		line-height: var(--leading-section);
+		font-weight: 700;
+		letter-spacing: 0;
+		text-transform: none;
 	}
 	.card:hover h3 {
 		color: var(--color-primary);
 	}
-	.top {
-		display: flex;
-		justify-content: space-between;
-		font-size: 0.75rem;
-		color: var(--color-on-surface-variant);
-	}
-	.area {
-		color: var(--color-primary);
-		font-weight: 700;
-	}
-	h3 {
-		font-size: 1.1rem;
-		line-height: 1.25;
-		letter-spacing: 0;
-		text-transform: none;
-	}
 	p {
-		font-size: 0.92rem;
-		line-height: 1.6;
+		font-size: var(--text-meta);
+		line-height: var(--leading-body);
 		color: var(--color-on-surface-variant);
 	}
 	.bottom {
 		display: flex;
 		flex-direction: column;
-		gap: 0.7rem;
+		gap: var(--space-3);
 	}
 	.tags {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.3rem;
+		gap: var(--space-2);
 		list-style: none;
 	}
-	.tags li {
-		font-size: 0.75rem;
-		padding: 0.15rem 0.45rem;
-		border: 1px solid var(--color-outline-variant);
-		color: var(--color-on-surface-variant);
+	.tag {
+		padding: 0.2rem 0.5rem;
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
 	}
 	.status {
-		font-size: 0.75rem;
 		color: var(--color-on-surface-variant);
 	}
 </style>

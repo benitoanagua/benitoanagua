@@ -1,6 +1,8 @@
 <script lang="ts">
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
+	import Badge from '$lib/design-system/components/Badge.svelte';
+	import Divider from '$lib/design-system/components/Divider.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getProject, getProjects, hasSkillPage } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
@@ -38,64 +40,67 @@
 <PortalLayout>
 	{#if project}
 		<article class="detail">
-			<a class="back mono" href="/proyectos">← {copy.back}</a>
-
-			<header>
-				<p class="eyebrow mono">{copy.areas[project.area]} / {ui.detailEyebrow}</p>
+			<header class="masthead">
+				<div class="meta-row">
+					<p class="eyebrow kicker">{copy.areas[project.area]} / {ui.detailEyebrow}</p>
+					<a class="back label" href="/proyectos">← {copy.back}</a>
+				</div>
 				<h1>{project.title}</h1>
 				<p class="lead">{project.summary}</p>
-				<dl class="meta mono">
-					<div><dt>{copy.role}</dt><dd>{project.role}</dd></div>
-					<div><dt>{copy.year}</dt><dd>{project.year}</dd></div>
+				<dl class="facts">
+					<div><dt class="meta">{copy.role}</dt><dd>{project.role}</dd></div>
+					<div><dt class="meta">{copy.year}</dt><dd>{project.year}</dd></div>
 					{#if project.status}
-						<div><dt>{copy.status}</dt><dd>{copy.statuses[project.status]}</dd></div>
+						<div><dt class="meta">{copy.status}</dt><dd>{copy.statuses[project.status]}</dd></div>
 					{/if}
 				</dl>
 			</header>
 
 			{#if project.context}
-				<section>
-					<h2>{copy.context}</h2>
-					<p class="prose">{project.context}</p>
+				<section class="block">
+					<h2 class="block-title">{copy.context}</h2>
+					<p class="prose-col">{project.context}</p>
 				</section>
 			{/if}
 
-			<section>
-				<h2>{copy.highlights}</h2>
-				<ul class="bullets">
-					{#each project.highlights as item}
-						<li>{item}</li>
-					{/each}
-				</ul>
-			</section>
-
-			{#if project.result}
-				<section>
-					<h2>{copy.result}</h2>
-					<p class="prose">{project.result}</p>
-				</section>
-			{/if}
-
-			{#if project.stack.length}
-				<section>
-					<h2>{copy.stack}</h2>
-					<ul class="tags">
-						{#each project.stack as item}
-							<li class="mono">{item}</li>
+			{#if project.highlights.length}
+				<section class="block">
+					<h2 class="block-title">{copy.highlights}</h2>
+					<ul class="highlights">
+						{#each project.highlights as item}
+							<li>{item}</li>
 						{/each}
 					</ul>
 				</section>
 			{/if}
 
-			<section>
-				<h2>{copy.skills}</h2>
-				<ul class="tags">
+			{#if project.result}
+				<section class="block">
+					<h2 class="block-title">{copy.result}</h2>
+					<p class="prose-col">{project.result}</p>
+				</section>
+			{/if}
+
+			{#if project.stack.length}
+				<section class="block">
+					<h2 class="block-title">{copy.stack}</h2>
+					<ul class="stack">
+						{#each project.stack as item}
+							<li><Badge>{item}</Badge></li>
+						{/each}
+					</ul>
+				</section>
+			{/if}
+
+			<section class="block">
+				<h2 class="block-title">{copy.skills}</h2>
+				<ul class="chips">
 					{#each project.skills as skill}
-						<li class="mono">
+						<li>
 							{#if hasSkillPage(skill)}
 								<a href={`/habilidades/${slugify(skill)}`}>{skill}</a>
 							{:else}
-								{skill}
+								<span>{skill}</span>
 							{/if}
 						</li>
 					{/each}
@@ -103,19 +108,19 @@
 			</section>
 
 			{#if links.length}
-				<section>
-					<h2>{copy.links}</h2>
+				<section class="block">
+					<h2 class="block-title">{copy.links}</h2>
 					<div class="actions">
 						{#each links as l}
-							<a class="btn mono" href={l.href} rel="noopener">{l.label}</a>
+							<a class="btn label" href={l.href} rel="noopener" target="_blank">{l.label} ↗</a>
 						{/each}
 					</div>
 				</section>
 			{/if}
 
 			{#if related.length}
-				<section>
-					<h2>{copy.related}</h2>
+				<section class="block">
+					<h2 class="block-title">{copy.related}</h2>
 					<div class="grid shared-boundary">
 						{#each related as p (p.slug)}
 							<ProjectCard
@@ -127,126 +132,141 @@
 					</div>
 				</section>
 			{/if}
+
+			<Divider />
+
+			<footer class="foot">
+				<a class="label" href="/proyectos">← {copy.back}</a>
+			</footer>
 		</article>
 	{/if}
 </PortalLayout>
 
 <style>
 	.detail {
-		max-width: 1000px;
+		max-width: var(--container-md);
 		margin: 0 auto;
 		display: flex;
 		flex-direction: column;
-		gap: 2rem;
+		gap: var(--space-16);
 		padding: clamp(1.5rem, 4vw, 3rem) var(--space-4) var(--space-20);
 	}
-	.back {
-		font-size: 0.75rem;
-		color: var(--color-primary);
-		text-decoration: none;
-	}
-	header {
-		padding: clamp(2rem, 6vw, 4rem);
-		border: 1px solid var(--color-outline-variant);
-		background: var(--color-surface);
+	.masthead {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: var(--space-4);
+	}
+	.meta-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: var(--space-4);
 	}
 	.eyebrow {
-		font-size: 0.75rem;
-		letter-spacing: 0.06em;
+		margin: 0;
+	}
+	.back {
 		color: var(--color-primary);
-	}
-	h1 {
-		font-size: clamp(1.8rem, 4.5vw, 3.2rem);
-		line-height: 1.08;
-		letter-spacing: -0.03em;
-		text-transform: none;
-	}
-	.lead {
-		max-width: 62ch;
-		line-height: 1.75;
-		color: var(--color-on-surface-variant);
-	}
-	.meta {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem 2rem;
-		font-size: 0.75rem;
-	}
-	.meta dt {
-		color: var(--color-on-surface-variant);
-	}
-	.meta dd {
+		font-size: var(--text-meta);
 		font-weight: 700;
-	}
-	section {
-		display: flex;
-		flex-direction: column;
-		gap: 0.9rem;
-	}
-	h2 {
-		font-size: 1.25rem;
-		text-transform: none;
-		padding-bottom: 0.6rem;
-		border-bottom: 1px solid var(--color-outline-variant);
-	}
-	.prose {
-		max-width: 64ch;
-		line-height: 1.75;
-	}
-	.bullets {
-		display: flex;
-		flex-direction: column;
-		gap: 0.7rem;
-		list-style: none;
-		max-width: 66ch;
-	}
-	.bullets li {
-		position: relative;
-		padding-left: 1.5rem;
-		line-height: 1.65;
-	}
-	.bullets li::before {
-		content: '';
-		position: absolute;
-		left: 0;
-		top: 0.8em;
-		width: 10px;
-		height: 1px;
-		background: var(--color-primary);
-	}
-	.tags {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.35rem;
-		list-style: none;
-	}
-	.tags li {
-		font-size: 0.75rem;
-		padding: 0.2rem 0.55rem;
-		border: 1px solid var(--color-outline-variant);
-		color: var(--color-on-surface-variant);
-	}
-	.tags a {
-		color: var(--color-primary);
 		text-decoration: none;
 	}
-	.tags a:hover {
+	.back:hover {
 		text-decoration: underline;
+		text-underline-offset: 4px;
+	}
+	.masthead h1 {
+		font-size: clamp(2.5rem, 1.8rem + 3vw, 4.5rem);
+		line-height: var(--leading-tight);
+	}
+	.lead {
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
+		color: var(--color-on-surface-variant);
+		max-width: var(--measure);
+	}
+	.facts {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-8);
+	}
+	.facts div {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-2);
+	}
+	.facts dd {
+		font-weight: 700;
+		color: var(--color-on-background);
+	}
+	.block {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+	}
+	.block-title {
+		font-size: var(--text-section);
+	}
+	.prose-col {
+		max-width: var(--measure);
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
+		color: var(--color-on-surface-variant);
+	}
+	.highlights {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		max-width: var(--measure);
+	}
+	.highlights li {
+		padding-left: var(--space-4);
+		border-left: var(--rule-base) solid var(--color-primary);
+		line-height: var(--leading-body);
+	}
+	.stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		list-style: none;
+	}
+	.chips {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+		list-style: none;
+	}
+	.chips a,
+	.chips span {
+		display: inline-flex;
+		align-items: center;
+		min-height: 2.75rem;
+		padding: 0 var(--space-4);
+		font-size: var(--text-meta);
+		font-weight: 700;
+		text-decoration: none;
+		color: var(--color-on-surface-variant);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
+	}
+	.chips a:hover {
+		color: var(--color-on-background);
+		border-color: var(--color-on-background);
 	}
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		gap: var(--space-4);
 	}
 	.btn {
-		font-size: 0.78rem;
-		font-weight: 700;
-		padding: 0.7rem 1.2rem;
-		border: 1px solid var(--color-on-surface);
-		color: var(--color-on-surface);
+		display: inline-flex;
+		align-items: center;
+		min-height: 3rem;
+		padding: 0 var(--space-6);
+		border: var(--rule-base) solid var(--color-on-background);
+		border-radius: var(--radius-sm);
+		color: var(--color-on-background);
 		text-decoration: none;
 	}
 	.btn:hover {
@@ -256,6 +276,19 @@
 	}
 	.grid {
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-		border: 1px solid var(--color-outline-variant);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+	}
+	.foot {
+		padding-top: var(--space-4);
+	}
+	.foot a {
+		color: var(--color-primary);
+		font-size: var(--text-meta);
+		font-weight: 700;
+		text-decoration: none;
+	}
+	.foot a:hover {
+		text-decoration: underline;
+		text-underline-offset: 4px;
 	}
 </style>

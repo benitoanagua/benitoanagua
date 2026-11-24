@@ -10,8 +10,8 @@
 
 <section class="featured" aria-labelledby="featured-title">
 	<div class="head">
-		<h2 id="featured-title" class="mono">{copy.featuredTitle}</h2>
-		<a class="more mono" href="/proyectos">{copy.featuredCta}</a>
+		<h2 id="featured-title" class="kicker">{copy.featuredTitle}</h2>
+		<a class="more label" href="/proyectos">{copy.featuredCta} ↗</a>
 	</div>
 	<div class="grid shared-boundary">
 		{#each projects as project (project.slug)}
@@ -28,32 +28,27 @@
 	.featured {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: var(--space-6);
 	}
 	.head {
 		display: flex;
 		justify-content: space-between;
 		align-items: baseline;
-		gap: 1rem;
+		gap: var(--space-4);
 		flex-wrap: wrap;
-		padding-bottom: 0.8rem;
-		border-bottom: 1px solid var(--color-outline-variant);
-	}
-	h2 {
-		font-size: 0.8rem;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--color-primary);
+		padding-bottom: var(--space-4);
+		border-bottom: var(--rule-hair) solid var(--color-on-background);
 	}
 	.more {
-		font-size: 0.75rem;
-		font-weight: 700;
 		color: var(--color-primary);
 		text-decoration: none;
-		border-bottom: 1px solid currentColor;
+	}
+	.more:hover {
+		text-decoration: underline;
+		text-underline-offset: 4px;
 	}
 	.grid {
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 21rem), 1fr));
-		border: 1px solid var(--color-outline-variant);
+		border: var(--rule-hair) solid var(--color-outline-variant);
 	}
 </style>

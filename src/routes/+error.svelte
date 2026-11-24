@@ -17,13 +17,15 @@
 
 <PortalLayout>
 	<section class="error">
-		<p class="code mono">{page.status}</p>
+		<p class="code kicker">{page.status}</p>
 		<h1>{notFound ? copy.notFoundTitle : copy.genericTitle}</h1>
-		<p class="text">{notFound ? copy.notFoundText : copy.genericText}</p>
-		<ul>
-			<li><a class="primary mono" href="/">{copy.home}</a></li>
+		<div class="prose">
+			<p>{notFound ? copy.notFoundText : copy.genericText}</p>
+		</div>
+		<ul class="error-links">
+			<li><a class="home label" href="/">{copy.home}</a></li>
 			{#each links as item}
-				<li><a class="mono" href={item.href}>{item.label}</a></li>
+				<li><a href={item.href}>{item.label}</a></li>
 			{/each}
 		</ul>
 	</section>
@@ -36,45 +38,34 @@
 		padding: clamp(2rem, 6vw, 4rem) var(--space-4);
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
+		gap: var(--space-6);
 	}
 	.code {
-		font-size: 0.75rem;
-		color: var(--color-primary);
+		margin-bottom: calc(-1 * var(--space-4));
 	}
-	h1 {
-		font-size: clamp(2rem, 6vw, 3.5rem);
-		line-height: 1.05;
-		letter-spacing: -0.04em;
-		text-transform: none;
-	}
-	.text {
+	.prose {
 		color: var(--color-on-surface-variant);
-		line-height: 1.7;
 	}
-	ul {
+	.error-links {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
+		flex-direction: column;
 		list-style: none;
 	}
-	a {
-		display: inline-flex;
+	.error-links a {
+		display: flex;
 		align-items: center;
-		min-height: 44px;
-		padding: 0 var(--space-4);
-		font-size: 0.75rem;
+		min-height: 2.75rem;
+		padding: var(--space-2) 0;
+		color: var(--color-on-background);
+		font-size: var(--text-meta);
 		font-weight: 700;
-		text-decoration: none;
-		color: var(--color-on-surface);
-		border: 1px solid var(--color-outline-variant);
+		text-decoration: underline;
+		text-underline-offset: 4px;
 	}
-	a:hover {
-		border-color: var(--color-outline);
+	.error-links li + li a {
+		border-top: var(--rule-hair) dashed var(--color-outline-variant);
 	}
-	.primary {
-		background: var(--color-primary);
-		color: var(--color-on-primary);
-		border-color: var(--color-primary);
+	.error-links .home {
+		color: var(--color-primary);
 	}
 </style>

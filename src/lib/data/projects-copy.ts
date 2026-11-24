@@ -11,6 +11,7 @@ export interface ProjectsCopy {
 	role: string;
 	year: string;
 	status: string;
+	area: string;
 	stack: string;
 	skills: string;
 	context: string;
@@ -41,6 +42,7 @@ const es: ProjectsCopy = {
 	role: 'Rol',
 	year: 'Año',
 	status: 'Estado',
+	area: 'Área',
 	stack: 'Stack',
 	skills: 'Habilidades aplicadas',
 	context: 'Contexto',
@@ -71,6 +73,7 @@ const en: ProjectsCopy = {
 	role: 'Role',
 	year: 'Year',
 	status: 'Status',
+	area: 'Area',
 	stack: 'Stack',
 	skills: 'Skills applied',
 	context: 'Context',

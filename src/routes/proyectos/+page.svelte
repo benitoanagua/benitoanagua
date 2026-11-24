@@ -35,25 +35,25 @@
 
 <PortalLayout>
 	<div class="page">
-		<header>
-			<p class="eyebrow mono">{ui.eyebrow}</p>
+		<header class="intro">
+			<p class="eyebrow kicker">{ui.eyebrow}</p>
 			<h1>{copy.title}</h1>
 			<p class="lead">{copy.lead}</p>
 		</header>
 
 		<section class="listing">
 			<div class="chips" role="group" aria-label={copy.filterAria}>
-				<button class="chip mono" aria-pressed={area === 'all'} onclick={() => select('all')}>
+				<button class="chip label" aria-pressed={area === 'all'} onclick={() => select('all')}>
 					{copy.filterAll} <span>{all.length}</span>
 				</button>
 				{#each areas as a}
-					<button class="chip mono" aria-pressed={area === a} onclick={() => select(a)}>
+					<button class="chip label" aria-pressed={area === a} onclick={() => select(a)}>
 						{copy.areas[a]} <span>{all.filter((p) => p.area === a).length}</span>
 					</button>
 				{/each}
 			</div>
 
-			<p class="count mono" aria-live="polite">{visible.length} {copy.count}</p>
+			<p class="count meta" aria-live="polite">{visible.length} {copy.count}</p>
 
 			{#if visible.length}
 				<div class="grid shared-boundary">
@@ -81,67 +81,59 @@
 		margin: 0 auto;
 		padding: clamp(1.5rem, 4vw, 3rem) var(--space-4) var(--space-20);
 	}
-	header {
+	.intro {
 		padding: clamp(2rem, 6vw, 4rem);
-		background: var(--color-surface);
-		border: 1px solid var(--color-outline-variant);
+		background: var(--color-surface-container);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
 	}
 	.eyebrow {
-		font-size: 0.75rem;
-		letter-spacing: 0.06em;
-		color: var(--color-primary);
-		margin-bottom: 1.25rem;
-	}
-	h1 {
-		font-size: clamp(2.3rem, 6vw, 4.5rem);
-		line-height: 1.04;
-		letter-spacing: -0.045em;
-		text-transform: none;
+		margin-bottom: var(--space-4);
 	}
 	.lead {
-		max-width: 62ch;
+		max-width: var(--measure);
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
 		color: var(--color-on-surface-variant);
-		line-height: 1.75;
-		margin-top: 1.25rem;
+		margin-top: var(--space-6);
 	}
 	.listing {
 		display: flex;
 		flex-direction: column;
-		gap: 1rem;
+		gap: var(--space-6);
 	}
 	.chips {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.5rem;
+		gap: var(--space-3);
 	}
 	.chip {
-		min-height: 44px;
-		font-size: 0.75rem;
-		font-weight: 700;
-		padding: 0.5rem 0.9rem;
+		min-height: 2.75rem;
+		padding: 0 var(--space-4);
 		background: transparent;
 		color: var(--color-on-surface-variant);
-		border: 1px solid var(--color-outline-variant);
+		border: var(--rule-base) solid var(--color-outline);
+		border-radius: var(--radius-sm);
+		cursor: pointer;
 	}
 	.chip span {
-		opacity: 0.6;
 		font-weight: 400;
+		opacity: 0.7;
 	}
 	.chip:hover {
-		color: var(--color-on-surface);
-		border-color: var(--color-outline);
+		color: var(--color-on-background);
+		border-color: var(--color-on-background);
 	}
 	.chip[aria-pressed='true'] {
-		background: var(--color-on-surface);
-		color: var(--color-surface);
-		border-color: var(--color-on-surface);
+		background: var(--color-on-background);
+		color: var(--color-background);
+		border-color: var(--color-on-background);
 	}
 	.count {
-		font-size: 0.75rem;
-		color: var(--color-on-surface-variant);
+		min-height: 1.2em;
 	}
 	.grid {
 		grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
-		border: 1px solid var(--color-outline-variant);
+		border: var(--rule-hair) solid var(--color-outline-variant);
 	}
 </style>

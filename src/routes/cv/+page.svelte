@@ -3,7 +3,6 @@
 	import { lang } from '$lib/state/lang.svelte';
 	import { uiCopy } from '$lib/data/ui-copy';
 
-
 	const files = [
 		{ label: 'Analista de Aplicaciones de Negocio', file: 'BenitoAnagua_AnalistaAplicaciones_2026_ES.pdf' },
 		{ label: 'Docente de Diseño Digital', file: 'BenitoAnagua_DocenteDiseno_2026_ES.pdf' },
@@ -21,21 +20,25 @@
 
 <PortalLayout>
 	<div class="cv-page">
-		<header>
-			<p class="eyebrow mono">{copy.eyebrow}</p>
+		<header class="intro">
+			<p class="eyebrow kicker">{copy.eyebrow}</p>
 			<h1>{copy.title}</h1>
-			<p>{copy.intro}</p>
-			<a class="primary" href="/habilidades">{copy.explore} ↗</a>
+			<p class="lead">{copy.intro}</p>
+			<a class="primary label" href="/habilidades">{copy.explore} ↗</a>
 		</header>
-		<section>
-			<h2>{copy.current}</h2>
-			{#if copy.languageNote}<p class="note">{copy.languageNote}</p>{/if}
+		<section class="documents-section">
+			<h2 class="section-title">{copy.current}</h2>
+			{#if copy.languageNote}
+				<p class="note">
+					{#if copy.languageNoteLabel}<span class="meta">{copy.languageNoteLabel} — </span>{/if}{copy.languageNote}
+				</p>
+			{/if}
 			<div class="documents">
 				{#each files as file}
 					<a class="document" href={'/cv/' + file.file} download>
-						<span class="mono">PDF · ES · 2026</span>
+						<span class="meta doc-format">PDF · ES · 2026</span>
 						<h3>{file.label}</h3>
-						<span class="download">{copy.download} ↓</span>
+						<span class="download label">{copy.download} ↓</span>
 					</a>
 				{/each}
 			</div>
@@ -44,20 +47,97 @@
 </PortalLayout>
 
 <style>
-	.cv-page { display: flex; flex-direction: column; gap: 3rem; }
-	header { padding: clamp(2rem, 6vw, 5rem); border: 1px solid var(--color-outline-variant); background: var(--color-surface); }
-	.eyebrow { font-size: .75rem; letter-spacing: .06em; color: var(--color-primary); margin-bottom: 1rem; }
-	h1 { font-size: clamp(2.3rem, 6vw, 5rem); line-height: 1.04; letter-spacing: -.045em; text-transform: none; }
-	header > p:not(.eyebrow) { max-width: 680px; color: var(--color-on-surface-variant); line-height: 1.75; margin-top: 1.5rem; }
-	.primary { display: inline-block; margin-top: 1.5rem; background: var(--color-primary); color: var(--color-on-primary); display: inline-flex; align-items: center; min-height: 44px; padding: 0 1rem; text-decoration: none; font-size: .75rem; font-weight: 700; }
-	section { display: flex; flex-direction: column; gap: 1rem; }
-	.note { color: var(--color-on-surface-variant); font-size: .875rem; }
-	.document:hover { box-shadow: var(--ring-primary); }
-	section h2 { font-size: 1.5rem; text-transform: none; }
-	.documents { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
-	.document { display: flex; flex-direction: column; padding: 1.2rem; border: 1px solid var(--color-outline-variant); background: var(--color-surface); text-decoration: none; color: inherit; }
-	.document .mono { font-size: .75rem; color: var(--color-primary); letter-spacing: .08em; }
-	.document h3 { font-size: 1rem; text-transform: none; margin-top: 1rem; }
-	.download { font-size: .8125rem; color: var(--color-primary); margin-top: auto; padding-top: 1.4rem; }
-	@media (max-width: 600px) { .documents { grid-template-columns: 1fr; } }
+	.cv-page {
+		display: flex;
+		flex-direction: column;
+		gap: clamp(2rem, 5vw, 3.5rem);
+		max-width: var(--container-lg);
+		margin: 0 auto;
+		padding: clamp(1.5rem, 4vw, 3rem) var(--space-4) var(--space-20);
+	}
+	.intro {
+		padding: clamp(2rem, 6vw, 5rem);
+		background: var(--color-surface-container);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
+	}
+	.eyebrow {
+		margin-bottom: var(--space-4);
+	}
+	h1 {
+		font-size: clamp(2.3rem, 6vw, 4.5rem);
+		line-height: var(--leading-tight);
+	}
+	.lead {
+		max-width: var(--measure);
+		font-size: var(--text-lead);
+		line-height: var(--leading-lead);
+		color: var(--color-on-surface-variant);
+		margin-top: var(--space-6);
+	}
+	.primary {
+		display: inline-flex;
+		align-items: center;
+		min-height: 3rem;
+		margin-top: var(--space-8);
+		padding: 0 var(--space-6);
+		background: var(--color-on-background);
+		color: var(--color-background);
+		border-radius: var(--radius-sm);
+		text-decoration: none;
+	}
+	.primary:hover {
+		background: var(--color-primary);
+	}
+	.documents-section {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-6);
+	}
+	.section-title {
+		font-size: var(--text-section);
+	}
+	.note {
+		color: var(--color-on-surface-variant);
+		font-size: var(--text-meta);
+		line-height: var(--leading-body);
+		max-width: var(--measure);
+	}
+	.documents {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+	}
+	.document {
+		display: flex;
+		flex-direction: column;
+		padding: var(--space-6);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		border-radius: var(--radius-sm);
+		background: var(--color-surface-container);
+		text-decoration: none;
+		color: inherit;
+		transition: border-color var(--duration-fast);
+	}
+	.document:hover {
+		border-color: var(--color-on-background);
+	}
+	.doc-format {
+		display: block;
+		margin-bottom: var(--space-3);
+	}
+	.document h3 {
+		font-size: 1.25rem;
+		text-transform: none;
+	}
+	.download {
+		color: var(--color-primary);
+		margin-top: auto;
+		padding-top: var(--space-6);
+	}
+	@media (max-width: 600px) {
+		.documents {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>

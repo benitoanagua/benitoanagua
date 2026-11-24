@@ -34,6 +34,9 @@ export interface UiCopy {
 		cv: string;
 		contact: string;
 		titleSuffix: string;
+		categoryLabel: string;
+		areasLabel: string;
+		noteLabel: string;
 	};
 	experience: {
 		eyebrow: string;
@@ -52,6 +55,7 @@ export interface UiCopy {
 		download: string;
 		explore: string;
 		languageNote: string | null;
+		languageNoteLabel: string;
 	};
 	projects: { eyebrow: string; detailEyebrow: string };
 	error: {
@@ -93,7 +97,10 @@ const es: UiCopy = {
 		nextText: 'Revisa el CV completo o escríbeme si esta experiencia encaja con lo que buscas.',
 		cv: 'Ver CV',
 		contact: 'Escribirme',
-		titleSuffix: 'Habilidades'
+		titleSuffix: 'Habilidades',
+		categoryLabel: 'Categoría',
+		areasLabel: 'Áreas profesionales',
+		noteLabel: 'Nota'
 	},
 	experience: {
 		eyebrow: 'Trayectoria profesional',
@@ -113,7 +120,8 @@ const es: UiCopy = {
 		current: 'Documentos PDF vigentes',
 		download: 'Descargar PDF',
 		explore: 'Explorar habilidades',
-		languageNote: null
+		languageNote: null,
+		languageNoteLabel: 'Nota'
 	},
 	projects: { eyebrow: 'Proyectos y trabajo seleccionado', detailEyebrow: 'Proyecto' },
 	error: {
@@ -155,7 +163,10 @@ const en: UiCopy = {
 		nextText: 'Read the full CV, or get in touch if this experience fits what you are looking for.',
 		cv: 'View CV',
 		contact: 'Contact me',
-		titleSuffix: 'Skills'
+		titleSuffix: 'Skills',
+		categoryLabel: 'Category',
+		areasLabel: 'Professional areas',
+		noteLabel: 'Note'
 	},
 	experience: {
 		eyebrow: 'Professional career',
@@ -175,7 +186,8 @@ const en: UiCopy = {
 		current: 'Current PDF documents',
 		download: 'Download PDF',
 		explore: 'Explore skills',
-		languageNote: 'The PDF documents are currently available in Spanish only.'
+		languageNote: 'The PDF documents are currently available in Spanish only.',
+		languageNoteLabel: 'Note'
 	},
 	projects: { eyebrow: 'Projects and selected work', detailEyebrow: 'Project' },
 	error: {
