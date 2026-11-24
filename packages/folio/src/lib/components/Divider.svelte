@@ -37,9 +37,11 @@
 	.rule-soft {
 		border-top: var(--rule-hair) solid var(--color-rule-subtle);
 	}
-	.rule-thick,
+	.rule-thick {
+		border-top: var(--rule-thick) solid var(--color-outline-variant);
+	}
 	.rule-double {
-		border-top: var(--rule-hair) solid var(--color-outline-variant);
+		border-top: 3px double var(--color-outline-variant);
 	}
 	.labeled {
 		display: flex;

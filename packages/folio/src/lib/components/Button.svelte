@@ -58,10 +58,16 @@
 		background: transparent;
 		color: var(--color-on-background);
 	}
+	.outline {
+		border: 1px solid var(--color-outline);
+	}
 	.secondary:hover:not(:disabled),
 	.outline:hover:not(:disabled) {
 		background: var(--color-surface-container-low);
 		color: var(--color-primary);
+	}
+	.outline:hover:not(:disabled) {
+		border-color: var(--color-primary);
 	}
 	.ghost {
 		background: transparent;

@@ -10,6 +10,7 @@
 
 - [Reading constitution](design/constitucion-lectura.md)
 - [Portfolio UI/UX specification](design/portfolio-ui-ux.md)
+- [FOLIO quality and evolution roadmap](design/folio-quality-roadmap.md)
 - [Skills and experience content guide](content/skills-and-experience.md)
 
 ## Operations

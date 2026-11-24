@@ -21,6 +21,22 @@ test.describe('FOLIO Divider', () => {
 		await expect(section.locator('[aria-orientation="vertical"]')).toHaveCount(1);
 	});
 
+	test('thick and double variants render distinct rule styles', async ({ page }) => {
+		const section = page.getByTestId('folio-divider');
+		const thick = await section.locator('.ds-divider.rule-thick').evaluate((el) => {
+			const style = getComputedStyle(el);
+			return { width: style.borderTopWidth, style: style.borderTopStyle };
+		});
+		const double = await section.locator('.ds-divider.rule-double').evaluate((el) => {
+			const style = getComputedStyle(el);
+			return { width: style.borderTopWidth, style: style.borderTopStyle };
+		});
+		expect(parseFloat(thick.width)).toBeGreaterThanOrEqual(2);
+		expect(thick.style).toBe('solid');
+		expect(parseFloat(double.width)).toBeGreaterThanOrEqual(3);
+		expect(double.style).toBe('double');
+	});
+
 	test('space variant renders no visible rule', async ({ page }) => {
 		const section = page.getByTestId('folio-divider');
 		const space = section.locator('.ds-divider.space');

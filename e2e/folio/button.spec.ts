@@ -72,6 +72,16 @@ test.describe('FOLIO Button', () => {
 		expect(lg.paddingLeft).toBeGreaterThan(md.paddingLeft);
 	});
 
+	test('outline variant has a visible border', async ({ page }) => {
+		const outline = section.getByRole('button', { name: 'Outline large' });
+		const border = await outline.evaluate((el) => {
+			const style = getComputedStyle(el);
+			return { width: style.borderTopWidth, style: style.borderTopStyle };
+		});
+		expect(parseFloat(border.width)).toBeGreaterThanOrEqual(1);
+		expect(border.style).toBe('solid');
+	});
+
 	test('button label never overflows its box', async () => {
 		for (const button of await section.getByRole('button').all()) {
 			const m = await button.evaluate(boxMetrics);
