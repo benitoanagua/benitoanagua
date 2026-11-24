@@ -3,6 +3,8 @@
 	import { browser } from '$app/environment';
 	import { SOCIAL_LINKS } from '$lib/config';
 	import '$lib/styles/app.css';
+	import '$lib/design-system/tokens.css';
+	import '$lib/design-system/utilities.css';
 	import { lang } from '$lib/state/lang.svelte';
 
 	let { children, data } = $props();

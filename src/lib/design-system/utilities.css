@@ -1,0 +1,71 @@
+/* FOLIO — utility classes.
+   .kicker, .meta and .label are the only places where code-forced uppercase is
+   allowed (short label roles, ≤ 4 words), besides the wordmark in PortalLayout. */
+
+.kicker {
+	font:
+		800 var(--text-meta) / 1.2 var(--font-ui);
+	letter-spacing: var(--tracking-kicker);
+	text-transform: uppercase;
+	color: var(--color-primary);
+}
+.kicker::before {
+	content: '';
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 10px;
+	background: currentColor;
+}
+.meta {
+	font:
+		700 var(--text-meta) / 1.45 var(--font-ui);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+	color: var(--color-ink-soft);
+	font-variant-numeric: tabular-nums;
+}
+.label {
+	font:
+		800 var(--text-meta) / 1.3 var(--font-ui);
+	letter-spacing: var(--tracking-label);
+	text-transform: uppercase;
+}
+.rule-hair {
+	border-top: var(--rule-hair) solid var(--color-on-background);
+}
+.rule-soft {
+	border-top: var(--rule-hair) dashed var(--color-outline-variant);
+}
+.rule-thick {
+	border-top: var(--rule-thick) solid var(--color-on-background);
+}
+.rule-double {
+	height: 7px;
+	background: var(--rule-double);
+}
+.prose {
+	max-width: var(--measure);
+	font: var(--text-body) / var(--leading-body) var(--font-body);
+	color: var(--color-on-background);
+}
+.prose > * + * {
+	margin-top: 1em;
+}
+.prose h2,
+.prose h3 {
+	margin-top: 1.8em;
+}
+.drop-cap::first-letter {
+	font-family: var(--font-display);
+	font-weight: 700;
+	float: left;
+	font-size: 4.4em;
+	line-height: 0.8;
+	padding: 8px 12px 0 0;
+}
+@media (prefers-reduced-motion: reduce) {
+	* {
+		scroll-behavior: auto !important;
+	}
+}

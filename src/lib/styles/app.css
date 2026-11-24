@@ -1,32 +1,14 @@
-/* ============================================
-   Architectural Outline - Design System
-   The Structure as Narrative
-   ============================================ */
+/* FOLIO — reading-first design system
+   Global base: reset, typography hooks, focus, selection, scrollbar.
+   Palette lives in ./theme.css; type scale and utilities in
+   ../design-system/tokens.css and ../design-system/utilities.css. */
 
-@import './material-theme.css';
+@import './theme.css';
 
 /* Fuentes: se cargan desde src/app.html (preconnect + display=swap). */
 
 :root {
-	/* ══ I. TYPOGRAPHY ══ */
-	--font-sans: 'Inter', sans-serif;
-	--font-body: 'Sora', var(--font-sans);
-	--font-mono: 'JetBrains Mono', monospace;
-	--font-display: 'Archivo Black', sans-serif;
-
-	/* ══ II. BORDER SYSTEM ══ */
-	--line-thin: 1px;
-	--line-base: 2px;
-	--line-thick: 3px;
-
-	--radius-smart: clamp(4px, 1vw, 12px);
-	--radius-sm: 2px;
-
-	/* ══ III. INTERACTION (ANTI-REFLOW) ══ */
-	--ring-primary: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-primary);
-	--ring-outline: 0 0 0 2px var(--color-background), 0 0 0 4px var(--color-outline);
-
-	/* ══ IV. SPACING ══ */
+	/* ══ SPACING ══ */
 	--space-1: 0.25rem;
 	--space-2: 0.5rem;
 	--space-3: 0.75rem;
@@ -40,16 +22,13 @@
 	--space-24: 6rem;
 	--space-32: 8rem;
 
-	/* ══ V. LAYOUT ══ */
+	/* ══ LAYOUT ══ */
 	--container-sm: 640px;
 	--container-md: 768px;
 	--container-lg: 1024px;
 	--container-xl: 1200px;
 	--container-2xl: 1440px;
 
-	/* ══ VI. ANIMATION ══ */
-	--duration-fast: 200ms;
-	--duration-base: 300ms;
 	--ease-linear: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -63,13 +42,14 @@
 html {
 	scroll-padding-top: 5rem;
 	font-family: var(--font-body);
-	line-height: 1.6;
-	/* generous height for rigid layout */
+	font-size: 100%;
+	line-height: var(--leading-body);
 	-webkit-font-smoothing: antialiased;
 	scroll-behavior: smooth;
 }
 
 body {
+	font-size: var(--text-body);
 	background-color: var(--color-background);
 	color: var(--color-on-background);
 	overflow-x: hidden;
@@ -80,12 +60,28 @@ h2,
 h3,
 h4 {
 	font-family: var(--font-display);
-	letter-spacing: 0.05em;
-	text-transform: uppercase;
+	font-weight: 700;
+	text-wrap: balance;
 }
-
-.mono {
-	font-family: var(--font-mono);
+h1 {
+	font-size: var(--text-title);
+	line-height: var(--leading-title);
+	letter-spacing: -0.015em;
+}
+h2 {
+	font-size: var(--text-section);
+	line-height: var(--leading-section);
+}
+h3 {
+	font-size: 1.25rem;
+	line-height: var(--leading-section);
+}
+h4 {
+	font-size: var(--text-body);
+	line-height: var(--leading-section);
+}
+p {
+	text-wrap: pretty;
 }
 
 /* ══ UTILITIES ══ */
@@ -104,18 +100,20 @@ button,
 .btn {
 	cursor: pointer;
 	transition:
-		transform var(--duration-fast) var(--ease-linear),
-		box-shadow var(--duration-fast) var(--ease-linear);
+		background-color var(--duration-fast),
+		color var(--duration-fast),
+		border-color var(--duration-fast);
 }
 
 button:active,
 .btn:active {
-	transform: scale(0.98);
+	transform: none;
 }
 
 :focus-visible {
-	outline: none;
-	box-shadow: var(--ring-primary);
+	outline: var(--focus-ring);
+	outline-offset: var(--focus-offset);
+	box-shadow: none;
 }
 
 /* Material Symbols Default Config */
@@ -133,6 +131,17 @@ button:active,
 	color: var(--color-on-primary);
 }
 
+/* ══ LINKS ══ */
+a {
+	color: var(--color-primary);
+	text-decoration: underline;
+	text-underline-offset: 4px;
+	text-decoration-thickness: 1px;
+}
+a:hover {
+	text-decoration-thickness: 2px;
+}
+
 /* ══ SCROLLBAR CUSTOMIZATION ══ */
 /* Webkit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
@@ -146,7 +155,6 @@ button:active,
 
 ::-webkit-scrollbar-thumb {
 	background: var(--color-outline);
-	border-radius: 4px;
 	transition: background var(--duration-fast);
 }
 
@@ -160,7 +168,7 @@ button:active,
 	scrollbar-width: thin;
 }
 
-/* Alto contraste: la sombra del anillo de foco no se muestra; se usa contorno */
+/* Alto contraste: el contorno del sistema sustituye al anillo de foco */
 @media (forced-colors: active) {
 	:focus-visible {
 		outline: 2px solid CanvasText;

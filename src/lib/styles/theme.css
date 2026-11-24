@@ -1,0 +1,88 @@
+/* FOLIO — reading-first design system
+   Warm paper, near-black ink, a single red "corrector's ink" accent.
+   Material variable names are kept as the contract used across the codebase;
+   only the values change. Clarity is verified by scripts/validate-design.ts (R7). */
+
+:root {
+	--color-primary: #8f1d17;
+	--color-on-primary: #f5f0e6;
+	--color-primary-container: #ebd9cf;
+	--color-on-primary-container: #3b0b08;
+	--color-secondary: #3a362d;
+	--color-on-secondary: #f5f0e6;
+	--color-secondary-container: #ede6d6;
+	--color-on-secondary-container: #16140f;
+	--color-tertiary: #3a362d;
+	--color-on-tertiary: #f5f0e6;
+	--color-tertiary-container: #ede6d6;
+	--color-on-tertiary-container: #16140f;
+	--color-error: #8f1d17;
+	--color-on-error: #f5f0e6;
+	--color-error-container: #ebd9cf;
+	--color-on-error-container: #3b0b08;
+	--color-background: #f5f0e6;
+	--color-on-background: #16140f;
+	--color-surface: #f5f0e6;
+	--color-surface-dim: #dfd6c0;
+	--color-surface-bright: #f5f0e6;
+	--color-surface-container-lowest: #f5f0e6;
+	--color-surface-container-low: #f1ebdd;
+	--color-surface-container: #ede6d6;
+	--color-surface-container-high: #e6decb;
+	--color-surface-container-highest: #dfd6c0;
+	--color-on-surface: #16140f;
+	--color-surface-variant: #ede6d6;
+	--color-on-surface-variant: #3a362d;
+	--color-ink-soft: #6a6354;
+	--color-outline: #6a6354;
+	--color-outline-variant: #bdb29b;
+	--color-success: #2f5339;
+	--color-warning: #7a5c1e;
+	--color-shadow: #000000;
+	--color-scrim: #000000;
+	--color-inverse-surface: #16140f;
+	--color-inverse-on-surface: #f2ede0;
+	--color-inverse-primary: #e58a82;
+}
+
+[data-theme='dark'] {
+	--color-primary: #e58a82;
+	--color-on-primary: #16140f;
+	--color-primary-container: #3b1c18;
+	--color-on-primary-container: #f7d9d5;
+	--color-secondary: #d9d2c0;
+	--color-on-secondary: #16140f;
+	--color-secondary-container: #2b2820;
+	--color-on-secondary-container: #f2ede0;
+	--color-tertiary: #d9d2c0;
+	--color-on-tertiary: #16140f;
+	--color-tertiary-container: #2b2820;
+	--color-on-tertiary-container: #f2ede0;
+	--color-error: #e58a82;
+	--color-on-error: #16140f;
+	--color-error-container: #3b1c18;
+	--color-on-error-container: #f7d9d5;
+	--color-background: #16140f;
+	--color-on-background: #f2ede0;
+	--color-surface: #16140f;
+	--color-surface-dim: #16140f;
+	--color-surface-bright: #353128;
+	--color-surface-container-lowest: #100f0b;
+	--color-surface-container-low: #1c1a14;
+	--color-surface-container: #221f18;
+	--color-surface-container-high: #2b2820;
+	--color-surface-container-highest: #353128;
+	--color-on-surface: #f2ede0;
+	--color-surface-variant: #221f18;
+	--color-on-surface-variant: #d9d2c0;
+	--color-ink-soft: #a59c88;
+	--color-outline: #a59c88;
+	--color-outline-variant: #4a453a;
+	--color-success: #86b894;
+	--color-warning: #c9a25e;
+	--color-shadow: #000000;
+	--color-scrim: #000000;
+	--color-inverse-surface: #f2ede0;
+	--color-inverse-on-surface: #16140f;
+	--color-inverse-primary: #8f1d17;
+}

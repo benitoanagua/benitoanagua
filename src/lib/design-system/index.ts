@@ -1,4 +1,5 @@
 import './tokens.css';
+import './utilities.css';
 export { default as Button } from './components/Button.svelte';
 export { default as Badge } from './components/Badge.svelte';
 export { default as Card } from './components/Card.svelte';
@@ -9,3 +10,6 @@ export { default as SectionHeading } from './components/SectionHeading.svelte';
 export { default as Timeline } from './components/Timeline.svelte';
 export { default as SocialLinks } from './components/SocialLinks.svelte';
 export { default as Metric } from './components/Metric.svelte';
+export { default as Notice } from './components/Notice.svelte';
+export { default as Pullquote } from './components/Pullquote.svelte';
+export { default as Marginalia } from './components/Marginalia.svelte';
