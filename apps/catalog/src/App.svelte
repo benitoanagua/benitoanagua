@@ -194,6 +194,59 @@
 		</div>
 	</section>
 
+
+	<section id="contracts">
+		<SectionHeading
+			eyebrow="06 / COMPONENT CONTRACTS"
+			title="The actual exported API"
+			description="This index mirrors the 13 components exported by packages/folio/src/lib/index.ts. Full props and accessibility notes are documented in packages/folio/COMPONENTS.md."
+		/>
+		<div class="contract-list">
+			{#each contracts as contract (contract.name)}
+				<article class="contract">
+					<h3>{contract.name}</h3>
+					<p class="contract-props"><code>{contract.props}</code></p>
+					<p class="contract-default">Defaults: {contract.defaults}</p>
+					<p>{contract.detail}</p>
+				</article>
+			{/each}
+		</div>
+	</section>
+
+	<section id="reading-checks">
+		<SectionHeading
+			eyebrow="07 / READING CHECKS"
+			title="Spanish, long content and states"
+			description="Fixtures for manual review of reflow, zoom, keyboard focus and text clarity; not a substitute for accessibility testing."
+		/>
+		<div class="grid">
+			<Card title="Long Spanish text">
+				<Notice tone="warning" label="Atención">
+					La información importante debe mantenerse completa, incluso con acentuación,
+					¿preguntas?, ¡signos!, y frases largas que ocupen varias líneas sin ocultarse
+					ni provocar desplazamiento horizontal.
+				</Notice>
+				<Pullquote cite="Ejemplo de lectura">
+					Una interfaz clara permite comprender el contenido sin depender del color,
+					del movimiento ni de una interacción escondida.
+				</Pullquote>
+			</Card>
+			<Card title="Input and action states">
+				<TextField
+					id="reading-check-email"
+					label="Correo electrónico"
+					placeholder="nombre@ejemplo.com"
+					hint="Campo de prueba; no se envía a ningún servicio."
+					bind:value={email}
+				/>
+				<div class="examples">
+					<Button disabled>Deshabilitado</Button>
+					<Button loading>Procesando</Button>
+				</div>
+			</Card>
+		</div>
+	</section>
+
 	<footer>
 		<p class="meta">FOLIO · SVELTE 5 · COMPONENT REFERENCE</p>
 		<a href="https://github.com/benitoanagua/benitoanagua" target="_blank" rel="noreferrer external"
@@ -278,6 +331,33 @@
 	.display {
 		font: var(--text-title) / var(--leading-title) var(--font-display);
 	}
+
+	.contract-list {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: var(--space-4);
+	}
+	.contract {
+		min-width: 0;
+		padding: var(--space-4) 0;
+		border-top: var(--rule-base) solid var(--color-outline-variant);
+	}
+	.contract h3 {
+		margin: 0;
+		font-family: var(--font-display);
+		font-size: var(--text-title);
+		line-height: var(--leading-title);
+	}
+	.contract p {
+		margin: var(--space-2) 0 0;
+	}
+	.contract-props {
+		overflow-wrap: anywhere;
+	}
+	.contract-default {
+		color: var(--color-on-surface-variant);
+	}
+
 	footer {
 		display: flex;
 		justify-content: space-between;
@@ -291,7 +371,8 @@
 			align-items: start;
 			flex-direction: column;
 		}
-		.grid {
+		.grid,
+		.contract-list {
 			grid-template-columns: 1fr;
 		}
 	}
