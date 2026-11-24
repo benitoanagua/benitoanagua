@@ -36,7 +36,7 @@ Reglas:
 - Español e inglés se mantienen alineados en estructura y significado. `pnpm check:content` valida estructura, no redacción.
 - `<html lang>` se sincroniza con el idioma activo. El HTML prerenderizado es español.
 - Texto visible en lenguaje natural. No se usan identificadores internos (`SNAKE_CASE`, `::OK`, `//`) como texto de interfaz: no se traducen, no los entienden los lectores de pantalla y no informan al visitante.
-- Sin cifras, clientes ni resultados inventados (ver `SKILLS_CONTENT_GUIDE.md`).
+- Sin cifras, clientes ni resultados inventados (ver `docs/content/skills-and-experience.md`).
 
 ## 4. Fundamentos visuales
 
