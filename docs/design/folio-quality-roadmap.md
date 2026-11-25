@@ -21,8 +21,8 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 - Catálogo independiente en `apps/catalog/` con índice de API de los 13 componentes, snippet de uso, estados de Button/Notice/Divider y fixtures en español marcados con `lang="es"`.
 - Harness y pruebas Playwright por componente en `e2e/folio/`.
 - CI ejecuta checks Svelte, lint/Prettier, validación de contenido y diseño, builds, empaquetado, consumidor aislado y pruebas E2E.
-- Última ejecución verde conocida: CI #62 sobre `625db6192e0d15e7455ce76d44c636b689a2f4c2`.
-- El job E2E de la ejecución `45500083413` pasó sobre `c13eb31` (100+ pruebas). El job de validación falló en `prettier --check` por los scripts de empaquetado; esa causa está corregida y pendiente de confirmación en CI.
+- Última ejecución verde conocida: CI `45538225113` sobre `6c91bfd` (Validate application + E2E tests).
+- La ejecución `45500083413` sobre `c13eb31` falló en `prettier --check` por los scripts de empaquetado; esa causa quedó corregida y confirmada en verde en `45538225113`, que incluye `folio:pack:check` y `folio:consumer:check` dentro de "Static checks".
 
 ## Fases
 
@@ -59,7 +59,7 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 - [x] Verificar en el manifest los exports JS/Svelte, tipos, CSS y peer dependency Svelte 5.
 - [x] Añadir prueba automatizada que instala el tarball en un proyecto temporal Svelte 5 y ejecuta Vite build.
 - [x] El smoke de consumidor comprueba además que el bundle contiene el componente y que `tsc --noEmit` resuelve los tipos publicados.
-- [ ] Confirmar que la prueba de consumidor aislado pasa en CI (el job de validación no llegó hasta ahí en las últimas ejecuciones).
+- [x] Confirmar que la prueba de consumidor aislado pasa en CI (ejecución `45538225113`, job "Validate application").
 - [ ] Publicar manualmente una versión cuando el paquete y catálogo estén validados; nunca publicar automáticamente desde CI.
 
 ### Fase 5 — Correcciones de la última iteración
@@ -97,4 +97,4 @@ FOLIO sigue siendo una librería pequeña, editorial y Svelte 5-native dentro de
 
 ## Próximo paso
 
-Ejecutar CI sobre el commit final para confirmar las validaciones de empaquetado y consumidor, completar la revisión manual de zoom/teclado/contraste y, si todo queda verde, publicar una versión manual del paquete. Mantener FOLIO deliberadamente pequeño.
+CI quedó en verde sobre el commit final (`6c91bfd`, ejecución `45538225113`). Queda completar la revisión manual de zoom 200%, teclado y contraste en navegadores reales y, tras eso, publicar una versión manual del paquete. Mantener FOLIO deliberadamente pequeño.
