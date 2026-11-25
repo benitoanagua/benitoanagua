@@ -4,6 +4,7 @@
 		Button,
 		Card,
 		Divider,
+		Flex,
 		Marginalia,
 		Metric,
 		Notice,
@@ -82,6 +83,28 @@
 			<Divider orientation="vertical" variant="thick" />
 			<span>Right</span>
 		</div>
+	</section>
+
+	<section data-testid="folio-flex">
+		<h2>Flex</h2>
+		<Flex gap="4" padding="4" data-testid="folio-flex-column">
+			<Badge>Item 1</Badge>
+			<Badge>Item 2</Badge>
+			<Badge>Item 3</Badge>
+		</Flex>
+		<Flex direction="row" gap="3" paddingBlock="2" paddingInline="4" data-testid="folio-flex-row">
+			<Badge>Item 1</Badge>
+			<Badge>Item 2</Badge>
+			<Badge>Item 3</Badge>
+		</Flex>
+		<Flex direction="row" wrap="wrap" rowGap="6" columnGap="3" padding="4" data-testid="folio-flex-wrap">
+			<Badge>Item 1</Badge>
+			<Badge>Item 2</Badge>
+			<Badge>Item 3</Badge>
+			<Badge>Item 4</Badge>
+			<Badge>Item 5</Badge>
+			<Badge>Item 6</Badge>
+		</Flex>
 	</section>
 
 	<section data-testid="folio-text-field">

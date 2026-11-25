@@ -17,6 +17,7 @@
 	--color-on-error: #f5f0e6;
 	--color-error-container: #ebd9cf;
 	--color-on-error-container: #3b0b08;
+	--color-focus: #1a5fb4;
 	--color-background: #f5f0e6;
 	--color-on-background: #16140f;
 	--color-surface: #f5f0e6;
@@ -60,6 +61,7 @@
 	--color-on-error: #16140f;
 	--color-error-container: #3b1c18;
 	--color-on-error-container: #f7d9d5;
+	--color-focus: #f5c842;
 	--color-background: #16140f;
 	--color-on-background: #f2ede0;
 	--color-surface: #16140f;

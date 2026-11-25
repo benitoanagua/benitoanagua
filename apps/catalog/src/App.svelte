@@ -4,6 +4,7 @@
 		Button,
 		Card,
 		Divider,
+		Flex,
 		Marginalia,
 		Metric,
 		Notice,
@@ -70,6 +71,12 @@
 			props: 'orientation?, variant?, label?',
 			defaults: 'horizontal · soft',
 			detail: 'hair · soft · thick · double · space'
+		},
+		{
+			name: 'Flex',
+			props: 'direction?, align?, justify?, wrap?, gap?, rowGap?, columnGap?, padding?, paddingBlock?, paddingInline?',
+			defaults: "column · stretch · start · nowrap · '4'",
+			detail: 'flex container with spacing tokens; row/column direction; independent row/column gap and block/inline padding'
 		},
 		{
 			name: 'Marginalia',
@@ -182,7 +189,7 @@
 	</section>
 
 	<section id="actions">
-		<SectionHeading eyebrow="02 / ACTIONS" title="Button, Badge, Card and Divider" />
+		<SectionHeading eyebrow="02 / ACTIONS" title="Button, Badge, Card, Divider and Flex" />
 		<div class="grid">
 			<Card title="Button">
 				<div class="examples">
@@ -216,6 +223,43 @@
 					<div>
 						<p class="meta">labeled</p>
 						<Divider label="Labeled section" variant="soft" />
+					</div>
+				</div>
+			</Card>
+			<Card title="Flex">
+				<div class="stack">
+					<div>
+						<p class="meta">Column (default) with gap-4</p>
+						<Flex gap="4" padding="4">
+							<Badge>Item 1</Badge>
+							<Badge>Item 2</Badge>
+							<Badge>Item 3</Badge>
+						</Flex>
+					</div>
+					<div>
+						<p class="meta">Row with gap-3 and paddingBlock-2</p>
+						<Flex direction="row" gap="3" paddingBlock="2" paddingInline="4">
+							<Badge>Item 1</Badge>
+							<Badge>Item 2</Badge>
+							<Badge>Item 3</Badge>
+						</Flex>
+					</div>
+					<div>
+						<p class="meta">Row with wrap, rowGap-4, columnGap-2</p>
+						<Flex direction="row" wrap="wrap" rowGap="4" columnGap="2" padding="3">
+							<Badge>Item 1</Badge>
+							<Badge>Item 2</Badge>
+							<Badge>Item 3</Badge>
+							<Badge>Item 4</Badge>
+						</Flex>
+					</div>
+					<div>
+						<p class="meta">Column with align=center</p>
+						<Flex align="center" gap="3" padding="4">
+							<Badge>Short</Badge>
+							<Badge>Longer item</Badge>
+							<Badge>Item</Badge>
+						</Flex>
 					</div>
 				</div>
 			</Card>
@@ -366,6 +410,8 @@
 		padding: var(--space-8) var(--space-4) var(--space-20);
 		display: grid;
 		gap: var(--space-12);
+		max-width: 100%;
+		overflow-x: hidden;
 	}
 	.masthead {
 		display: flex;
@@ -402,6 +448,11 @@
 		display: grid;
 		gap: var(--space-6);
 		scroll-margin-top: var(--space-8);
+		min-width: 0;
+	}
+	nav,
+	.masthead {
+		min-width: 0;
 	}
 	.grid {
 		display: grid;

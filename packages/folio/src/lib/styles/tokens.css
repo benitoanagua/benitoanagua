@@ -53,8 +53,9 @@
 	--radius-full: 50%;
 
 	/* Foco */
-	--focus-ring: 3px solid var(--color-primary);
-	--focus-offset: 3px;
+	--color-focus: var(--color-primary);
+	--focus-ring: 2px solid var(--color-focus);
+	--focus-offset: 2px;
 
 	/* Movimiento */
 	--duration-fast: 150ms;

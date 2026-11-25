@@ -80,8 +80,8 @@
 
 /* Keyboard focus is part of the component contract, not a consumer override. */
 :where(a, button, input, select, textarea, [tabindex]):focus-visible {
-	outline: 3px solid var(--color-primary);
-	outline-offset: 3px;
+	outline: var(--focus-ring);
+	outline-offset: var(--focus-offset);
 }
 
 @media (forced-colors: active) {
