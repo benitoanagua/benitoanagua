@@ -287,8 +287,18 @@
 		color: var(--color-on-primary);
 	}
 	.grid {
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-editorial-md);
+		align-items: stretch;
+		padding: var(--space-6);
 		border: var(--rule-hair) solid var(--color-outline-variant);
+	}
+	@media (max-width: 700px) {
+		.grid {
+			grid-template-columns: minmax(0, 1fr);
+			padding: var(--space-6);
+		}
 	}
 	.foot {
 		padding-top: var(--space-4);
