@@ -114,15 +114,17 @@ Tests use Playwright and cover the portfolio, catalog, and FOLIO component harne
 
 ### FOLIO and catalog
 
-| Command               | Purpose                                                          |
-| --------------------- | ---------------------------------------------------------------- |
-| `pnpm folio:check`    | Type-check the FOLIO package                                     |
-| `pnpm folio:build`    | Package FOLIO for distribution                                   |
-| `pnpm folio:publish`  | Build and publish `@benitoanagua/folio` to npm (pending release) |
-| `pnpm catalog:check`  | Type-check the catalog                                           |
-| `pnpm catalog:dev`    | Run the catalog development server                               |
-| `pnpm catalog:build`  | Build the catalog                                                |
-| `pnpm catalog:deploy` | Deploy the catalog to Cloudflare Pages (pending deployment)      |
+| Command                     | Purpose                                                          |
+| --------------------------- | ---------------------------------------------------------------- |
+| `pnpm folio:check`          | Type-check the FOLIO package                                     |
+| `pnpm folio:build`          | Package FOLIO for distribution                                   |
+| `pnpm folio:pack:check`     | Smoke-check the packed tarball contents and manifest             |
+| `pnpm folio:consumer:check` | Build and type-check an isolated app against the tarball         |
+| `pnpm folio:publish`        | Build and publish `@benitoanagua/folio` to npm (pending release) |
+| `pnpm catalog:check`        | Type-check the catalog                                           |
+| `pnpm catalog:dev`          | Run the catalog development server                               |
+| `pnpm catalog:build`        | Build the catalog                                                |
+| `pnpm catalog:deploy`       | Deploy the catalog to Cloudflare Pages (pending deployment)      |
 
 ### Cloudflare and D1 operations
 
