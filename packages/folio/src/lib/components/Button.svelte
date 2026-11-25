@@ -30,11 +30,7 @@
 	{onclick}
 >
 	{#if loading}
-		<svg class="spinner" aria-hidden="true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="31.4 31.4">
-				<animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.75s" repeatCount="indefinite" />
-			</circle>
-		</svg>
+		<span class="spinner" aria-hidden="true"></span>
 		<span class="ds-visually-hidden">Cargando</span>
 	{/if}
 	{@render children?.()}
@@ -102,40 +98,20 @@
 	.spinner {
 		width: 1em;
 		height: 1em;
+		border: 2px solid currentColor;
+		border-right-color: transparent;
+		border-radius: var(--radius-full);
 		flex-shrink: 0;
-		animation: ds-spin 0.75s linear infinite;
-	}
-	.spinner circle {
-		transform-origin: center;
-		animation: ds-spin-dash 1.5s ease-in-out infinite;
+		animation: ds-spin 0.7s linear infinite;
 	}
 	@keyframes ds-spin {
 		to {
 			transform: rotate(360deg);
 		}
 	}
-	@keyframes ds-spin-dash {
-		0% {
-			stroke-dasharray: 1, 200;
-			stroke-dashoffset: 0;
-		}
-		50% {
-			stroke-dasharray: 89, 200;
-			stroke-dashoffset: -35;
-		}
-		100% {
-			stroke-dasharray: 89, 200;
-			stroke-dashoffset: -124;
-		}
-	}
 	@media (prefers-reduced-motion: reduce) {
-		.spinner,
-		.spinner circle {
+		.spinner {
 			animation: none;
-		}
-		.spinner circle {
-			stroke-dasharray: 31.4 31.4;
-			stroke-dashoffset: 0;
 		}
 	}
 </style>

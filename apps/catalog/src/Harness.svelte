@@ -97,7 +97,14 @@
 			<Badge>Item 2</Badge>
 			<Badge>Item 3</Badge>
 		</Flex>
-		<Flex direction="row" wrap="wrap" rowGap="6" columnGap="3" padding="4" data-testid="folio-flex-wrap">
+		<Flex
+			direction="row"
+			wrap="wrap"
+			rowGap="6"
+			columnGap="3"
+			padding="4"
+			data-testid="folio-flex-wrap"
+		>
 			<Badge>Item 1</Badge>
 			<Badge>Item 2</Badge>
 			<Badge>Item 3</Badge>

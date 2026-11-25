@@ -58,14 +58,8 @@
 		font: var(--text-body) / var(--leading-body) var(--font-body);
 		transition: border-color var(--duration-fast);
 	}
-	.ds-input:focus-visible {
-		border-bottom-color: var(--color-focus);
-	}
 	.ds-input.invalid {
 		border-bottom: var(--rule-thick) solid var(--color-error);
-	}
-	.ds-input.invalid:focus-visible {
-		border-bottom-color: var(--color-error);
 	}
 	.ds-input::placeholder {
 		color: var(--color-ink-soft);

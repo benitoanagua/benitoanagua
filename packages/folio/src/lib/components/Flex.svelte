@@ -16,7 +16,7 @@
 		'6': 'var(--space-6)',
 		'8': 'var(--space-8)',
 		'10': 'var(--space-10)',
-		'12': 'var(--space-12)',
+		'12': 'var(--space-12)'
 	} as const;
 
 	const paddingMap = {
@@ -27,7 +27,7 @@
 		'4': 'var(--space-4)',
 		'5': 'var(--space-5)',
 		'6': 'var(--space-6)',
-		'8': 'var(--space-8)',
+		'8': 'var(--space-8)'
 	} as const;
 
 	let {
@@ -64,11 +64,17 @@
 	);
 
 	const resolvedPaddingBlock = $derived(
-		paddingMap[paddingBlock as keyof typeof paddingMap] || paddingBlock || paddingMap[padding as keyof typeof paddingMap] || padding
+		paddingMap[paddingBlock as keyof typeof paddingMap] ||
+			paddingBlock ||
+			paddingMap[padding as keyof typeof paddingMap] ||
+			padding
 	);
 
 	const resolvedPaddingInline = $derived(
-		paddingMap[paddingInline as keyof typeof paddingMap] || paddingInline || paddingMap[padding as keyof typeof paddingMap] || padding
+		paddingMap[paddingInline as keyof typeof paddingMap] ||
+			paddingInline ||
+			paddingMap[padding as keyof typeof paddingMap] ||
+			padding
 	);
 </script>
 

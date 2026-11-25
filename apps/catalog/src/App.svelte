@@ -74,9 +74,11 @@
 		},
 		{
 			name: 'Flex',
-			props: 'direction?, align?, justify?, wrap?, gap?, rowGap?, columnGap?, padding?, paddingBlock?, paddingInline?',
+			props:
+				'direction?, align?, justify?, wrap?, gap?, rowGap?, columnGap?, padding?, paddingBlock?, paddingInline?',
 			defaults: "column · stretch · start · nowrap · '4'",
-			detail: 'flex container with spacing tokens; row/column direction; independent row/column gap and block/inline padding'
+			detail:
+				'flex container with spacing tokens; row/column direction; independent row/column gap and block/inline padding'
 		},
 		{
 			name: 'Marginalia',
@@ -410,8 +412,6 @@
 		padding: var(--space-8) var(--space-4) var(--space-20);
 		display: grid;
 		gap: var(--space-12);
-		max-width: 100%;
-		overflow-x: hidden;
 	}
 	.masthead {
 		display: flex;
@@ -448,11 +448,6 @@
 		display: grid;
 		gap: var(--space-6);
 		scroll-margin-top: var(--space-8);
-		min-width: 0;
-	}
-	nav,
-	.masthead {
-		min-width: 0;
 	}
 	.grid {
 		display: grid;

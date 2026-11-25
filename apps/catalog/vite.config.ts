@@ -10,6 +10,14 @@ export default defineConfig({
 			$folio: fileURLToPath(new URL('../../packages/folio/src/lib', import.meta.url))
 		}
 	},
+	server: {
+		fs: {
+			allow: [
+				fileURLToPath(new URL('.', import.meta.url)),
+				fileURLToPath(new URL('../../packages/folio/src/lib', import.meta.url))
+			]
+		}
+	},
 	build: {
 		outDir: 'dist',
 		emptyOutDir: true,
