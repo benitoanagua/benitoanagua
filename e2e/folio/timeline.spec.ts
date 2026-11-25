@@ -7,6 +7,8 @@ test.describe('FOLIO Timeline', () => {
 
 	test('renders entries in order with period, title and organization', async ({ page }) => {
 		const list = page.getByTestId('folio-timeline').locator('.ds-timeline').first();
+		// Explicit list role keeps the semantics Safari drops for list-style: none.
+		await expect(list).toHaveAttribute('role', 'list');
 		const items = list.locator('li');
 		await expect(items).toHaveCount(2);
 		await expect(items.nth(0)).toContainText('2020');

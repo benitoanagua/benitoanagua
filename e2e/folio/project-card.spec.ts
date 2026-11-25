@@ -11,7 +11,15 @@ test.describe('FOLIO ProjectCard', () => {
 		await expect(card.getByText('Project card fixture for E2E coverage.')).toBeVisible();
 		await expect(card.getByText('Category')).toBeVisible();
 		await expect(card.getByText('2026')).toBeVisible();
-		await expect(card.getByLabel('Technologies')).toContainText('Svelte');
+		const tags = card.locator('.tags');
+		await expect(tags).toContainText('Svelte');
+		// The tags group keeps a text label for assistive technology without
+		// painting it on screen (aria-label on a paragraph is not reliable).
+		await expect(tags).toContainText('Technologies');
+		// Playwright treats a clipped 1px node as visible, so assert its box.
+		const hiddenBox = await tags.locator('.ds-visually-hidden').boundingBox();
+		expect(hiddenBox?.width ?? Infinity).toBeLessThanOrEqual(1);
+		expect(hiddenBox?.height ?? Infinity).toBeLessThanOrEqual(1);
 	});
 
 	test('title link navigates to the project href', async ({ page }) => {

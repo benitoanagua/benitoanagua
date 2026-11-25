@@ -5,14 +5,28 @@ test.describe('Catalog sections and components', () => {
 		await page.goto('/');
 		const expected: Record<string, RegExp[]> = {
 			foundations: [/Palette/, /Type/, /Reading first\./],
-			actions: [/Primary/, /Secondary/, /Outline/, /Ghost/, /Success/, /Warning/, /Danger/],
+			actions: [
+				/Primary/,
+				/Secondary/,
+				/Outline/,
+				/Ghost/,
+				/Small/,
+				/Large/,
+				/Success/,
+				/Warning/,
+				/Danger/,
+				/hair/,
+				/thick/,
+				/double/,
+				/Labeled section/
+			],
 			content: [/Example project/, /Role or milestone/, /GitHub/, /Verified metric/],
-			forms: [/Email address/, /Note/, /Warning/],
+			forms: [/Email address/, /Note/, /Success/, /Warning/, /Error/],
 			editorial: [
 				/SectionHeading|Pullquote|Marginalia|Clarity is a feature/,
 				/Keep the primary reading column/
 			],
-			contracts: [/The actual exported API/, /Badge/, /TextField/, /13 components/],
+			contracts: [/The actual exported API/, /Badge/, /TextField/, /13 components/, /styles\.css/],
 			'reading-checks': [
 				/Spanish, long content and states/,
 				/Atención/,

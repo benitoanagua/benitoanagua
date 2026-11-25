@@ -9,7 +9,8 @@
 	let { items }: { items: TimelineEntry[] } = $props();
 </script>
 
-<ol class="ds-timeline">
+<!-- role="list" restores the list semantics that Safari drops for list-style: none. -->
+<ol class="ds-timeline" role="list">
 	{#each items as item (item)}
 		<li>
 			<div class="period meta">{item.period}</div>

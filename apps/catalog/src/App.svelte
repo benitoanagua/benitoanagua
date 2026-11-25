@@ -36,6 +36,16 @@
 	};
 	const links = [{ label: 'GitHub', href: 'https://github.com/benitoanagua' }];
 
+	const usage = [
+		"import '@benitoanagua/folio/styles.css';",
+		"import { Button, Notice } from '@benitoanagua/folio';",
+		'',
+		'<Notice tone="note" label="Note">Supporting context.</Notice>',
+		'<Button variant="outline" onclick={() => console.log("go")}>Continue</Button>'
+	].join('\n');
+
+	const dividerVariants = ['hair', 'thick', 'double'] as const;
+
 	const contracts = [
 		{
 			name: 'Badge',
@@ -181,6 +191,11 @@
 					<Button variant="outline">Outline</Button>
 					<Button variant="ghost">Ghost</Button>
 				</div>
+				<div class="examples">
+					<Button size="sm">Small</Button>
+					<Button size="md">Medium</Button>
+					<Button size="lg">Large</Button>
+				</div>
 			</Card>
 			<Card title="Badge">
 				<div class="examples">
@@ -189,7 +204,20 @@
 					<Badge tone="warning">Warning</Badge>
 					<Badge tone="danger">Danger</Badge>
 				</div>
-				<Divider label="Divider variants" variant="double" />
+			</Card>
+			<Card title="Divider">
+				<div class="stack">
+					{#each dividerVariants as variant (variant)}
+						<div>
+							<p class="meta">{variant}</p>
+							<Divider {variant} />
+						</div>
+					{/each}
+					<div>
+						<p class="meta">labeled</p>
+						<Divider label="Labeled section" variant="soft" />
+					</div>
+				</div>
 			</Card>
 		</div>
 	</section>
@@ -231,9 +259,11 @@
 			</Card>
 			<Card title="Notice">
 				<Notice tone="note" label="Note">Use a calm notice for supporting context.</Notice>
+				<Notice tone="success" label="Success">Confirm that an action finished correctly.</Notice>
 				<Notice tone="warning" label="Warning">
 					Communicate states with text, not color alone.
 				</Notice>
+				<Notice tone="error" label="Error">Describe what failed and how to recover.</Notice>
 			</Card>
 		</div>
 	</section>
@@ -277,6 +307,10 @@
 				</article>
 			{/each}
 		</div>
+		<figure class="snippet">
+			<figcaption class="meta">Usage</figcaption>
+			<pre><code>{usage}</code></pre>
+		</figure>
 	</section>
 
 	<section id="reading-checks">
@@ -287,27 +321,31 @@
 		/>
 		<div class="grid">
 			<Card title="Long Spanish text">
-				<Notice tone="warning" label="Atención">
-					La información importante debe mantenerse completa, incluso con acentuación, ¿preguntas?,
-					¡signos!, y frases largas que ocupen varias líneas sin ocultarse ni provocar
-					desplazamiento horizontal.
-				</Notice>
-				<Pullquote cite="Ejemplo de lectura">
-					Una interfaz clara permite comprender el contenido sin depender del color, del movimiento
-					ni de una interacción escondida.
-				</Pullquote>
+				<div lang="es">
+					<Notice tone="warning" label="Atención">
+						La información importante debe mantenerse completa, incluso con acentuación,
+						¿preguntas?, ¡signos!, y frases largas que ocupen varias líneas sin ocultarse ni
+						provocar desplazamiento horizontal.
+					</Notice>
+					<Pullquote cite="Ejemplo de lectura">
+						Una interfaz clara permite comprender el contenido sin depender del color, del
+						movimiento ni de una interacción escondida.
+					</Pullquote>
+				</div>
 			</Card>
 			<Card title="Input and action states">
-				<TextField
-					id="reading-check-email"
-					label="Correo electrónico"
-					placeholder="nombre@ejemplo.com"
-					hint="Campo de prueba; no se envía a ningún servicio."
-					bind:value={email}
-				/>
-				<div class="examples">
-					<Button disabled>Deshabilitado</Button>
-					<Button loading>Procesando</Button>
+				<div lang="es">
+					<TextField
+						id="reading-check-email"
+						label="Correo electrónico"
+						placeholder="nombre@ejemplo.com"
+						hint="Campo de prueba; no se envía a ningún servicio."
+						bind:value={email}
+					/>
+					<div class="examples">
+						<Button disabled>Deshabilitado</Button>
+						<Button loading>Procesando</Button>
+					</div>
 				</div>
 			</Card>
 		</div>
@@ -376,6 +414,23 @@
 		flex-wrap: wrap;
 		align-items: center;
 		gap: var(--space-3);
+	}
+	.stack {
+		display: grid;
+		gap: var(--space-4);
+	}
+	.snippet {
+		margin: 0;
+	}
+	.snippet pre {
+		margin: 0;
+		padding: var(--space-4);
+		border: var(--rule-hair) solid var(--color-outline-variant);
+		background: var(--color-surface-container-low);
+		color: var(--color-on-background);
+		font: 400 var(--text-meta) / var(--leading-body) var(--font-mono);
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
 	}
 	.swatches span {
 		min-width: 5rem;

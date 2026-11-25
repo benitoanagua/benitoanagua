@@ -4,7 +4,9 @@ import {
 	writeFileSync,
 	rmSync,
 	mkdirSync,
-	readFileSync
+	readFileSync,
+	existsSync,
+	readdirSync
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -14,14 +16,15 @@ const rootPackage = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
 const temp = mkdtempSync(join(tmpdir(), 'folio-consumer-'));
 
 try {
-	const packed = JSON.parse(
-		execFileSync(
-			'npm',
-			['pack', './packages/folio', '--pack-destination', temp, '--json'],
-			{ cwd: root, encoding: 'utf8' }
-		)
+	// npm ≤11 prints an array; npm 12+ prints an object keyed by package name.
+	const packResult = JSON.parse(
+		execFileSync('npm', ['pack', './packages/folio', '--pack-destination', temp, '--json'], {
+			cwd: root,
+			encoding: 'utf8'
+		})
 	);
-	const tarball = packed[0]?.filename;
+	const packed = Array.isArray(packResult) ? packResult[0] : Object.values(packResult)[0];
+	const tarball = packed?.filename;
 	if (!tarball) throw new Error('npm pack did not return a tarball filename');
 
 	writeFileSync(
@@ -68,6 +71,45 @@ try {
 			'<Button>Packaged consumer works</Button>'
 		].join(newline)
 	);
+	writeFileSync(
+		join(temp, 'tsconfig.json'),
+		JSON.stringify(
+			{
+				compilerOptions: {
+					strict: true,
+					noEmit: true,
+					target: 'esnext',
+					module: 'esnext',
+					moduleResolution: 'bundler',
+					verbatimModuleSyntax: true,
+					skipLibCheck: true
+				},
+				include: ['src']
+			},
+			null,
+			2
+		)
+	);
+	writeFileSync(
+		join(src, 'consumer.ts'),
+		[
+			"import { Badge, Button, ProjectCard, TextField, Timeline } from '@benitoanagua/folio';",
+			'import type {',
+			'	PortfolioProject,',
+			'	ProjectCardLabels,',
+			'	SocialLink,',
+			'	TimelineEntry',
+			"} from '@benitoanagua/folio';",
+			'',
+			'const project: PortfolioProject = { title: ' + "'T'," + " description: 'D', href: '#' };",
+			"const labels: ProjectCardLabels = { view: 'View', case: 'Case', source: 'Source', tech: 'Tech' };",
+			"const links: SocialLink[] = [{ label: 'GitHub', href: 'https://example.com' }];",
+			"const entries: TimelineEntry[] = [{ period: '2026', title: 'Role' }];",
+			'',
+			'export const contracts = { Badge, Button, ProjectCard, TextField, Timeline };',
+			'export const data = { project, labels, links, entries };'
+		].join(newline)
+	);
 
 	const packageTar = join(temp, tarball);
 	execFileSync(
@@ -79,14 +121,36 @@ try {
 			packageTar,
 			`svelte@${rootPackage.devDependencies.svelte}`,
 			`vite@${rootPackage.devDependencies.vite}`,
+			`typescript@${rootPackage.devDependencies.typescript}`,
 			`@sveltejs/vite-plugin-svelte@${rootPackage.devDependencies['@sveltejs/vite-plugin-svelte']}`
 		],
 		{ cwd: temp, stdio: 'inherit' }
 	);
 	execFileSync('npm', ['run', 'build'], { cwd: temp, stdio: 'inherit' });
-	console.log(
-		'FOLIO packed consumer smoke test passed.'
+
+	const builtHtml = join(temp, 'dist', 'index.html');
+	if (!existsSync(builtHtml)) throw new Error('consumer build did not produce dist/index.html');
+	const bundle = readdirSync(join(temp, 'dist', 'assets'))
+		.filter((file) => file.endsWith('.js'))
+		.map((file) => readFileSync(join(temp, 'dist', 'assets', file), 'utf8'))
+		.join('\n');
+	if (!bundle.includes('Packaged consumer works')) {
+		throw new Error('consumer bundle does not contain the FOLIO Button output');
+	}
+
+	// The published types must resolve from the package entry point too.
+	execFileSync(
+		process.execPath,
+		[
+			join(temp, 'node_modules', 'typescript', 'bin', 'tsc'),
+			'--noEmit',
+			'-p',
+			join(temp, 'tsconfig.json')
+		],
+		{ cwd: temp, stdio: 'inherit' }
 	);
+
+	console.log('FOLIO packed consumer smoke test passed (build and types).');
 } finally {
 	rmSync(temp, { recursive: true, force: true });
 }

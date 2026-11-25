@@ -31,7 +31,13 @@ if (contractErrors.length) {
 const output = execFileSync('npm', ['pack', '--dry-run', '--json', './packages/folio'], {
 	encoding: 'utf8'
 });
-const [pack] = JSON.parse(output);
+// npm ≤11 prints an array; npm 12+ prints an object keyed by package name.
+const parsed = JSON.parse(output);
+const pack = Array.isArray(parsed) ? parsed[0] : Object.values(parsed)[0];
+if (!pack) {
+	console.error('FOLIO package smoke check failed: npm pack returned no metadata.');
+	process.exit(1);
+}
 const files = new Set(pack.files.map(({ path }) => path));
 const required = [
 	'package.json',

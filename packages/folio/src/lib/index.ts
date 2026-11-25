@@ -11,3 +11,8 @@ export { default as Metric } from './components/Metric.svelte';
 export { default as Notice } from './components/Notice.svelte';
 export { default as Pullquote } from './components/Pullquote.svelte';
 export { default as Marginalia } from './components/Marginalia.svelte';
+
+// Prop contracts shipped with the components above.
+export type { PortfolioProject, ProjectCardLabels } from './components/ProjectCard.svelte';
+export type { SocialLink } from './components/SocialLinks.svelte';
+export type { TimelineEntry } from './components/Timeline.svelte';

@@ -6,6 +6,7 @@
 	--font-body: 'Vollkorn', Georgia, 'Times New Roman', serif;
 	--font-ui: 'Mulish', system-ui, sans-serif;
 	--font-sans: var(--font-ui);
+	--font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
 
 	/* Escala tipográfica: mínimo absoluto 1rem */
 	--text-meta: 1rem;

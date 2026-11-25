@@ -43,7 +43,9 @@
 		</h3>
 		<p class="ds-description">{project.description}</p>
 		{#if project.tags?.length}
-			<p class="tags" aria-label={labels.tech}>{project.tags.join(' · ')}</p>
+			<p class="tags">
+				<span class="ds-visually-hidden">{labels.tech}: </span>{project.tags.join(' · ')}
+			</p>
 		{/if}
 		<div class="links">
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->

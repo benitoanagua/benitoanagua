@@ -14,7 +14,7 @@
 	class:warning={tone === 'warning'}
 	class:danger={tone === 'danger'}
 >
-	{@render children?.()}
+	<span class="ds-badge-dot" aria-hidden="true">·</span>{@render children?.()}
 </span>
 
 <style>
@@ -25,8 +25,7 @@
 		color: var(--color-on-surface-variant);
 		letter-spacing: var(--tracking-label);
 	}
-	.ds-badge::before {
-		content: '·';
+	.ds-badge-dot {
 		margin-right: 0.45em;
 		color: currentColor;
 	}
