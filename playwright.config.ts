@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
+import { ADMIN_E2E_HEADER, ADMIN_E2E_SECRET } from './e2e/support/admin';
 
 const PORTFOLIO_URL = 'http://localhost:5173';
 const CATALOG_URL = 'http://localhost:5174';
@@ -49,6 +50,16 @@ export default defineConfig({
 			}
 		},
 		{
+			name: 'admin',
+			testDir: './e2e/admin',
+			use: {
+				...devices['Desktop Chrome'],
+				baseURL: PORTFOLIO_URL,
+				launchOptions: chromiumLaunch,
+				extraHTTPHeaders: { [ADMIN_E2E_HEADER]: ADMIN_E2E_SECRET }
+			}
+		},
+		{
 			name: 'catalog',
 			testDir: './e2e/catalog',
 			use: {
@@ -71,8 +82,7 @@ export default defineConfig({
 		{
 			// Serve the production build through the same Pages emulation used by
 			// `pnpm preview`; avoids vite-dev transform races under parallel workers.
-			command:
-				'pnpm d1:migrations:local && pnpm build && pnpm dlx wrangler@4 pages dev .svelte-kit/cloudflare --port 5173 --ip 127.0.0.1',
+			command: `pnpm d1:migrations:local && pnpm build && pnpm dlx wrangler@4 pages dev .svelte-kit/cloudflare --port 5173 --ip 127.0.0.1 --binding ADMIN_E2E_SECRET=${ADMIN_E2E_SECRET}`,
 			url: PORTFOLIO_URL,
 			reuseExistingServer: !process.env.CI,
 			timeout: 300_000

@@ -51,6 +51,22 @@ unauthenticated requests to `/admin`, `/admin/dashboard`, and `/admin/proyectos`
 asserts that the response is an auth/configuration error (`401` or `503`) and never renders
 editor content. It uses no Cloudflare Access token and does not connect to production.
 
+### Authenticated admin E2E (local only)
+
+`pnpm e2e` also runs `e2e/admin/editor.spec.ts` with the `admin` Playwright project. The
+Playwright webServer binds `ADMIN_E2E_SECRET` and the project sends it as
+`x-admin-e2e-secret`. `requireAdmin` accepts that path only when all of these hold:
+
+- the binding is set and at least 32 characters long;
+- the request hostname is `localhost`, `127.0.0.1`, or `[::1]`;
+- the header matches the binding.
+
+The binding is passed only by `playwright.config.ts` to the local `wrangler pages dev`
+process. It is not present in `wrangler.toml`, `.dev.vars`, Pages variables, or CI secrets,
+so preview and production remain fail-closed. The suite creates an unpublished project,
+exercises the unsaved-changes guards and slug rules, and deletes the project afterwards
+against local D1.
+
 ## 5. Verification checklist
 
 - [ ] Access application covers `/admin*` on the intended hostname.

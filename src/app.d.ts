@@ -26,6 +26,8 @@ declare global {
 				ACCESS_TEAM_DOMAIN?: string;
 				ACCESS_AUD?: string;
 				ADMIN_EMAIL?: string;
+				/** Local-only Playwright admin seam; never set in deployments. */
+				ADMIN_E2E_SECRET?: string;
 			};
 		}
 	}

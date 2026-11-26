@@ -4,6 +4,50 @@ interface AccessEnvironment {
 	ACCESS_TEAM_DOMAIN?: string;
 	ACCESS_AUD?: string;
 	ADMIN_EMAIL?: string;
+	/**
+	 * Test-only secret used by the Playwright admin project. It is never set in
+	 * deployed environments and the bypass below additionally requires a
+	 * loopback hostname, so a leaked value cannot unlock a public deployment.
+	 */
+	ADMIN_E2E_SECRET?: string;
+}
+
+const LOCAL_E2E_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]']);
+const LOCAL_E2E_SECRET_MIN_LENGTH = 32;
+const LOCAL_E2E_EMAIL = 'e2e@localhost';
+
+function isLocalE2EHost(request: Request): boolean {
+	try {
+		return LOCAL_E2E_HOSTS.has(new URL(request.url).hostname);
+	} catch {
+		return false;
+	}
+}
+
+function secretsMatch(provided: string, expected: string): boolean {
+	if (provided.length !== expected.length) return false;
+	let difference = 0;
+	for (let index = 0; index < provided.length; index++) {
+		difference |= provided.charCodeAt(index) ^ expected.charCodeAt(index);
+	}
+	return difference === 0;
+}
+
+/**
+ * Local-only authentication seam for the Playwright admin suite. It is
+ * deliberately inert unless a long secret is bound *and* the request targets a
+ * loopback hostname. Production and preview deployments never bind the secret.
+ */
+function localE2EAdmin(request: Request, env?: AccessEnvironment): { email: string } | undefined {
+	const secret = env?.ADMIN_E2E_SECRET;
+	if (!secret || secret.length < LOCAL_E2E_SECRET_MIN_LENGTH) return undefined;
+	if (!isLocalE2EHost(request)) return undefined;
+	const provided = request.headers.get('x-admin-e2e-secret');
+	if (provided === null) return undefined;
+	if (!secretsMatch(provided, secret)) {
+		error(401, 'Local admin test credentials are invalid.');
+	}
+	return { email: LOCAL_E2E_EMAIL };
 }
 
 interface AccessClaims {
@@ -72,6 +116,9 @@ export async function requireAdmin(
 	request: Request,
 	env?: AccessEnvironment
 ): Promise<{ email: string }> {
+	const localAdmin = localE2EAdmin(request, env);
+	if (localAdmin) return localAdmin;
+
 	const teamDomain = env?.ACCESS_TEAM_DOMAIN;
 	const audience = env?.ACCESS_AUD;
 	const adminEmail = env?.ADMIN_EMAIL?.trim().toLowerCase();
