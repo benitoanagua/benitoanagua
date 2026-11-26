@@ -5,6 +5,9 @@
 - [ADR 0001 — Projects as separate evidence](adr/0001-projects-as-separate-evidence.md)
 - [ADR 0002 — Svelte-native design system](adr/0002-svelte-native-design-system.md)
 - [ADR 0003 — FOLIO reading design system](adr/0003-folio-reading-design-system.md)
+- [ADR 0004 — Portfolio modular monolith](adr/0004-portfolio-modular-monolith.md)
+- [ADR 0005 — Environment and D1 isolation](adr/0005-environment-and-d1-isolation.md)
+- [ADR 0006 — CI governance and release boundaries](adr/0006-ci-governance-and-release.md)
 
 ## Product and design
 
