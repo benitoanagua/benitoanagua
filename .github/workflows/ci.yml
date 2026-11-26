@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate:
@@ -22,6 +22,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
       - uses: pnpm/action-setup@v4
         with:
           version: 10
@@ -32,13 +34,16 @@ jobs:
       - run: pnpm install --no-frozen-lockfile
       - name: Format admin UI files for formatter review
         run: pnpm exec prettier --write src/lib/components/admin src/routes/admin
-      - name: Upload formatted admin UI files
-        uses: actions/upload-artifact@v4
-        with:
-          name: admin-folio-formatted-sources
-          path: |
-            src/lib/components/admin/
-            src/routes/admin/
+      - name: Commit formatted admin UI files to this PR branch
+        if: github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'feat/admin-folio-components'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/lib/components/admin src/routes/admin
+          if ! git diff --cached --quiet; then
+            git commit -m 'style(admin): format FOLIO dashboard files'
+            git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          fi
       - name: Prepare local D1 (migrations + seeds)
         run: pnpm d1:migrations:local
       - name: Static checks
