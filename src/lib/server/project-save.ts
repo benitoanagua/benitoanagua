@@ -62,9 +62,9 @@ export type SaveProjectResult =
 	| { ok: false; status: 400 | 409; message: string };
 
 /**
- * Validates and persists one project save. Keeping the D1 work here (instead
- * of in the route action) lets tests exercise validation-before-write with a
- * mock database while the action only handles auth and form extraction.
+ * Validates and persists one project save. Creation uses a plain INSERT so a
+ * concurrent request cannot turn a duplicate-slug conflict into an overwrite.
+ * Updates use a separate UPDATE statement and never upsert.
  */
 export async function saveProject(db: D1DatabaseLike, form: FormData): Promise<SaveProjectResult> {
 	const esRaw = form.get('content_es');
@@ -106,28 +106,56 @@ export async function saveProject(db: D1DatabaseLike, form: FormData): Promise<S
 	if (!slugDecision.ok) return slugDecision;
 
 	const sortOrder = normalizeSortOrder(form.get('sort_order'));
-	await db
-		.prepare(
-			`INSERT INTO portfolio_projects
-			(slug, area, year, featured, status, sort_order, content_es, content_en, is_published)
-			VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-			ON CONFLICT(slug) DO UPDATE SET area=excluded.area, year=excluded.year,
-			featured=excluded.featured, status=excluded.status, sort_order=excluded.sort_order,
-			content_es=excluded.content_es, content_en=excluded.content_en,
-			is_published=excluded.is_published, updated_at=CURRENT_TIMESTAMP`
-		)
-		.bind(
-			es.slug,
-			es.area,
-			es.year,
-			es.featured ? 1 : 0,
-			es.status ?? null,
-			sortOrder,
-			JSON.stringify(es),
-			JSON.stringify(en),
-			published
-		)
-		.run();
+	const values = [
+		es.area,
+		es.year,
+		es.featured ? 1 : 0,
+		es.status ?? null,
+		sortOrder,
+		JSON.stringify(es),
+		JSON.stringify(en),
+		published
+	];
+
+	if (originalSlug) {
+		const result = await db
+			.prepare(
+				`UPDATE portfolio_projects SET area = ?, year = ?, featured = ?, status = ?,
+				sort_order = ?, content_es = ?, content_en = ?, is_published = ?,
+				updated_at = CURRENT_TIMESTAMP WHERE slug = ?`
+			)
+			.bind(...values, originalSlug)
+			.run();
+		const changes = result.meta?.changes;
+		if (typeof changes === 'number' && changes === 0) {
+			return {
+				ok: false,
+				status: 409,
+				message: 'The project changed or was deleted while saving. Reload the page and try again.'
+			};
+		}
+	} else {
+		try {
+			await db
+				.prepare(
+					`INSERT INTO portfolio_projects
+					(slug, area, year, featured, status, sort_order, content_es, content_en, is_published)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`
+				)
+				.bind(es.slug, ...values)
+				.run();
+		} catch (cause) {
+			const message = cause instanceof Error ? cause.message : String(cause);
+			if (/unique constraint|constraint failed|already exists/i.test(message)) {
+				return {
+					ok: false,
+					status: 409,
+					message: 'A project with this slug was created concurrently. Reload the list before saving.'
+				};
+			}
+			throw cause;
+		}
+	}
 
 	return { ok: true, slug: es.slug, message: `Project "${es.slug}" saved in D1.` };
 }
