@@ -1,12 +1,15 @@
 import type { LayoutServerLoad } from './$types';
 import { loadSiteData } from '$lib/data/site-loader';
 import { getPersonalInfo } from '$lib/data/cv-loader';
-import { getProject } from '$lib/data/projects-loader';
 import { loadPortfolioContent } from '$lib/server/portfolio-content';
+import { loadPublicProjects } from '$lib/server/public-projects';
 import { SITE_URL, OG_IMAGES } from '$lib/config';
 
 export const load: LayoutServerLoad = async ({ url, platform }) => {
-	const portfolio = await loadPortfolioContent(platform);
+	const [portfolio, publicProjects] = await Promise.all([
+		loadPortfolioContent(platform),
+		loadPublicProjects(platform)
+	]);
 	const site = loadSiteData(portfolio.content);
 	const personal = getPersonalInfo(portfolio.content);
 	const currentPath = url.pathname;
@@ -25,7 +28,9 @@ export const load: LayoutServerLoad = async ({ url, platform }) => {
 			'Selected personal, independent and professional projects, linked to the skills they applied';
 		pageKeywords = 'projects, case studies, software development, design systems, board games';
 	} else if (currentPath.startsWith('/proyectos/')) {
-		const project = getProject(currentPath.split('/').pop() ?? '', 'es');
+		const project = publicProjects.projects.es.find(
+			(p) => p.slug === (currentPath.split('/').pop() ?? '')
+		);
 		if (project) {
 			pageTitle = `${project.title} — ${personal.name}`;
 			pageDescription = project.summary;
@@ -61,6 +66,8 @@ export const load: LayoutServerLoad = async ({ url, platform }) => {
 		},
 		site,
 		portfolio: portfolio.content,
-		portfolioSource: portfolio.source
+		portfolioSource: portfolio.source,
+		projects: publicProjects.projects,
+		projectsSource: publicProjects.source
 	};
 };

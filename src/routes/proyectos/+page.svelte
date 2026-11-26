@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
+	import { page } from '$app/state';
 	import { replaceState } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
@@ -12,7 +13,7 @@
 
 	const copy = $derived(projectsCopy(lang.current));
 	const ui = $derived(uiCopy(lang.current).projects);
-	const all = $derived(getProjects());
+	const all = $derived(page.data.projects?.[lang.current] ?? getProjects());
 	const areas = $derived(PROJECT_AREAS.filter((a) => all.some((p) => p.area === a)));
 
 	let area = $state<string>('all');

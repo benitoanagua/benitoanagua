@@ -1,13 +1,21 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import ProjectCard from './ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
 	import { getProjectsForSkill } from '$lib/data/projects-loader';
+	import { slugify } from '$lib/utils/slug';
 	import { projectsCopy } from '$lib/data/projects-copy';
 
 	let { slug }: { slug: string } = $props();
 
 	const copy = $derived(projectsCopy(lang.current));
-	const projects = $derived(getProjectsForSkill(slug));
+	const projects = $derived(
+		page.data.projects
+			? page.data.projects[lang.current].filter((project) =>
+					project.skills.some((skill) => slugify(skill) === slug)
+				)
+			: getProjectsForSkill(slug)
+	);
 </script>
 
 {#if projects.length}
