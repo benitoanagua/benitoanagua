@@ -17,5 +17,9 @@ The admin workspace is an application pattern built on FOLIO, not a separate vis
 - `AdminPageHeader`: kicker, title and explanatory text using FOLIO typography.
 - `AdminStatus`: text-first neutral/success/warning/error status.
 - `AdminDocumentNav`: select the D1 content key and language.
+- `AdminMetric`: an editorial metric with a text label and explanation.
+- `AdminQuickLink`: a text-first navigation link to an admin task.
 
-These components are intentionally composed from FOLIO tokens and should be reused across admin routes. Future overview metrics, data lists and settings should follow the same contracts and should not reintroduce custom Material-style cards or dense 12px metadata.
+The `/admin/dashboard` overview composes these pieces to summarize D1 content and route into the existing editors.
+
+These components are intentionally composed from FOLIO tokens and should be reused across admin routes. Future data lists and settings should follow the same contracts and should not reintroduce custom Material-style cards or dense 12px metadata.
