@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		ActionLink,
 		Badge,
 		Button,
 		Card,
@@ -8,6 +9,7 @@
 		Marginalia,
 		Metric,
 		Notice,
+		PageHeader,
 		ProjectCard,
 		Pullquote,
 		SectionHeading,
@@ -48,6 +50,12 @@
 	const dividerVariants = ['hair', 'thick', 'double'] as const;
 
 	const contracts = [
+		{
+			name: 'ActionLink',
+			props: 'title, description, href, actionLabel?',
+			defaults: 'Explore section',
+			detail: 'text-first editorial link with visible focus and descriptive destination'
+		},
 		{
 			name: 'Badge',
 			props: 'tone?',
@@ -97,6 +105,12 @@
 			props: 'label, tone?',
 			defaults: 'note',
 			detail: 'note · success · warning · error'
+		},
+		{
+			name: 'PageHeader',
+			props: 'title, eyebrow?, description?, level?',
+			defaults: 'level 1',
+			detail: 'semantic h1, h2 or h3 with shared FOLIO typography'
 		},
 		{
 			name: 'ProjectCard',
@@ -164,6 +178,7 @@
 		<a href="#content">Content</a>
 		<a href="#forms">Forms</a>
 		<a href="#editorial">Editorial</a>
+		<a href="#admin-patterns">Admin patterns</a>
 		<a href="#contracts">Component API</a>
 		<a href="#reading-checks">Reading checks</a>
 	</nav>
@@ -285,6 +300,33 @@
 					value="—"
 					label="Verified metric"
 					note="Use a substantiated value; this sample makes no numeric claim."
+				/>
+			</Card>
+		</div>
+	</section>
+
+	<section id="admin-patterns">
+		<PageHeader
+			eyebrow="06 / APPLICATION PATTERNS"
+			title="Admin workspace patterns"
+			level={2}
+			description="Reusable FOLIO components for dashboards and authenticated workspaces."
+		/>
+		<div class="grid">
+			<Card title="PageHeader">
+				<PageHeader
+					eyebrow="WORKSPACE / OVERVIEW"
+					title="Dashboard"
+					level={3}
+					description="Summarize a workspace with clear hierarchy and concise context."
+				/>
+			</Card>
+			<Card title="ActionLink">
+				<ActionLink
+					title="Manage content"
+					description="A descriptive route to a focused editing task."
+					href="#admin-patterns"
+					actionLabel="Open workspace"
 				/>
 			</Card>
 		</div>
