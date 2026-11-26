@@ -26,7 +26,7 @@ test.describe('Catalog sections and components', () => {
 				/SectionHeading|Pullquote|Marginalia|Clarity is a feature/,
 				/Keep the primary reading column/
 			],
-			contracts: [/The actual exported API/, /Badge/, /TextField/, /13 components/, /styles\.css/],
+			contracts: [/The actual exported API/, /Badge/, /TextField/, /16 components/, /styles\\.css/],
 			'reading-checks': [
 				/Spanish, long content and states/,
 				/Atención/,
