@@ -4,7 +4,7 @@
 		active = 'content',
 		adminEmail
 	}: {
-		active?: 'content' | 'projects';
+		active?: 'dashboard' | 'content' | 'projects';
 		adminEmail: string;
 	} = $props();
 	const contentHref = resolve('/admin') + '?key=site&locale=es';
@@ -22,6 +22,7 @@
 
 <div class="workspace-navigation">
 	<nav aria-label="Administración">
+		<a class:active={active === "dashboard"} aria-current={active === "dashboard" ? "page" : undefined} href={resolve("/admin/dashboard")}>Resumen</a>
 		<a class:active={active === 'content'} aria-current={active === 'content' ? 'page' : undefined} href={contentHref}>Editor de contenido</a>
 		<a class:active={active === 'projects'} aria-current={active === 'projects' ? 'page' : undefined} href={projectsHref}>Proyectos</a>
 	</nav>
