@@ -32,8 +32,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Prepare local D1 (migrations + seeds)
         run: pnpm d1:migrations:local
-      - name: Diagnose Prettier output (temporary)
-        run: pnpm exec prettier src/lib/server/project-save.ts | diff -u src/lib/server/project-save.ts - || true
       - name: Static checks
         run: |
           pnpm check:all
