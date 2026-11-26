@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Notice } from '$folio';
+
 	type Tone = 'neutral' | 'success' | 'warning' | 'error';
 	let {
 		label,
