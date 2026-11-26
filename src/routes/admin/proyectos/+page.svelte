@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { untrack } from 'svelte';
 	import type { ActionData, PageData } from './$types';
 	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
 	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
-	let selected = $state(data.projects[0]?.slug ?? '');
-	let es = $state(
-		data.projects[0] ? JSON.stringify(JSON.parse(data.projects[0].content_es), null, 2) : ''
-	);
-	let en = $state(
-		data.projects[0] ? JSON.stringify(JSON.parse(data.projects[0].content_en), null, 2) : ''
-	);
-	let order = $state(data.projects[0]?.sort_order ?? 0);
-	let published = $state(data.projects[0]?.is_published === 1);
+	// Capture the first loaded record once; changing data later must not overwrite an unsaved draft.
+	const initialProject = untrack(() => data.projects[0]);
+	const formatDocument = (value: string) => JSON.stringify(JSON.parse(value), null, 2);
+	let selected = $state(initialProject?.slug ?? '');
+	let es = $state(initialProject ? formatDocument(initialProject.content_es) : '');
+	let en = $state(initialProject ? formatDocument(initialProject.content_en) : '');
+	let order = $state(initialProject?.sort_order ?? 0);
+	let published = $state(initialProject?.is_published === 1);
 	function choose(slug: string) {
 		selected = slug;
 		const item = data.projects.find((p) => p.slug === slug);
-		es = item ? JSON.stringify(JSON.parse(item.content_es), null, 2) : '';
-		en = item ? JSON.stringify(JSON.parse(item.content_en), null, 2) : '';
+		es = item ? formatDocument(item.content_es) : '';
+		en = item ? formatDocument(item.content_en) : '';
 		order = item?.sort_order ?? data.projects.length;
 		published = item?.is_published === 1;
 	}
