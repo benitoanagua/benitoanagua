@@ -1,25 +1,25 @@
 # Public project pages backed by D1
 
-This change moves public project reads to the `portfolio_projects` table while keeping the TOML files as a transition fallback.
+> Completed milestone. Public project reads come exclusively from `portfolio_projects`; the TOML sources and the transitional fallback were removed.
 
 ## Runtime behavior
 
-- The root server layout loads both Spanish and English project payloads from D1.
+- The root server layout loads both Spanish and English published project payloads from D1 on every request.
 - Only rows with `is_published = 1` are exposed to the public site.
 - The home featured-project section, project listing, project detail, related projects and skill-project cards use the layout's D1-backed data.
-- Project detail routes are resolved at request time; they are no longer generated as static entries from the TOML project list.
-- If D1 is unavailable, empty, or contains an invalid localized record, the server logs a warning and temporarily uses the bundled TOML data. Check `projectsSource` in layout data when diagnosing the active source.
+- Project detail routes are resolved at request time against the published set; unknown or unpublished slugs return 404.
+- If D1 is unavailable or contains an invalid published record, the loaders throw and the request fails — there is no silent fallback to bundled content.
 
 ## Before enabling D1 content in production
 
-The public loader is safe to deploy before the database import because it falls back to bundled content. To make D1 the active source:
+The public loader requires the database to be seeded. To activate D1 content in the shared remote database:
 
 1. Back up the production D1 database.
-2. Apply migration `0003_projects.sql` to the intended database.
-3. Generate `migrations/0004_projects_seed.sql` from the repository's bilingual project TOML using `pnpm d1:export-projects`.
-4. Review the generated SQL, especially the project count, slugs, localized fields and publication flags.
-5. Apply the reviewed seed explicitly to D1 and verify:
-   `SELECT COUNT(*) FROM portfolio_projects WHERE is_published = 1;`
-6. Visit the homepage, `/proyectos`, a project detail route, and at least one skill page. Confirm `projectsSource` is `d1` in the server data/logging path.
+2. Apply the pending migrations (schema + seeds) explicitly:
+   `pnpm d1:migrations:remote`
+   This includes `0003_projects.sql` (schema) and `0004_projects_seed.sql` (content).
+3. Verify:
+   `pnpm dlx wrangler@4 d1 execute benitoanagua-portfolio --remote --command="SELECT COUNT(*) FROM portfolio_projects WHERE is_published = 1;"`
+4. Visit the homepage, `/proyectos`, a project detail route, and at least one skill page after deployment.
 
-Do not remove `projects.es.toml` or `projects.en.toml` in this milestone. The build-time sitemap generator and skill-profile generation still depend on the CV/project sources. Removing those files is a separate migration after the sitemap and skill data have been migrated and checked.
+Do not delete or rewrite `migrations/0004_projects_seed.sql`; it is the committed record of the initial project import. Subsequent content changes go through `/admin/proyectos` or new numbered migrations.

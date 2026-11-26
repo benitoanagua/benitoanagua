@@ -1,30 +1,34 @@
 # Projects migration to D1
 
-This milestone adds a D1 table and a bilingual project editor. It intentionally does not switch the public project loader yet; the public routes, skill links and sitemap still consume the TOML source and must remain stable until the next runtime-loader change is verified.
+> Completed milestone. The public project loader, project pages, skill links and sitemap all read `portfolio_projects` at request time. The former `projects.{es,en}.toml` sources and the TOML exporter were removed; the bilingual seed is committed as `migrations/0004_projects_seed.sql`.
 
-## Local migration and import
+## Schema and seed
 
-1. Create a backup of the local D1 database.
-2. Apply schema migration 0003:
-   `pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --local`
-3. Generate the bilingual seed:
-   `pnpm d1:export-projects`
-   This writes `migrations/0004_projects_seed.sql` from both project TOML files, validating the same slug set and neutral fields (area, year, stack, skills).
-4. Review the generated SQL and apply it locally:
-   `pnpm dlx wrangler@4 d1 execute benitoanagua-portfolio --local --file=migrations/0004_projects_seed.sql`
-5. Check the count and sample localized payloads:
-   `pnpm dlx wrangler@4 d1 execute benitoanagua-portfolio --local --command="SELECT slug, area, is_published FROM portfolio_projects ORDER BY sort_order"`
+- `0003_projects.sql` creates `portfolio_projects` (slug PK, neutral columns, `content_es`/`content_en` JSON, `is_published`, `sort_order`).
+- `0004_projects_seed.sql` is the idempotent bilingual seed generated from the former TOML files. Apply order is handled by `wrangler d1 migrations apply`.
 
-Do not apply to production in this PR. After local verification, back up remote D1, apply the schema migration and the reviewed seed explicitly, then validate counts and bilingual content before enabling the public D1 loader.
+Local setup:
+
+```sh
+pnpm d1:migrations:local
+pnpm check:content
+```
+
+## Runtime behavior
+
+- `src/lib/server/public-projects.ts` selects only `is_published = 1` rows ordered by `sort_order, slug` and validates both localized payloads. Missing binding, query errors or invalid published payloads are hard errors — there is no bundled fallback.
+- `/proyectos`, project detail routes, home featured projects, related projects and skill-project cards all consume the layout's D1-backed `projects` data.
+- Unpublished records stay in D1 but are invisible publicly: no listing, no detail route (404), no sitemap entry.
 
 ## Admin
 
-Access-protected `/admin/proyectos` supports selecting, creating, updating, publishing/unpublishing and deleting project records. The editor uses JSON for complete project fields so optional fields and link structures are not silently lost. It validates required fields and enforces the shared slug, area, year, stack and skills across languages.
+`/admin/proyectos` (Cloudflare Access protected) supports selecting, creating, updating, publishing/unpublishing and deleting project records. The editor uses JSON for complete project fields so optional fields and link structures are not silently lost. It validates required fields and enforces the shared slug, area, year, stack and skills across languages.
 
-## Remaining before TOML removal
+## Remote import (pending, explicit operation)
 
-- Switch public project reads to D1 and pass server-loaded data into components.
-- Convert project detail route to dynamic SSR (no static entries from TOML).
-- Move sitemap project slugs to runtime or a deployment-time D1 export strategy.
-- Remove `projects.es.toml` and `projects.en.toml` only after all project, skill, build and e2e checks pass.
-- Migrate skill profiles and stories, experience/CV/site, static generation dependencies and fallback paths.
+The remote database is shared by Preview and Production. Before the first remote apply:
+
+1. Back up remote D1 (`wrangler d1 export`).
+2. Review pending migrations with `pnpm d1:migrations:list`.
+3. Apply explicitly with `pnpm d1:migrations:remote` — this also imports the seeds.
+4. Verify counts and that `/proyectos`, a project detail, `/habilidades`, `/cv` and `/sitemap.xml` reflect D1.

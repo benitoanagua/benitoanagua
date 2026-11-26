@@ -26,7 +26,7 @@ Use the same values for local development only in a local, untracked environment
 
 The admin uses the existing `DB` binding and updates only the allow-listed `portfolio_content` keys (`cv`, `site`, `skill_stories`) for `es` and `en`. All SQL values are bound parameters and JSON shape is validated server-side.
 
-This first admin milestone is a document editor. Project records, richer field-based editing, draft/publish workflow, audit log and R2 asset management are follow-up work; do not remove project TOML or other content sources until those migrations are completed and verified.
+Project records are managed in `/admin/proyectos` with the same protections. All editable public content now lives in D1; the former TOML sources were removed after the cutover was verified locally.
 
 ## 4. Deployment checklist
 

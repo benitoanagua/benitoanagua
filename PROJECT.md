@@ -141,13 +141,14 @@ The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the
 | `pnpm d1:migrations:local`  | Apply D1 migrations locally            |
 | `pnpm d1:migrations:list`   | List remote migration state            |
 | `pnpm d1:migrations:remote` | Apply D1 migrations remotely           |
-| `pnpm d1:export-portfolio`  | Export portfolio content for D1        |
+| `pnpm check:content`        | Verify local D1 content integrity      |
+| `pnpm test`                 | Run loader unit tests                  |
 
 **Production caution:** inspect migrations, confirm the Cloudflare account and target database, and review the remote state before applying database changes or deploying.
 
 ## Content and data
 
-Portfolio content is maintained in localized TOML files under `src/lib/data/`. The D1 schema and migration history are stored in `migrations/`.
+Editable portfolio content lives in Cloudflare D1 (`portfolio_content`, `portfolio_projects`, `portfolio_cv_documents`) and is managed through `/admin`. The schema and initial bilingual seeds are versioned in `migrations/`; local development applies them with `pnpm d1:migrations:local`. All public pages are server-rendered at request time — nothing is prerendered.
 
 Do not commit credentials, customer information, or production records. Treat remote database operations as deliberate deployment actions, not routine local development steps.
 

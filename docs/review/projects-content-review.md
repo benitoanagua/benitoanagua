@@ -1,8 +1,8 @@
 # Revisión editorial pendiente de proyectos
 
-> Lista de decisiones editoriales, no fuente de contenido. Actualizada el 24-11-2026; contrastar siempre con `src/lib/data/projects.es.toml` y `projects.en.toml` antes de publicar.
+> Lista de decisiones editoriales, no fuente de contenido. Actualizada el 24-11-2026; contrastar siempre con los registros `portfolio_projects` en `/admin/proyectos` antes de publicar.
 
-Los 15 proyectos de `projects.*.toml` salen de dos fuentes: tus CV (proyectos independientes) y lo que has contado de tus repositorios. No añadí métricas, clientes ni resultados. Revisa antes de publicar:
+Los 15 proyectos importados a D1 salen de dos fuentes: tus CV (proyectos independientes) y lo que has contado de tus repositorios. No añadí métricas, clientes ni resultados. Revisa antes de publicar:
 
 ## Datos que no tengo (la página oculta lo que falta)
 
@@ -24,4 +24,4 @@ Los 15 proyectos de `projects.*.toml` salen de dos fuentes: tus CV (proyectos in
 
 ## Habilidades de proyectos sin ficha en `/habilidades`
 
-`pnpm check:content` las lista (Supabase, Fly.io, Kotlin Multiplatform, Firestore, Elementor, Adobe Illustrator…). Para que tengan página, añádelas a `[[focuses.skills]]` en `cv.es.toml` y `cv.en.toml` (tu flujo habitual).
+`pnpm check:content` las lista (Supabase, Fly.io, Kotlin Multiplatform, Firestore, Elementor, Adobe Illustrator…). Para que tengan página, añádelas al documento `cv` (`focuses[].skills[]`) en `/admin` para `es` y `en`.
