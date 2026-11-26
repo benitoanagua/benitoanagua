@@ -71,3 +71,20 @@ pnpm catalog:deploy
 ```
 
 The catalog deploy command uses `apps/catalog/wrangler.toml` and the Pages project `benitoanagua-design-system`. Confirm the target project and branch before deploying.
+
+
+## Target environment verification checklist
+
+The intended environment topology is defined in [ADR 0005](../adr/0005-environment-and-d1-isolation.md). Current state remains **not isolated**: the Preview and Production deployments use the same D1 resource in the checked-in Wrangler configuration.
+
+Do not consider the environment architecture complete until the Cloudflare account configuration has been verified against all of these items:
+
+- [ ] Dedicated D1 resource created for Preview in the correct Cloudflare account.
+- [ ] Pages Preview environment's `DB` binding points to Preview D1.
+- [ ] Production environment's `DB` binding points only to Production D1.
+- [ ] Reviewed migrations applied separately to both remote databases.
+- [ ] Preview write test verified in Preview D1 and absent from Production D1.
+- [ ] Production admin path verified against Production D1.
+- [ ] Backup/export and recovery procedure recorded before production schema changes.
+
+The repository cannot configure or verify these account-level bindings through source changes alone. Until the checklist is verified in Cloudflare, Preview remains read-only for admin/write testing and must be treated as production data.
