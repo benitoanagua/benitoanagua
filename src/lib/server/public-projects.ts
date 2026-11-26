@@ -1,5 +1,4 @@
 import type { Project, ProjectArea, ProjectStatus } from '$lib/types/Project';
-import { getProjects as getBundledProjects } from '$lib/data/projects-loader';
 
 interface ProjectRow {
 	slug: string;
@@ -9,94 +8,81 @@ interface ProjectRow {
 	is_published: number;
 }
 
-export interface PublicProjectsResult {
-	projects: Record<'es' | 'en', Project[]>;
-	source: 'd1' | 'fallback';
-}
-
 const AREAS: ProjectArea[] = ['dev', 'design', 'graphic', 'analysis', 'games'];
 const STATUSES: ProjectStatus[] = ['wip', 'done', 'spec'];
 
-function resolveDb(platform?: App.Platform) {
+function parseProject(raw: string, slug: string): Project {
+	let value: unknown;
 	try {
-		return platform?.env?.DB;
+		value = JSON.parse(raw);
 	} catch {
-		return undefined;
+		throw new Error(`[public-projects] Invalid JSON payload for project "${slug}"`);
 	}
-}
-
-function parseProject(raw: string, slug: string): Project | null {
-	try {
-		const value: unknown = JSON.parse(raw);
-		if (typeof value !== 'object' || value === null || Array.isArray(value)) return null;
-		const p = value as Record<string, unknown>;
-		if (
-			p.slug !== slug ||
-			typeof p.title !== 'string' ||
-			typeof p.area !== 'string' ||
-			!AREAS.includes(p.area as ProjectArea) ||
-			typeof p.year !== 'string' ||
-			typeof p.role !== 'string' ||
-			typeof p.summary !== 'string' ||
-			!Array.isArray(p.stack) ||
-			!p.stack.every((item) => typeof item === 'string') ||
-			!Array.isArray(p.skills) ||
-			!p.skills.every((item) => typeof item === 'string') ||
-			!Array.isArray(p.highlights) ||
-			!p.highlights.every((item) => typeof item === 'string') ||
-			(p.status !== undefined && !STATUSES.includes(p.status as ProjectStatus)) ||
-			(p.featured !== undefined && typeof p.featured !== 'boolean')
-		) return null;
-
-		return p as unknown as Project;
-	} catch {
-		return null;
+	if (typeof value !== 'object' || value === null || Array.isArray(value)) {
+		throw new Error(`[public-projects] Project "${slug}" payload is not an object`);
 	}
-}
-
-function fallback(): PublicProjectsResult {
-	return {
-		projects: { es: getBundledProjects('es'), en: getBundledProjects('en') },
-		source: 'fallback'
-	};
+	const p = value as Record<string, unknown>;
+	if (
+		p.slug !== slug ||
+		typeof p.title !== 'string' ||
+		typeof p.area !== 'string' ||
+		!AREAS.includes(p.area as ProjectArea) ||
+		typeof p.year !== 'string' ||
+		typeof p.role !== 'string' ||
+		typeof p.summary !== 'string' ||
+		!Array.isArray(p.stack) ||
+		!p.stack.every((item) => typeof item === 'string') ||
+		!Array.isArray(p.skills) ||
+		!p.skills.every((item) => typeof item === 'string') ||
+		!Array.isArray(p.highlights) ||
+		!p.highlights.every((item) => typeof item === 'string') ||
+		(p.status !== undefined && !STATUSES.includes(p.status as ProjectStatus)) ||
+		(p.featured !== undefined && typeof p.featured !== 'boolean')
+	) {
+		throw new Error(`[public-projects] Project "${slug}" payload failed validation`);
+	}
+	return p as unknown as Project;
 }
 
 /**
- * Published projects from D1, localized as separate payloads.
- * Bundled TOML is retained as a safe transition fallback until D1 is seeded
- * and verified in the Cloudflare environment.
+ * Published projects from D1, localized as separate payloads. There is no
+ * bundled fallback: a missing binding, query failure or invalid published
+ * payload is a hard error so a misconfigured database cannot silently serve
+ * stale or partial content.
  */
-export async function loadPublicProjects(platform?: App.Platform): Promise<PublicProjectsResult> {
-	const db = resolveDb(platform);
-	if (!db) return fallback();
-
+export async function loadPublicProjects(
+	platform?: App.Platform
+): Promise<Record<'es' | 'en', Project[]>> {
+	let db: App.Platform['env']['DB'];
 	try {
-		const { results } = await db
+		db = platform?.env?.DB;
+	} catch {
+		db = undefined;
+	}
+	if (!db) {
+		throw new Error('[public-projects] D1 binding DB is unavailable.');
+	}
+
+	let results: ProjectRow[];
+	try {
+		const response = await db
 			.prepare(
-				'SELECT slug, sort_order, content_es, content_en, is_published FROM portfolio_projects ORDER BY sort_order, slug'
+				`SELECT slug, sort_order, content_es, content_en, is_published
+				 FROM portfolio_projects
+				 WHERE is_published = 1
+				 ORDER BY sort_order, slug`
 			)
 			.all<ProjectRow>();
-
-		if (!results?.length) {
-			console.warn('[public-projects] D1 has no published project rows; using bundled fallback');
-			return fallback();
-		}
-
-		const projects = { es: [] as Project[], en: [] as Project[] };
-		for (const row of results) {
-			if (row.is_published !== 1) continue;
-			const es = parseProject(row.content_es, row.slug);
-			const en = parseProject(row.content_en, row.slug);
-			if (!es || !en) {
-				console.warn('[public-projects] Invalid localized project payload:', row.slug);
-				return fallback();
-			}
-			projects.es.push(es);
-			projects.en.push(en);
-		}
-		return { projects, source: 'd1' };
+		results = response.results ?? [];
 	} catch (error) {
-		console.warn('[public-projects] D1 read failed; using bundled fallback:', error);
-		return fallback();
+		throw new Error(`[public-projects] D1 read failed: ${String(error)}`);
 	}
+
+	const projects = { es: [] as Project[], en: [] as Project[] };
+	for (const row of results) {
+		if (row.is_published !== 1) continue;
+		projects.es.push(parseProject(row.content_es, row.slug));
+		projects.en.push(parseProject(row.content_en, row.slug));
+	}
+	return projects;
 }

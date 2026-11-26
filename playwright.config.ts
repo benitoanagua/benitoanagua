@@ -72,7 +72,7 @@ export default defineConfig({
 			// Serve the production build through the same Pages emulation used by
 			// `pnpm preview`; avoids vite-dev transform races under parallel workers.
 			command:
-				'pnpm build && pnpm dlx wrangler@4 pages dev .svelte-kit/cloudflare --port 5173 --ip 127.0.0.1',
+				'pnpm d1:migrations:local && pnpm build && pnpm dlx wrangler@4 pages dev .svelte-kit/cloudflare --port 5173 --ip 127.0.0.1',
 			url: PORTFOLIO_URL,
 			reuseExistingServer: !process.env.CI,
 			timeout: 300_000

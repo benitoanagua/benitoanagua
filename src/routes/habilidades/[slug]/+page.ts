@@ -1,11 +1,8 @@
 import { error } from '@sveltejs/kit';
-import { getSkillProfile, getSkillProfileEntries } from '$lib/data/skill-profiles';
-import type { EntryGenerator, PageLoad } from './$types';
+import { getSkillProfile } from '$lib/data/skill-profiles';
+import type { PageLoad } from './$types';
 
-// Served from D1 at request time (see src/routes/+page.ts). `entries` is kept
-// for documentation and in case prerendering is re-enabled later.
-export const prerender = false;
-export const entries: EntryGenerator = () => getSkillProfileEntries();
+// Served from D1 at request time (see src/routes/+layout.ts).
 export const load: PageLoad = async ({ params, parent }) => {
 	const { portfolio } = await parent();
 	const skill = getSkillProfile(params.slug, portfolio);

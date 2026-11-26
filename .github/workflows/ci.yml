@@ -30,10 +30,13 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
+      - name: Prepare local D1 (migrations + seeds)
+        run: pnpm d1:migrations:local
       - name: Static checks
         run: |
           pnpm check:all
           pnpm lint
+          pnpm test
           pnpm check:content
           pnpm check:design
           pnpm build

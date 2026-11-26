@@ -15,24 +15,31 @@ const STATIC_ROUTES = [
 ] as const;
 
 function xmlEscape(value: string): string {
-	return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+	return value
+		.replace(/&/g, '&amp;')
+		.replace(/</g, '&lt;')
+		.replace(/>/g, '&gt;')
+		.replace(/"/g, '&quot;')
+		.replace(/'/g, '&apos;');
 }
 
 export const GET: RequestHandler = async ({ platform }) => {
-	const [portfolio, projectResult] = await Promise.all([
+	const [portfolio, projects] = await Promise.all([
 		loadPortfolioContent(platform),
 		loadPublicProjects(platform)
 	]);
 
-	const routes = new Map(STATIC_ROUTES.map((route) => [route.path, route]));
-	for (const project of projectResult.projects.es) {
+	const routes = new Map<string, { path: string; priority: string; changefreq: string }>(
+		STATIC_ROUTES.map((route) => [route.path, route])
+	);
+	for (const project of projects.es) {
 		routes.set(`/proyectos/${project.slug}`, {
 			path: `/proyectos/${project.slug}`,
 			priority: '0.7',
 			changefreq: 'monthly'
 		});
 	}
-	for (const { slug } of getSkillProfileEntries(portfolio.content)) {
+	for (const { slug } of getSkillProfileEntries(portfolio)) {
 		routes.set(`/habilidades/${slug}`, {
 			path: `/habilidades/${slug}`,
 			priority: '0.65',

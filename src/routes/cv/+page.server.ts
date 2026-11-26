@@ -1,7 +1,7 @@
 import type { PageServerLoad } from './$types';
 import { loadCvDocuments } from '$lib/server/portfolio-content';
 
-// CV document metadata comes from D1 at request time (see src/routes/+page.ts).
+// CV document metadata comes from D1 at request time (see src/routes/+layout.ts).
 export const prerender = false;
 
 export const load: PageServerLoad = async ({ platform }) => ({

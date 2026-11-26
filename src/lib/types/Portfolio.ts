@@ -4,14 +4,12 @@ import type { SiteData } from './Site';
 export type Locale = 'es' | 'en';
 export const LOCALES: readonly Locale[] = ['es', 'en'];
 
-/** Content documents currently read from D1 `portfolio_content`. */
+/** Content documents read from D1 `portfolio_content`. */
 export interface PortfolioContent {
 	site: Record<Locale, SiteData>;
 	cv: Record<Locale, CVData>;
 	skillStories: Record<string, Partial<Record<Locale, string>>>;
 }
-
-export type PortfolioContentSource = 'd1' | 'fallback';
 
 /**
  * Minimal structural types for the Cloudflare D1 binding. Avoids a hard
@@ -32,11 +30,6 @@ export interface D1PreparedStatementLike {
 
 export interface D1DatabaseLike {
 	prepare(query: string): D1PreparedStatementLike;
-}
-
-export interface PortfolioContentResult {
-	content: PortfolioContent;
-	source: PortfolioContentSource;
 }
 
 /** Public CV document metadata (binary assets stay in static/R2). */

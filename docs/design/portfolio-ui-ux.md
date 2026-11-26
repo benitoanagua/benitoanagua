@@ -32,9 +32,9 @@ Reglas:
 
 ## 3. Idioma y contenido
 
-- Todo texto de interfaz proviene de `site.{es,en}.toml` (navegación, portada, pie) `ui-copy.ts` (habilidades, experiencia, CV, errores) o `projects-copy.ts` (proyectos). No se escriben ternarios `lang.current === 'en' ? … : …` en las páginas.
+- Todo texto de interfaz de contenido proviene de D1 (`site`, `cv`, `skill_stories`, `projects`), gestionado en `/admin`. Los textos de chrome (habilidades, experiencia, CV, errores) viven en `ui-copy.ts` y los de proyectos en `projects-copy.ts`. No se escriben ternarios `lang.current === 'en' ? … : …` en las páginas.
 - Español e inglés se mantienen alineados en estructura y significado. `pnpm check:content` valida estructura, no redacción.
-- `<html lang>` se sincroniza con el idioma activo. El HTML prerenderizado es español.
+- `<html lang>` se sincroniza con el idioma activo. Todas las páginas se renderizan en el servidor en cada petición (sin prerender), por lo que el HTML inicial sigue el idioma por defecto (`es`).
 - Texto visible en lenguaje natural. No se usan identificadores internos (`SNAKE_CASE`, `::OK`, `//`) como texto de interfaz: no se traducen, no los entienden los lectores de pantalla y no informan al visitante.
 - Sin cifras, clientes ni resultados inventados (ver `docs/content/skills-and-experience.md`).
 
@@ -119,7 +119,7 @@ Estados de contenido de una tarjeta de proyecto:
 
 - Fuentes: `preconnect`, una solicitud para las familias de texto y otra para iconos; sin `@import` en CSS.
 - Imágenes: `loading="lazy"` y dimensiones definidas para evitar saltos de diseño.
-- Sitio estático prerenderizado; sin dependencias nuevas sin justificar.
+- Sitio renderizado en servidor por petición (SSR) contra D1; sin dependencias nuevas sin justificar.
 
 ## 10. Verificación antes de unir un cambio
 

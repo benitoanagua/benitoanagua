@@ -23,11 +23,13 @@ interface AccessJwk extends JsonWebKey {
 	kid?: string;
 }
 
-function decodeBase64Url(value: string): Uint8Array {
+function decodeBase64Url(value: string): Uint8Array<ArrayBuffer> {
 	const normalized = value.replace(/-/g, '+').replace(/_/g, '/');
 	const padded = normalized + '='.repeat((4 - (normalized.length % 4)) % 4);
 	const binary = atob(padded);
-	return Uint8Array.from(binary, (character) => character.charCodeAt(0));
+	const bytes = new Uint8Array(binary.length);
+	for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+	return bytes;
 }
 
 function decodeJson<T>(value: string): T {
@@ -35,7 +37,11 @@ function decodeJson<T>(value: string): T {
 }
 
 function normalizeDomain(value: string): string {
-	const domain = value.trim().replace(/^https?:\/\//i, '').replace(/\/$/, '').toLowerCase();
+	const domain = value
+		.trim()
+		.replace(/^https?:\/\//i, '')
+		.replace(/\/$/, '')
+		.toLowerCase();
 	if (!/^[a-z0-9.-]+$/.test(domain)) throw new Error('Invalid Access team domain');
 	return domain;
 }

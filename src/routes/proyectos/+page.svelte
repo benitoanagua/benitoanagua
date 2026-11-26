@@ -6,14 +6,13 @@
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
-	import { getProjects } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
 	import { uiCopy } from '$lib/data/ui-copy';
 	import { PROJECT_AREAS } from '$lib/types/Project';
 
 	const copy = $derived(projectsCopy(lang.current));
 	const ui = $derived(uiCopy(lang.current).projects);
-	const all = $derived(page.data.projects?.[lang.current] ?? getProjects());
+	const all = $derived(page.data.projects[lang.current]);
 	const areas = $derived(PROJECT_AREAS.filter((a) => all.some((p) => p.area === a)));
 
 	let area = $state<string>('all');

@@ -28,6 +28,8 @@ pnpm d1:migrations:list
 # Compare the output with the files in migrations/ and read them first:
 #   migrations/0001_portfolio_content.sql  (schema)
 #   migrations/0002_portfolio_seed.sql     (content seed, idempotent upserts)
+#   migrations/0003_projects.sql           (projects schema)
+#   migrations/0004_projects_seed.sql      (projects seed, idempotent upserts)
 # Only proceed if every pending file is reviewed and safe.
 
 # 5. Apply only reviewed pending remote migrations
@@ -38,8 +40,9 @@ pnpm cf:deploy:preview     # preview URL (*.pages.dev preview deployment)
 pnpm cf:deploy:production  # production (benitoanagua.pages.dev)
 
 # 7. Verify the deployment
-curl -s https://benitoanagua.pages.dev/ | grep -o 'portfolio-source" content="[^"]*"'
-# Check that the response includes the expected `portfolio-source` meta tag
+curl -s -o /dev/null -w "%{http_code}\n" https://benitoanagua.pages.dev/
+curl -s https://benitoanagua.pages.dev/sitemap.xml | head -5
+# Check that public pages render and the sitemap is served as XML
 ```
 
 Notes:
@@ -51,7 +54,7 @@ Notes:
 
 ## CI
 
-GitHub Actions runs validation only — install, `check`, `lint`, `check:content`, `check:design` and `build`. It holds no Cloudflare credentials and performs no deploys or migrations. See `.github/workflows/ci.yml`.
+GitHub Actions runs validation only — install, local D1 migrations, `check`, `lint`, `test`, `check:content`, `check:design` and `build`, plus the Playwright suite against a locally seeded D1. It holds no Cloudflare credentials and performs no deploys or remote migrations. See `.github/workflows/ci.yml`.
 
 If the Cloudflare Pages Git integration is enabled for this project, pushes to `main` will still trigger a Pages-side production build outside this pipeline. To keep deploys fully under local control, disable the Git integration in the Cloudflare dashboard (Pages project → Settings → Builds) and deploy with `pnpm cf:deploy:production`.
 
