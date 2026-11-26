@@ -16,6 +16,19 @@ The repository is organized as a pnpm workspace and contains these deliverables 
 | FOLIO         | Reusable Svelte 5 reading-first design system | `packages/folio`; package publication pending  |
 | FOLIO Catalog | Standalone Svelte/Vite component reference    | `apps/catalog`; deployment pending             |
 
+## Target architecture
+
+The portfolio is a **modular monolith**: SvelteKit routes and server load functions deliver the application, while server-side modules own domain rules, validation and D1 access. The browser receives validated page data and does not access D1 directly.
+
+- **Content domains:** portfolio content, CV/experience, projects, administration, validation and SEO.
+- **Persistence:** Cloudflare D1 is the source of truth for editable structured content; static assets hold binary files.
+- **FOLIO:** an independent workspace package; the portfolio may depend on it, but FOLIO must not import portfolio application code.
+- **Catalog:** a separate Vite application with independent deployment and no portfolio D1 binding.
+- **Environments:** local D1, dedicated Preview D1 and Production D1. Preview/Production currently share D1 and remain an isolation gap until Cloudflare bindings are configured and verified.
+- **Delivery:** CI validates only. Production deploys, remote migrations and package releases are deliberate operator actions.
+
+The accepted decisions are recorded in [ADRs 0004–0006](docs/README.md#architecture-decisions). See the Cloudflare operations guide for the current isolation status and verification procedure.
+
 ## Technology
 
 - SvelteKit and Svelte 5
