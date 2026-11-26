@@ -1,11 +1,13 @@
 import { error } from '@sveltejs/kit';
-import { getProjectSlugs } from '$lib/data/projects-loader';
-import type { EntryGenerator, PageLoad } from './$types';
+import type { PageLoad } from './$types';
 
-// Un HTML estático por proyecto (los slugs son idénticos en es/en)
-export const entries: EntryGenerator = () => getProjectSlugs().map((slug) => ({ slug }));
+export const prerender = false;
 
-export const load: PageLoad = ({ params }) => {
-	if (!getProjectSlugs().includes(params.slug)) error(404, 'Project not found');
+/** Project routes are resolved against the runtime D1-backed layout data. */
+export const load: PageLoad = async ({ params, parent }) => {
+	const { projects } = await parent();
+	const exists = projects?.es.some((project) => project.slug === params.slug) ||
+		projects?.en.some((project) => project.slug === params.slug);
+	if (!exists) error(404, 'Project not found');
 	return { slug: params.slug };
 };
