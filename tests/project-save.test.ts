@@ -63,7 +63,11 @@ function projectForm(overrides: Record<string, string> = {}) {
 }
 
 function writes(log: StatementLog[]) {
-	return log.filter((entry) => entry.query.includes('INSERT INTO portfolio_projects') || entry.query.includes('UPDATE portfolio_projects'));
+	return log.filter(
+		(entry) =>
+			entry.query.includes('INSERT INTO portfolio_projects') ||
+			entry.query.includes('UPDATE portfolio_projects')
+	);
 }
 
 describe('saveProject', () => {
