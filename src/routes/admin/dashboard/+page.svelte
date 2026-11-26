@@ -92,10 +92,9 @@
 					<ul>
 						{#each data.recentProjects as item (item.slug)}
 																			<li>
-													<a href={resolve('/admin/proyectos')}>{item.slug}</a><span
-														>{formatDate(item.updated_at)}</span
-													>
-												</li>
+							<a href={resolve('/admin/proyectos')}>{item.slug}</a>
+							<p>{formatDate(item.updated_at)}</p>
+					</li>
 						{/each}
 					</ul>
 				{:else}
@@ -152,7 +151,7 @@
 	.recent-columns li a {
 		overflow-wrap: anywhere;
 	}
-	.recent-columns li span {
+	.recent-columns li p {
 		color: var(--color-on-surface-variant);
 	}
 	.recent-columns p {
