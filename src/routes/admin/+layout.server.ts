@@ -9,8 +9,10 @@ export const load: LayoutServerLoad = async ({ request, platform, url, setHeader
 		'x-robots-tag': 'noindex, nofollow'
 	});
 	const admin = await requireAdmin(request, platform?.env);
-	const activeSection: 'projects' | 'content' = url.pathname.startsWith('/admin/proyectos')
+	const activeSection: 'dashboard' | 'projects' | 'content' = url.pathname.startsWith('/admin/proyectos')
 		? 'projects'
-		: 'content';
+		: url.pathname.startsWith('/admin/dashboard')
+			? 'dashboard'
+			: 'content';
 	return { adminEmail: admin.email, activeSection };
 };
