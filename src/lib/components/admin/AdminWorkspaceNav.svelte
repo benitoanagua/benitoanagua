@@ -12,6 +12,7 @@
 </script>
 
 <!-- eslint-disable svelte/no-navigation-without-resolve -->
+
 <header class="workspace-header">
 	<a class="wordmark" href={contentHref}>Portfolio <span>CMS</span></a>
 	<div class="identity">
@@ -41,6 +42,7 @@
 	</nav>
 	<p class="access-note">Área privada · Protegida por Cloudflare Access</p>
 </div>
+
 <!-- eslint-enable svelte/no-navigation-without-resolve -->
 
 <style>
