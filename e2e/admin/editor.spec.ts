@@ -7,6 +7,8 @@ import { expect, test } from '../support/test';
 test.describe.configure({ mode: 'serial' });
 
 const E2E_SLUG = 'e2e-editor-check';
+// Admin API base URL must match playwright.config.ts ADMIN_BASE_URL (IPv4 only).
+const ADMIN_BASE_URL = 'http://127.0.0.1:5173';
 
 function projectDocument(slug: string): string {
 	return JSON.stringify(
@@ -30,13 +32,16 @@ const adminHeaders = { [ADMIN_E2E_HEADER]: ADMIN_E2E_SECRET };
 
 async function gotoAdmin(page: Page, path: string): Promise<void> {
 	await page.goto(path, { waitUntil: 'domcontentloaded' });
+	// Ensure the admin shell has hydrated before interacting with the page.
+	await expect(page.getByText('Sesión autenticada')).toBeVisible();
+	await page.waitForLoadState('networkidle');
 }
 
 async function deleteProject(request: APIRequestContext, slug: string): Promise<void> {
 	await request
 		.post('/admin/proyectos?/delete', {
 			form: { slug },
-			headers: adminHeaders,
+			headers: { ...adminHeaders, Origin: ADMIN_BASE_URL },
 			maxRedirects: 0
 		})
 		.catch(() => {});
@@ -89,10 +94,18 @@ test('creates a project, clears the dirty state and deletes it', async ({ page }
 	await page.locator('#content_en').fill(projectDocument(E2E_SLUG));
 	await expect(page.getByText('Cambios sin guardar')).toBeVisible();
 
+	const saveResponse = page.waitForResponse(
+		(res) => res.url().includes('/admin/proyectos?/save') && res.status() === 200
+	);
 	await page.getByRole('button', { name: 'Guardar proyecto' }).click();
-	await expect(page.getByText(`Project "${E2E_SLUG}" saved in D1.`)).toBeVisible();
+	await saveResponse;
+	await expect(page.getByText(`Project "${E2E_SLUG}" saved in D1.`)).toBeVisible({
+		timeout: 10000
+	});
 	await expect(page.getByText('Sin cambios pendientes')).toBeVisible();
-	await expect(page.getByRole('button', { name: new RegExp(E2E_SLUG) })).toBeVisible();
+	await expect(page.getByRole('button', { name: new RegExp(E2E_SLUG) })).toBeVisible({
+		timeout: 10000
+	});
 
 	page.once('dialog', (dialog) => dialog.accept());
 	await page.getByRole('button', { name: 'Eliminar proyecto seleccionado' }).click();
@@ -133,10 +146,13 @@ test('rejects unsafe slug changes and duplicate creations', async ({ page, reque
 			content_es: JSON.stringify(renamed),
 			content_en: JSON.stringify(renamed)
 		},
-		headers: adminHeaders,
+		headers: { ...adminHeaders, Origin: ADMIN_BASE_URL },
 		maxRedirects: 0
 	});
-	expect(rename.status()).toBe(409);
+	// SvelteKit actions return HTTP 200 with { type: 'failure', status } in the body.
+	const renameBody = await rename.json();
+	expect(renameBody.type).toBe('failure');
+	expect(renameBody.status).toBe(400);
 
 	const duplicate = await request.post('/admin/proyectos?/save', {
 		form: {
@@ -145,8 +161,10 @@ test('rejects unsafe slug changes and duplicate creations', async ({ page, reque
 			content_es: projectDocument(existing.slug),
 			content_en: projectDocument(existing.slug)
 		},
-		headers: adminHeaders,
+		headers: { ...adminHeaders, Origin: ADMIN_BASE_URL },
 		maxRedirects: 0
 	});
-	expect(duplicate.status()).toBe(409);
+	const duplicateBody = await duplicate.json();
+	expect(duplicateBody.type).toBe('failure');
+	expect(duplicateBody.status).toBe(409);
 });

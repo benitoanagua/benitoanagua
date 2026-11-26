@@ -3,6 +3,10 @@ import { defineConfig, devices } from '@playwright/test';
 import { ADMIN_E2E_HEADER, ADMIN_E2E_SECRET } from './e2e/support/admin';
 
 const PORTFOLIO_URL = 'http://localhost:5173';
+// Admin API requests must use 127.0.0.1 (IPv4) because the local wrangler
+// server binds to IPv4 only; `localhost` may resolve to ::1 (IPv6) and the
+// x-admin-e2e-secret header would fail CSRF/origin checks on that path.
+const ADMIN_BASE_URL = 'http://127.0.0.1:5173';
 const CATALOG_URL = 'http://localhost:5174';
 
 // Prefer the OS-provided Chromium when available; otherwise Playwright uses
@@ -54,7 +58,7 @@ export default defineConfig({
 			testDir: './e2e/admin',
 			use: {
 				...devices['Desktop Chrome'],
-				baseURL: PORTFOLIO_URL,
+				baseURL: ADMIN_BASE_URL,
 				launchOptions: chromiumLaunch,
 				extraHTTPHeaders: { [ADMIN_E2E_HEADER]: ADMIN_E2E_SECRET }
 			}
