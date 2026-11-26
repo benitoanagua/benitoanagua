@@ -17,9 +17,9 @@ test.describe('FOLIO Flex', () => {
 			};
 		});
 		expect(style.direction).toBe('row');
-		 expect(style.gap).toBeGreaterThan(0);
-		 expect(style.paddingBlock).toBeGreaterThan(0);
-		 expect(style.paddingInline).toBeGreaterThan(style.paddingBlock);
+		expect(style.gap).toBeGreaterThan(0);
+		expect(style.paddingBlock).toBeGreaterThan(0);
+		expect(style.paddingInline).toBeGreaterThan(style.paddingBlock);
 	});
 
 	test('supports wrapping and renders its children', async ({ page }) => {
