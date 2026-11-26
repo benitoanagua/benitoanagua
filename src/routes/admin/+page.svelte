@@ -21,6 +21,10 @@
 		<p class="lead">Edición autenticada de documentos localizados en Cloudflare D1.</p>
 	</header>
 
+	<nav class="documents" aria-label="Admin sections">
+		<a href="/admin/proyectos">Projects CMS ↗</a>
+	</nav>
+
 	<nav class="documents" aria-label="Content documents">
 		{#each ['site', 'cv', 'skill_stories'] as key}
 			{#each ['es', 'en'] as locale}
