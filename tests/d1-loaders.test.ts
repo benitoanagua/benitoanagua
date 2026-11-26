@@ -166,6 +166,28 @@ describe('loadPublicProjects', () => {
 		assert.equal(projects.en[0].title, 'Demo EN');
 	});
 
+	it('accepts valid optional project details and links', async () => {
+		const row = {
+			...projectRow,
+			content_es: JSON.stringify({
+				...validProject,
+				context: 'Project context',
+				result: 'Project result',
+				links: { repo: 'https://github.com/example/demo', demo: 'https://example.com' }
+			}),
+			content_en: JSON.stringify({
+				...validProject,
+				context: 'Project context',
+				result: 'Project result',
+				links: { case: 'https://example.com/case' }
+			})
+		};
+		const projects = await loadPublicProjects(platform(db([row])));
+		assert.equal(projects.es[0].context, 'Project context');
+		assert.equal(projects.es[0].links?.repo, 'https://github.com/example/demo');
+		assert.equal(projects.en[0].links?.case, 'https://example.com/case');
+	});
+
 	it('rejects on invalid published payloads', async () => {
 		await assert.rejects(
 			() => loadPublicProjects(platform(db([{ ...projectRow, content_es: '{bad' }]))),
