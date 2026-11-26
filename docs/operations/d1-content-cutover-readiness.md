@@ -1,6 +1,6 @@
 # D1 content cutover — completed
 
-> This checklist has been executed locally and the cutover is done in this branch: all public pages are server-rendered, the D1 loaders have no bundled fallback, and the TOML/TypeScript content sources were removed from runtime. What remains is the **remote** step described below.
+> The cutover is fully executed: all public pages are server-rendered, the D1 loaders have no bundled fallback, the TOML/TypeScript content sources were removed from runtime, and the remote D1 migrations plus Preview/Production deploys were applied and verified on 2026-11-25.
 
 ## What changed
 
@@ -10,19 +10,19 @@
 - Added: `scripts/verify-d1-content.ts` (`pnpm check:content`), unit tests in `tests/`, and `migrations/0004_projects_seed.sql` as the committed project seed.
 - Fixed `migrations/0002_portfolio_seed.sql`: a comment containing the literal `BEGIN TRANSACTION` made Wrangler reject the file, so the seed could never be applied through `d1 migrations apply`. The comment was reworded; the SQL statements are unchanged.
 
-## Remote steps still pending (explicit, production-impacting)
+## Remote steps — executed 2026-11-25
 
-The remote D1 database is shared by Preview and Production. Before the first remote apply:
+The remote D1 database is shared by Preview and Production. The following was performed:
 
-1. Back up remote D1 (`wrangler d1 export benitoanagua-portfolio --remote --output=backup.sql`).
-2. Review pending migrations: `pnpm d1:migrations:list`.
-3. Apply explicitly: `pnpm d1:migrations:remote` — this imports schema and seeds (`0002`, `0004` if pending).
-4. Verify remote content:
-   - `SELECT locale, content_key FROM portfolio_content;` → 6 rows.
-   - `SELECT COUNT(*) FROM portfolio_cv_documents WHERE is_current = 1;` → 4 rows.
-   - `SELECT COUNT(*) FROM portfolio_projects WHERE is_published = 1;` → expected project count.
-5. Deploy a preview, then check `/`, `/proyectos`, a project detail, `/habilidades`, `/cv` and `/sitemap.xml`.
-6. Confirm server logs show no loader errors.
+1. Backed up remote D1 (`wrangler d1 export benitoanagua-portfolio --remote`) before applying anything.
+2. `pnpm d1:migrations:list` showed `0003_projects.sql` and `0004_projects_seed.sql` pending (`0001`/`0002` were already applied).
+3. `pnpm d1:migrations:remote` applied both successfully.
+4. Verified remote content:
+   - `portfolio_content` → 6 rows (cv/site/skill_stories × es/en).
+   - `portfolio_cv_documents` current → 4 rows.
+   - `portfolio_projects` → 15 rows, all published.
+5. Deployed Preview (`pnpm cf:deploy:preview`) and verified `/`, `/proyectos`, project details, `/habilidades`, `/cv` and `/sitemap.xml` (154 URLs) — all 200; `/admin` → 503 without Access credentials.
+6. Deployed Production (`pnpm cf:deploy:production`) and re-verified the same routes — all 200; the 4 CV PDFs serve `application/pdf`; `/admin` → 503.
 
 ## Local verification already performed
 
