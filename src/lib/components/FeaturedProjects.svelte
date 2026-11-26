@@ -1,12 +1,15 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import ProjectCard from './ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
-	import { getFeaturedProjects } from '$lib/data/projects-loader';
+	import { getProjects } from '$lib/data/projects-loader';
 	import { projectsCopy } from '$lib/data/projects-copy';
 
 	const copy = $derived(projectsCopy(lang.current));
-	const projects = $derived(getFeaturedProjects());
+	const projects = $derived(
+		(page.data.projects?.[lang.current] ?? getProjects()).filter((project) => project.featured)
+	);
 </script>
 
 <section class="featured" aria-labelledby="featured-title">
