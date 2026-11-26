@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { page } from '$app/state';
 	import PortalLayout from '$lib/components/PortalLayout.svelte';
 	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import Badge from '$folio/components/Badge.svelte';
@@ -14,9 +15,12 @@
 
 	const copy = $derived(projectsCopy(lang.current));
 	const ui = $derived(uiCopy(lang.current).projects);
-	const project = $derived(getProject(data.slug));
+	const project = $derived(
+		page.data.projects?.[lang.current].find((item) => item.slug === data.slug) ??
+			getProject(data.slug)
+	);
 	const related = $derived(
-		getProjects()
+		(page.data.projects?.[lang.current] ?? getProjects())
 			.filter((p) => p.area === project?.area && p.slug !== data.slug)
 			.slice(0, 3)
 	);
