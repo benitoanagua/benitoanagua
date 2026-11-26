@@ -4,7 +4,7 @@ All Cloudflare actions are performed locally with your authenticated Wrangler se
 
 ## Portfolio Pages and D1
 
-`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`); its ID and the `DB` binding are declared there and apply to both preview and production deployments made through Wrangler. Preview and production share this single database — treat it as production data: never run destructive statements or ad-hoc seeds against it. Preview deployments must not perform destructive writes.
+`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`); its ID and the `DB` binding are declared there and apply to both preview and production deployments made through Wrangler. Preview and production currently share this single database — this is a known isolation gap. Treat Preview as production data: never run admin writes, destructive statements, ad-hoc seeds, or write-path tests there. Before enabling Preview writes, create a separate D1 database in the same intended Cloudflare account, configure the Pages Preview environment's `DB` binding to that database, apply reviewed migrations, and verify isolation. Do not invent or copy a database ID from another account.
 
 All Cloudflare operations run from your local machine with your own Wrangler login. GitHub Actions never touches Cloudflare.
 
