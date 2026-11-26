@@ -6,7 +6,7 @@
 	import Badge from '$folio/components/Badge.svelte';
 	import Divider from '$folio/components/Divider.svelte';
 	import { lang } from '$lib/state/lang.svelte';
-	import { getProject, getProjects, hasSkillPage } from '$lib/data/projects-loader';
+	import { getSkillProfileEntries } from '$lib/data/skill-profiles';
 	import { projectsCopy } from '$lib/data/projects-copy';
 	import { uiCopy } from '$lib/data/ui-copy';
 	import { slugify } from '$lib/utils/slug';
@@ -16,13 +16,15 @@
 	const copy = $derived(projectsCopy(lang.current));
 	const ui = $derived(uiCopy(lang.current).projects);
 	const project = $derived(
-		page.data.projects?.[lang.current].find((item) => item.slug === data.slug) ??
-			getProject(data.slug)
+		page.data.projects[lang.current].find((item) => item.slug === data.slug)
 	);
 	const related = $derived(
-		(page.data.projects?.[lang.current] ?? getProjects())
+		page.data.projects[lang.current]
 			.filter((p) => p.area === project?.area && p.slug !== data.slug)
 			.slice(0, 3)
+	);
+	const skillPageSlugs = $derived(
+		new Set(getSkillProfileEntries(page.data.portfolio).map((entry) => entry.slug))
 	);
 	const links = $derived(
 		project
@@ -111,7 +113,7 @@
 				<ul class="chips">
 					{#each project.skills as skill (skill)}
 						<li>
-							{#if hasSkillPage(skill)}
+							{#if skillPageSlugs.has(slugify(skill))}
 								<a href={resolve('/habilidades/[slug]', { slug: slugify(skill) })}>{skill}</a>
 							{:else}
 								<span>{skill}</span>

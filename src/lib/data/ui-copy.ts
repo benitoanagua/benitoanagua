@@ -2,7 +2,7 @@ import type { Language } from '$lib/state/lang.svelte';
 
 /**
  * Textos de interfaz de las páginas de contenido (habilidades, experiencia, CV, error).
- * Los textos globales (menú, portada, pie) viven en site.{es,en}.toml y los de proyectos en projects-copy.ts.
+ * Los textos globales (menú, portada, pie) vienen de `site` en D1 y los de proyectos en projects-copy.ts.
  */
 export interface UiCopy {
 	skills: {

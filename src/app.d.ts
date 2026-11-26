@@ -14,12 +14,10 @@ declare global {
 				author: string;
 				email: string;
 			};
-			site?: import('$lib/types/Site').SiteData;
+			site: import('$lib/types/Site').SiteData;
 			focus?: unknown;
-			portfolio?: import('$lib/types/Portfolio').PortfolioContent | null;
-			portfolioSource?: import('$lib/types/Portfolio').PortfolioContentSource | null;
-			projects?: Record<'es' | 'en', import('$lib/types/Project').Project[]>;
-			projectsSource?: 'd1' | 'fallback';
+			portfolio: import('$lib/types/Portfolio').PortfolioContent;
+			projects: Record<'es' | 'en', import('$lib/types/Project').Project[]>;
 		}
 		// interface PageState {}
 		interface Platform {

@@ -58,8 +58,6 @@
 	<meta name="author" content={data.seo.author} />
 	<meta name="creator" content={data.seo.author} />
 	<link rel="canonical" href={data.seo.canonical} />
-	<!-- Content source for D1 migration verification (public, non-sensitive) -->
-	<meta name="portfolio-source" content={data.portfolioSource ?? 'unknown'} />
 
 	<!-- Open Graph / Social Media -->
 	<meta property="og:type" content="website" />

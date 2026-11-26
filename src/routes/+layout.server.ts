@@ -6,12 +6,12 @@ import { loadPublicProjects } from '$lib/server/public-projects';
 import { SITE_URL, OG_IMAGES } from '$lib/config';
 
 export const load: LayoutServerLoad = async ({ url, platform }) => {
-	const [portfolio, publicProjects] = await Promise.all([
+	const [portfolio, projects] = await Promise.all([
 		loadPortfolioContent(platform),
 		loadPublicProjects(platform)
 	]);
-	const site = loadSiteData(portfolio.content);
-	const personal = getPersonalInfo(portfolio.content);
+	const site = loadSiteData(portfolio);
+	const personal = getPersonalInfo(portfolio);
 	const currentPath = url.pathname;
 	const isProduction = !url.hostname.includes('localhost');
 	const canonicalUrl = isProduction
@@ -28,9 +28,7 @@ export const load: LayoutServerLoad = async ({ url, platform }) => {
 			'Selected personal, independent and professional projects, linked to the skills they applied';
 		pageKeywords = 'projects, case studies, software development, design systems, board games';
 	} else if (currentPath.startsWith('/proyectos/')) {
-		const project = publicProjects.projects.es.find(
-			(p) => p.slug === (currentPath.split('/').pop() ?? '')
-		);
+		const project = projects.es.find((p) => p.slug === (currentPath.split('/').pop() ?? ''));
 		if (project) {
 			pageTitle = `${project.title} — ${personal.name}`;
 			pageDescription = project.summary;
@@ -65,9 +63,7 @@ export const load: LayoutServerLoad = async ({ url, platform }) => {
 			email: personal.email
 		},
 		site,
-		portfolio: portfolio.content,
-		portfolioSource: portfolio.source,
-		projects: publicProjects.projects,
-		projectsSource: publicProjects.source
+		portfolio,
+		projects
 	};
 };

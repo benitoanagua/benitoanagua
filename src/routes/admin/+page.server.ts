@@ -4,9 +4,8 @@ import { requireAdmin } from '$lib/server/admin-access';
 
 export const prerender = false;
 
-const LOCALES = ['es', 'en'] as const;
 const CONTENT_KEYS = ['cv', 'site', 'skill_stories'] as const;
-type Locale = (typeof LOCALES)[number];
+type Locale = 'es' | 'en';
 type ContentKey = (typeof CONTENT_KEYS)[number];
 
 interface ContentRow {
@@ -23,13 +22,22 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function isValidPayload(key: ContentKey, value: unknown): boolean {
 	if (!isRecord(value)) return false;
 	if (key === 'cv') {
-		return isRecord(value.personal) && typeof value.personal.name === 'string' &&
-			Array.isArray(value.education) && Array.isArray(value.focuses);
+		return (
+			isRecord(value.personal) &&
+			typeof value.personal.name === 'string' &&
+			Array.isArray(value.education) &&
+			Array.isArray(value.focuses)
+		);
 	}
 	if (key === 'site') {
-		return isRecord(value.meta) && typeof value.meta.tagline === 'string' &&
-			typeof value.meta.description === 'string' && isRecord(value.nav) &&
-			isRecord(value.home) && isRecord(value.footer);
+		return (
+			isRecord(value.meta) &&
+			typeof value.meta.tagline === 'string' &&
+			typeof value.meta.description === 'string' &&
+			isRecord(value.nav) &&
+			isRecord(value.home) &&
+			isRecord(value.footer)
+		);
 	}
 	return Object.values(value).every((item) => typeof item === 'string');
 }
@@ -106,6 +114,9 @@ export const actions: Actions = {
 			.bind(locale, key, JSON.stringify(payload))
 			.run();
 
-		return { success: true, message: 'Saved to D1. Published content is read by the site at request time.' };
+		return {
+			success: true,
+			message: 'Saved to D1. Published content is read by the site at request time.'
+		};
 	}
 };
