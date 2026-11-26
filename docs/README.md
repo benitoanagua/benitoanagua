@@ -20,6 +20,7 @@
 
 - [Cloudflare and Wrangler](operations/cloudflare-wrangler.md)
 - [D1 portfolio content migration](operations/d1-content-migration.md)
+- [Release operations](operations/release.md)
 
 ## Editorial
 
