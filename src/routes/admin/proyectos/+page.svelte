@@ -1,24 +1,24 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { untrack } from 'svelte';
 	import type { ActionData, PageData } from './$types';
 	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
 	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
-	let selected = $state(data.projects[0]?.slug ?? '');
-	let es = $state(
-		data.projects[0] ? JSON.stringify(JSON.parse(data.projects[0].content_es), null, 2) : ''
-	);
-	let en = $state(
-		data.projects[0] ? JSON.stringify(JSON.parse(data.projects[0].content_en), null, 2) : ''
-	);
-	let order = $state(data.projects[0]?.sort_order ?? 0);
-	let published = $state(data.projects[0]?.is_published === 1);
+	// Capture the first loaded record once; changing data later must not overwrite an unsaved draft.
+	const initialProject = untrack(() => data.projects[0]);
+	const formatDocument = (value: string) => JSON.stringify(JSON.parse(value), null, 2);
+	let selected = $state(initialProject?.slug ?? '');
+	let es = $state(initialProject ? formatDocument(initialProject.content_es) : '');
+	let en = $state(initialProject ? formatDocument(initialProject.content_en) : '');
+	let order = $state(initialProject?.sort_order ?? 0);
+	let published = $state(initialProject?.is_published === 1);
 	function choose(slug: string) {
 		selected = slug;
 		const item = data.projects.find((p) => p.slug === slug);
-		es = item ? JSON.stringify(JSON.parse(item.content_es), null, 2) : '';
-		en = item ? JSON.stringify(JSON.parse(item.content_en), null, 2) : '';
+		es = item ? formatDocument(item.content_es) : '';
+		en = item ? formatDocument(item.content_en) : '';
 		order = item?.sort_order ?? data.projects.length;
 		published = item?.is_published === 1;
 	}
@@ -85,35 +85,40 @@
 		<section class="editor" aria-label="Editor de proyecto">
 			<form method="POST" action="?/save" use:enhance>
 				<div class="meta">
-					<label
-						>Orden de publicación<input
-							type="number"
-							min="0"
-							name="sort_order"
-							bind:value={order}
-						/></label
-					>
-					<label class="check"
-						><input type="checkbox" name="is_published" value="1" bind:checked={published} /> Publicado</label
-					>
+					<label for="sort_order">Orden de publicación</label>
+					<input
+						id="sort_order"
+						type="number"
+						min="0"
+						name="sort_order"
+						bind:value={order}
+					/>
+					<label class="check">
+						<input
+							type="checkbox"
+							name="is_published"
+							value="1"
+							bind:checked={published}
+						/> Publicado
+					</label>
 				</div>
 				<div class="localized">
-					<label
-						>Contenido en español<textarea
-							name="content_es"
-							bind:value={es}
-							spellcheck="false"
-							required
-						></textarea></label
-					>
-					<label
-						>Contenido en inglés<textarea
-							name="content_en"
-							bind:value={en}
-							spellcheck="false"
-							required
-						></textarea></label
-					>
+					<label for="content_es">Contenido en español</label>
+					<textarea
+						id="content_es"
+						name="content_es"
+						bind:value={es}
+						spellcheck="false"
+						required
+					></textarea>
+					<label for="content_en">Contenido en inglés</label>
+					<textarea
+						id="content_en"
+						name="content_en"
+						bind:value={en}
+						spellcheck="false"
+						required
+					></textarea>
 				</div>
 				<button class="save" type="submit">Guardar proyecto</button>
 			</form>
