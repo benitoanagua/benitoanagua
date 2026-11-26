@@ -10,11 +10,13 @@
 	} = $props();
 </script>
 
+<!-- eslint-disable svelte/no-navigation-without-resolve -->
 <a class="admin-quick-link" {href}>
 	<span class="title">{title}</span>
 	<span class="description">{description}</span>
 	<span class="action">Abrir sección <span aria-hidden="true">→</span></span>
 </a>
+<!-- eslint-enable svelte/no-navigation-without-resolve -->
 
 <style>
 	.admin-quick-link {
