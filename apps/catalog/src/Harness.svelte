@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		ActionLink,
 		Badge,
 		Button,
 		Card,
@@ -8,6 +9,7 @@
 		Marginalia,
 		Metric,
 		Notice,
+		PageHeader,
 		ProjectCard,
 		Pullquote,
 		SectionHeading,
@@ -42,6 +44,24 @@
 <svelte:head><title>FOLIO harness</title></svelte:head>
 
 <main>
+	<section data-testid="folio-page-header">
+		<PageHeader
+			eyebrow="ADMIN / WORKSPACE"
+			title="Harness page title"
+			description="A concise page description."
+		/>
+		<PageHeader title="Level two title" level={2} />
+	</section>
+
+	<section data-testid="folio-action-link">
+		<ActionLink
+			title="Explore FOLIO"
+			description="Reusable action link with supporting context."
+			href="#folio-action-link"
+			actionLabel="View details"
+		/>
+	</section>
+
 	<section data-testid="folio-button">
 		<h2>Button</h2>
 		<Button onclick={() => clicks++}>Primary click</Button>
