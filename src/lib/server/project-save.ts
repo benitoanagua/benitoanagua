@@ -152,7 +152,8 @@ export async function saveProject(db: D1DatabaseLike, form: FormData): Promise<S
 				return {
 					ok: false,
 					status: 409,
-					message: 'A project with this slug was created concurrently. Reload the list before saving.'
+					message:
+						'A project with this slug was created concurrently. Reload the list before saving.'
 				};
 			}
 			throw cause;

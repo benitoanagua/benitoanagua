@@ -72,7 +72,6 @@ pnpm catalog:deploy
 
 The catalog deploy command uses `apps/catalog/wrangler.toml` and the Pages project `benitoanagua-design-system`. Confirm the target project and branch before deploying.
 
-
 ## Target environment verification checklist
 
 The intended environment topology is defined in [ADR 0005](../adr/0005-environment-and-d1-isolation.md). Current state remains **not isolated**: the Preview and Production deployments use the same D1 resource in the checked-in Wrangler configuration.

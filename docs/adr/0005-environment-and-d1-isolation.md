@@ -11,11 +11,11 @@ The Cloudflare Pages Preview and Production deployments currently share the same
 
 The target architecture has three isolated environments:
 
-| Environment | Runtime | Database |
-| --- | --- | --- |
-| Local | Wrangler / local Pages runtime | Local D1 with reviewed migrations and non-production fixtures |
-| Preview | Cloudflare Pages Preview | Dedicated Preview D1 |
-| Production | Cloudflare Pages production | Production D1 |
+| Environment | Runtime                        | Database                                                      |
+| ----------- | ------------------------------ | ------------------------------------------------------------- |
+| Local       | Wrangler / local Pages runtime | Local D1 with reviewed migrations and non-production fixtures |
+| Preview     | Cloudflare Pages Preview       | Dedicated Preview D1                                          |
+| Production  | Cloudflare Pages production    | Production D1                                                 |
 
 The database binding name remains `DB` in every environment; the bound database resource differs by environment.
 
