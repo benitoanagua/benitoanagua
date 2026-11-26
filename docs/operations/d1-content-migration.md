@@ -1,6 +1,6 @@
 # Portfolio content in Cloudflare D1
 
-> Architecture and safe-operation notes. This document describes the repository's implementation; it does not certify the live Cloudflare account, Pages bindings or remote migration state. Verify those locally before an operation.
+> Architecture and safe-operation notes. The remote cutover and migration state were verified on 2026-11-25; see [the completed cutover record](./d1-content-cutover-readiness.md). Resource configuration and current Cloudflare account state must still be verified before changing infrastructure.
 
 ## Scope
 
@@ -43,7 +43,7 @@ Every public page is server-rendered at request time (`prerender = false` in `sr
 
 ## Safe verification and operation
 
-Preview and production deployments are configured against the same D1 database. Treat it as production data.
+Preview and production currently share the same D1 database. This is a known isolation gap, not a desired permanent configuration. Until Preview has its own D1 database binding, treat every Preview deployment as production and do not use it for content editing, destructive operations, or write-path testing. The completed cutover record documents the current shared binding.
 
 Before any remote operation, from the repository root:
 
@@ -57,6 +57,7 @@ pnpm d1:migrations:list
 Confirm the account, database name and pending migrations. Read every pending SQL file before applying it.
 
 - Local development uses the local database and binding `DB`.
+- Do not create or configure a Preview database by guessing its ID. Create a separate D1 database in the intended Cloudflare account, bind it to the Pages Preview environment, apply reviewed migrations, and verify Preview reads/writes only that database before enabling Preview administration.
 - Remote migrations use `pnpm d1:migrations:remote` only after the pending changes have been reviewed and you explicitly intend to update the shared database. Pending migrations include the seed files, so this step is also the remote content import.
 - Back up remote D1 (`wrangler d1 export`) before the first remote apply if no backup exists.
 - Never run destructive ad-hoc seeds, deletes or schema changes against the shared database.
