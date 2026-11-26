@@ -16,7 +16,7 @@ test.describe('FOLIO Flex', () => {
 				paddingInline: parseFloat(computed.paddingInlineStart)
 			};
 		});
-		 expect(style.direction).toBe('row');
+		expect(style.direction).toBe('row');
 		 expect(style.gap).toBeGreaterThan(0);
 		 expect(style.paddingBlock).toBeGreaterThan(0);
 		 expect(style.paddingInline).toBeGreaterThan(style.paddingBlock);
