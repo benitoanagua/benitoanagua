@@ -30,6 +30,16 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
+      - name: Format and capture resolved-link fixes
+        run: pnpm exec prettier --write src/lib/components/admin/AdminQuickLink.svelte src/lib/components/admin/AdminWorkspaceNav.svelte src/routes/admin/dashboard/+page.svelte
+      - name: Upload formatted resolved-link fixes
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-folio-resolved-link-format
+          path: |
+            src/lib/components/admin/AdminQuickLink.svelte
+            src/lib/components/admin/AdminWorkspaceNav.svelte
+            src/routes/admin/dashboard/+page.svelte
       - name: Prepare local D1 (migrations + seeds)
         run: pnpm d1:migrations:local
       - name: Static checks
