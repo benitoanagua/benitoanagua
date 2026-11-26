@@ -52,7 +52,9 @@ export function validateSlugChange({
 
 /** Invalid or missing order values fall back to the end of the list. */
 export function normalizeSortOrder(value: FormDataEntryValue | null): number {
-	if (value === null || (typeof value === 'string' && value.trim() === '')) return 9999;
+	if (value === null || (typeof value === 'string' && value.trim() === '')) {
+		return 9999;
+	}
 	const order = Number(value);
 	return Number.isInteger(order) && order >= 0 ? order : 9999;
 }
