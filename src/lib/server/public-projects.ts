@@ -1,5 +1,4 @@
 import type { Project, ProjectArea, ProjectStatus } from '$lib/types/Project';
-import type { Language } from '$lib/state/lang.svelte';
 import { getProjects as getBundledProjects } from '$lib/data/projects-loader';
 
 interface ProjectRow {
@@ -7,11 +6,10 @@ interface ProjectRow {
 	sort_order: number;
 	content_es: string;
 	content_en: string;
-	is_published: number;
-}
+	}
 
 export interface PublicProjectsResult {
-	projects: Record<Language, Project[]>;
+	projects: Record<'es' | 'en', Project[]>;
 	source: 'd1' | 'fallback';
 }
 
@@ -74,7 +72,7 @@ export async function loadPublicProjects(platform?: App.Platform): Promise<Publi
 	try {
 		const { results } = await db
 			.prepare(
-				'SELECT slug, sort_order, content_es, content_en, is_published FROM portfolio_projects WHERE is_published = 1 ORDER BY sort_order, slug'
+				'SELECT slug, sort_order, content_es, content_en, is_published FROM portfolio_projects ORDER BY sort_order, slug'
 			)
 			.all<ProjectRow>();
 
@@ -85,6 +83,7 @@ export async function loadPublicProjects(platform?: App.Platform): Promise<Publi
 
 		const projects = { es: [] as Project[], en: [] as Project[] };
 		for (const row of results) {
+			if (row.is_published !== 1) continue;
 			const es = parseProject(row.content_es, row.slug);
 			const en = parseProject(row.content_en, row.slug);
 			if (!es || !en) {
