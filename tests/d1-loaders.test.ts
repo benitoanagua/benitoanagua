@@ -173,7 +173,10 @@ describe('loadPublicProjects', () => {
 				...validProject,
 				context: 'Project context',
 				result: 'Project result',
-				links: { repo: 'https://github.com/example/demo', demo: 'https://example.com' }
+				links: {
+					repo: 'https://github.com/example/demo',
+					demo: 'https://example.com'
+				}
 			}),
 			content_en: JSON.stringify({
 				...validProject,
@@ -208,18 +211,12 @@ describe('loadPublicProjects', () => {
 			{ links: { repo: 7 } },
 			{ links: { demo: null } }
 		]) {
+			const invalidRow = {
+				...projectRow,
+				content_es: JSON.stringify({ ...validProject, ...optionalFields })
+			};
 			await assert.rejects(
-				() =>
-					loadPublicProjects(
-						platform(
-							db([
-								{
-									...projectRow,
-									content_es: JSON.stringify({ ...validProject, ...optionalFields })
-								}
-							])
-						)
-					),
+				() => loadPublicProjects(platform(db([invalidRow]))),
 				/failed validation/
 			);
 		}
