@@ -2,12 +2,10 @@
  * Build script to generate dynamic static files
  * Reads SITE_URL from src/lib/config.ts and generates:
  * - static/robots.txt
- * - static/sitemap.xml
  * - static/manifest.json
  */
 
 import fs from 'fs';
-import { parse } from 'toml';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -39,61 +37,6 @@ Allow: /cv
 # XML Sitemap
 Sitemap: ${siteUrl}/sitemap.xml
 
-`;
-}
-
-// Generate sitemap.xml
-function generateSitemapXml(siteUrl: string): string {
-	const routes = [
-		{ path: '/', priority: '1.0', changefreq: 'weekly' },
-		{ path: '/habilidades', priority: '0.95', changefreq: 'weekly' },
-		{ path: '/proyectos', priority: '0.9', changefreq: 'weekly' },
-		{ path: '/experiencia', priority: '0.95', changefreq: 'monthly' },
-		{ path: '/cv', priority: '0.8', changefreq: 'monthly' }
-	];
-	const projectsRaw = fs.readFileSync(
-		path.join(projectRoot, 'src/lib/data/projects.es.toml'),
-		'utf-8'
-	);
-	for (const project of (parse(projectsRaw) as { projects: { slug: string }[] }).projects)
-		routes.push({ path: `/proyectos/${project.slug}`, priority: '0.7', changefreq: 'monthly' });
-	const skillSlug = (value: string) =>
-		value
-			.normalize('NFD')
-			.replace(/[\u0300-\u036f]/g, '')
-			.toLowerCase()
-			.replace(/[^a-z0-9]+/g, '-')
-			.replace(/^-|-$/g, '');
-	for (const language of ['es', 'en']) {
-		const cv = parse(
-			fs.readFileSync(path.join(projectRoot, `src/lib/data/cv.${language}.toml`), 'utf-8')
-		) as { focuses: { skills?: { items?: string[] }[] }[] };
-		for (const focus of cv.focuses)
-			for (const category of focus.skills ?? [])
-				for (const skill of category.items ?? []) {
-					const slug = skillSlug(skill);
-					if (slug && !routes.some((route) => route.path === `/habilidades/${slug}`))
-						routes.push({ path: `/habilidades/${slug}`, priority: '0.65', changefreq: 'monthly' });
-				}
-	}
-
-	const today = new Date().toISOString().split('T')[0];
-
-	const entries = routes
-		.map(
-			(route) => `  <url>
-    <loc>${siteUrl}${route.path}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority}</priority>
-  </url>`
-		)
-		.join('\n');
-
-	return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${entries}
-</urlset>
 `;
 }
 
@@ -148,10 +91,10 @@ async function main() {
 		fs.writeFileSync(path.join(STATIC_DIR, 'robots.txt'), robotsTxt);
 		console.log('✓ Generated static/robots.txt');
 
-		// Generate sitemap.xml
-		const sitemapXml = generateSitemapXml(siteUrl);
-		fs.writeFileSync(path.join(STATIC_DIR, 'sitemap.xml'), sitemapXml);
-		console.log('✓ Generated static/sitemap.xml');
+		// The sitemap is served dynamically by the SvelteKit route using D1.
+		// Remove stale generated output so it cannot shadow the runtime endpoint.
+		fs.rmSync(path.join(STATIC_DIR, 'sitemap.xml'), { force: true });
+		console.log('✓ Sitemap delegated to runtime D1 endpoint');
 
 		// Generate manifest.json
 		const manifestJson = generateManifestJson();
