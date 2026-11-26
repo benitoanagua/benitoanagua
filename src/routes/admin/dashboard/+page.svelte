@@ -91,11 +91,11 @@
 				{#if data.recentProjects.length}
 					<ul>
 						{#each data.recentProjects as item (item.slug)}
-							<li>
-							<a href={resolve('/admin/proyectos')}>{item.slug}</a><span
-								>{formatDate(item.updated_at)}</span
-							>
-					</li>
+																			<li>
+													<a href={resolve('/admin/proyectos')}>{item.slug}</a><span
+														>{formatDate(item.updated_at)}</span
+													>
+												</li>
 						{/each}
 					</ul>
 				{:else}
