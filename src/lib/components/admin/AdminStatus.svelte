@@ -11,7 +11,7 @@
 	} = $props();
 </script>
 
-<p class="admin-status" class:success={tone === 'success'} class:warning={tone === 'warning'} class:error={tone === 'error'}>
+<p class="admin-status" class:success={tone === 'success'} class:warning={tone === 'warning'} class:error={tone === 'error'} role={tone === 'error' ? 'alert' : 'status'}>
 	<strong>{label}</strong>
 	{#if detail}<span>{detail}</span>{/if}
 </p>
