@@ -4,8 +4,9 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 compatibility_date = "2026-11-24"
 compatibility_flags = ["nodejs_als"]
 
-# Existing D1 database: kept shared by Preview and Production for now.
-# Do not use preview deployments for destructive writes.
+# TEMPORARY: Preview and Production share this D1 database.
+# Treat Preview as production data; do not test admin writes or destructive operations here.
+# Configure an isolated Preview D1 binding in the Cloudflare Pages dashboard before enabling writes.
 [[d1_databases]]
 binding = "DB"
 database_name = "benitoanagua-portfolio"
