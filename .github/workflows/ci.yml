@@ -30,6 +30,15 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --no-frozen-lockfile
+      - name: Format admin UI files for formatter review
+        run: pnpm exec prettier --write src/lib/components/admin src/routes/admin
+      - name: Upload formatted admin UI files
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-folio-formatted-sources
+          path: |
+            src/lib/components/admin/
+            src/routes/admin/
       - name: Prepare local D1 (migrations + seeds)
         run: pnpm d1:migrations:local
       - name: Static checks
