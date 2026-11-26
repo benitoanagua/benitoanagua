@@ -6,7 +6,8 @@ interface ProjectRow {
 	sort_order: number;
 	content_es: string;
 	content_en: string;
-	}
+	is_published: number;
+}
 
 export interface PublicProjectsResult {
 	projects: Record<'es' | 'en', Project[]>;
