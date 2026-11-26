@@ -18,6 +18,7 @@
 		"check:content": "tsx scripts/validate-content.ts",
 		"check:design": "tsx scripts/validate-design.ts",
 		"d1:export-portfolio": "tsx scripts/export-portfolio-d1.ts",
+		"d1:export-projects": "tsx scripts/export-projects-d1.ts",
 		"d1:list": "pnpm dlx wrangler@4 d1 list",
 		"d1:migrations:local": "pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --local",
 		"d1:migrations:list": "pnpm dlx wrangler@4 d1 migrations list benitoanagua-portfolio --remote",
