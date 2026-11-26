@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import ProjectCard from './ProjectCard.svelte';
 	import { lang } from '$lib/state/lang.svelte';
-	import { getProjectsForSkill, getProjects } from '$lib/data/projects-loader';
+	import { getProjectsForSkill } from '$lib/data/projects-loader';
 	import { slugify } from '$lib/utils/slug';
 	import { projectsCopy } from '$lib/data/projects-copy';
 
