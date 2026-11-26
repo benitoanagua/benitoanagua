@@ -2,6 +2,8 @@ import { error, fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { requireAdmin } from '$lib/server/admin-access';
 
+export const prerender = false;
+
 const LOCALES = ['es', 'en'] as const;
 const CONTENT_KEYS = ['cv', 'site', 'skill_stories'] as const;
 type Locale = (typeof LOCALES)[number];
