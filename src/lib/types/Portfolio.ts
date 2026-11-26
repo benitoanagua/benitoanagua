@@ -4,7 +4,7 @@ import type { SiteData } from './Site';
 export type Locale = 'es' | 'en';
 export const LOCALES: readonly Locale[] = ['es', 'en'];
 
-/** Portfolio content for every locale, as stored in D1 `portfolio_content`. */
+/** Content documents currently read from D1 `portfolio_content`. */
 export interface PortfolioContent {
 	site: Record<Locale, SiteData>;
 	cv: Record<Locale, CVData>;
@@ -14,16 +14,24 @@ export interface PortfolioContent {
 export type PortfolioContentSource = 'd1' | 'fallback';
 
 /**
- * Minimal structural type for the Cloudflare D1 binding. Avoids a hard
- * dependency on `@cloudflare/workers-types`, which is only a transitive dep.
+ * Minimal structural types for the Cloudflare D1 binding. Avoids a hard
+ * dependency on Cloudflare worker types in the application source.
  */
+export interface D1Result<T = unknown> {
+	results: T[];
+	success?: boolean;
+	meta?: Record<string, unknown>;
+}
+
+export interface D1PreparedStatementLike {
+	bind(...values: unknown[]): D1PreparedStatementLike;
+	all<T = unknown>(): Promise<D1Result<T>>;
+	first<T = unknown>(columnName?: string): Promise<T | null>;
+	run<T = unknown>(): Promise<D1Result<T>>;
+}
+
 export interface D1DatabaseLike {
-	prepare(query: string): {
-		bind(...values: unknown[]): {
-			all<T = unknown>(): Promise<{ results: T[] }>;
-		};
-		all<T = unknown>(): Promise<{ results: T[] }>;
-	};
+	prepare(query: string): D1PreparedStatementLike;
 }
 
 export interface PortfolioContentResult {

@@ -23,6 +23,9 @@ declare global {
 		interface Platform {
 			env: {
 				DB?: import('$lib/types/Portfolio').D1DatabaseLike;
+				ACCESS_TEAM_DOMAIN?: string;
+				ACCESS_AUD?: string;
+				ADMIN_EMAIL?: string;
 			};
 		}
 	}
