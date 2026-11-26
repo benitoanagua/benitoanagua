@@ -106,7 +106,7 @@ test.describe('Catalog sections and components', () => {
 		expect(navText ?? '').not.toContain(String.fromCharCode(92) + 'n');
 		await page.getByRole('link', { name: 'Component API' }).click();
 		await expect(page).toHaveURL(/#contracts$/);
-		await expect(page.locator('#contracts .contract')).toHaveCount(14);
+		await expect(page.locator('#contracts .contract')).toHaveCount(16);
 		await expect(page.locator('#reading-checks')).toBeVisible();
 		await expect(page.getByRole('button', { name: 'Deshabilitado' })).toBeDisabled();
 		const loading = page.getByRole('button', { name: 'Procesando' });

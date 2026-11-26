@@ -383,7 +383,7 @@
 		<SectionHeading
 			eyebrow="06 / COMPONENT CONTRACTS"
 			title="The actual exported API"
-			description="This index mirrors the 13 components exported by packages/folio/src/lib/index.ts. Full props and accessibility notes are documented in packages/folio/COMPONENTS.md."
+			description="This index mirrors the 16 components exported by packages/folio/src/lib/index.ts. Full props and accessibility notes are documented in packages/folio/COMPONENTS.md."
 		/>
 		<div class="contract-list">
 			{#each contracts as contract (contract.name)}
