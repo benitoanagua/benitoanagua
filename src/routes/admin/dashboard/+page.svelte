@@ -76,9 +76,12 @@
 					<ul>
 						{#each data.recentContent as item (item.content_key + ':' + item.locale)}
 							<li>
+								<!-- eslint-disable svelte/no-navigation-without-resolve -->
 								<a href={resolve('/admin') + '?key=' + item.content_key + '&locale=' + item.locale}
 									>{item.content_key} · {item.locale}</a
-								><span>{formatDate(item.updated_at)}</span>
+								>
+								<!-- eslint-enable svelte/no-navigation-without-resolve -->
+								<span>{formatDate(item.updated_at)}</span>
 							</li>
 						{/each}
 					</ul>
