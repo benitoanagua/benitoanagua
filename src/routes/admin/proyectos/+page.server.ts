@@ -37,6 +37,19 @@ interface ProjectPayload {
 const AREAS: Area[] = ['dev', 'design', 'graphic', 'analysis', 'games'];
 const STATUSES: Status[] = ['wip', 'done', 'spec'];
 
+function isOptionalString(value: unknown): boolean {
+	return value === undefined || typeof value === 'string';
+}
+
+function isProjectLinks(value: unknown): boolean {
+	if (value === undefined) return true;
+	if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
+	const links = value as Record<string, unknown>;
+	return ['repo', 'demo', 'case'].every(
+		(key) => links[key] === undefined || typeof links[key] === 'string'
+	);
+}
+
 function parseProject(raw: unknown): ProjectPayload | null {
 	if (typeof raw !== 'object' || raw === null || Array.isArray(raw)) return null;
 	const p = raw as Record<string, unknown>;
@@ -57,7 +70,10 @@ function parseProject(raw: unknown): ProjectPayload | null {
 		!Array.isArray(p.highlights) ||
 		!p.highlights.every((v) => typeof v === 'string') ||
 		(p.status !== undefined && !STATUSES.includes(p.status as Status)) ||
-		(p.featured !== undefined && typeof p.featured !== 'boolean')
+		(p.featured !== undefined && typeof p.featured !== 'boolean') ||
+		!isOptionalString(p.context) ||
+		!isOptionalString(p.result) ||
+		!isProjectLinks(p.links)
 	)
 		return null;
 	return p as unknown as ProjectPayload;
