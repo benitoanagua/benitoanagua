@@ -17,7 +17,15 @@ migrations_dir = "migrations"
 # - Preview (desplegado): binding DB -> D1 dedicada de Preview
 #     benitoanagua-portfolio-preview (e35162cf-6599-4b2e-b1f9-ae4099382a4b).
 #   Configurar en el dashboard de Cloudflare Pages (projecto benitoanagua ->
-#   Settings -> Variables de entorno / bases de datos D1, entorno Preview).
-# wrangler.toml declara un solo binding DB porque wrangler exige nombres de
-# binding únicos en todos los entornos del archivo; el binding desplegado de
-# Preview se gestiona por separado en el dashboard de Pages.
+#   Settings -> Bases de datos D1, entorno Preview).
+# wrangler.toml declara un solo binding DB para el runtime porque wrangler
+# exige nombres de binding únicos en todos los entornos del archivo. El binding
+# desplegado de Preview se gestiona por separado en el dashboard de Pages.
+#
+# Para operaciones de administración local sobre la D1 de Preview (migraciones,
+# consultas) se declara DB_PREVIEW con nombre de binding distinto.
+[[d1_databases]]
+binding = "DB_PREVIEW"
+database_name = "benitoanagua-portfolio-preview"
+database_id = "e35162cf-6599-4b2e-b1f9-ae4099382a4b"
+migrations_dir = "migrations"

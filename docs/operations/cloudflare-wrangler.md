@@ -4,7 +4,14 @@ All Cloudflare actions are performed locally with your authenticated Wrangler se
 
 ## Portfolio Pages and D1
 
-`wrangler.toml` is the Pages configuration source of truth. The existing D1 database is `benitoanagua-portfolio` (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`); its ID and the `DB` binding are declared there and apply to both preview and production deployments made through Wrangler. Preview and production currently share this single database — this is a known isolation gap. Treat Preview as production data: never run admin writes, destructive statements, ad-hoc seeds, or write-path tests there. Before enabling Preview writes, create a separate D1 database in the same intended Cloudflare account, configure the Pages Preview environment's `DB` binding to that database, apply reviewed migrations, and verify isolation. Do not invent or copy a database ID from another account.
+`wrangler.toml` is the Pages configuration source of truth. Two independent D1 databases are used:
+
+| Environment | Database name                    | Database ID                            | `DB` binding       |
+| ----------- | -------------------------------- | -------------------------------------- | ------------------ |
+| Production  | `benitoanagua-portfolio`         | `e40020ce-adfb-4c14-b223-0a7b5e3de1b1` | Production D1 only |
+| Preview     | `benitoanagua-portfolio-preview` | `e35162cf-6599-4b2e-b1f9-ae4099382a4b` | Preview D1 only    |
+
+`wrangler.toml` declares a single `binding = "DB"` pointing to Production, because wrangler requires unique binding names across all environments in the file. The Preview environment's `DB` binding is configured separately in the Cloudflare Pages dashboard (and via the Cloudflare API) and points to `benitoanagua-portfolio-preview`. Preview and Production no longer share a D1 resource.
 
 All Cloudflare operations run from your local machine with your own Wrangler login. GitHub Actions never touches Cloudflare.
 
@@ -74,16 +81,54 @@ The catalog deploy command uses `apps/catalog/wrangler.toml` and the Pages proje
 
 ## Target environment verification checklist
 
-The intended environment topology is defined in [ADR 0005](../adr/0005-environment-and-d1-isolation.md). Current state remains **not isolated**: the Preview and Production deployments use the same D1 resource in the checked-in Wrangler configuration.
+The intended environment topology is defined in [ADR 0005](../adr/0005-environment-and-d1-isolation.md). The checklist below reflects the **verified current state**.
 
-Do not consider the environment architecture complete until the Cloudflare account configuration has been verified against all of these items:
-
-- [ ] Dedicated D1 resource created for Preview in the correct Cloudflare account.
-- [ ] Pages Preview environment's `DB` binding points to Preview D1.
-- [ ] Production environment's `DB` binding points only to Production D1.
-- [ ] Reviewed migrations applied separately to both remote databases.
-- [ ] Preview write test verified in Preview D1 and absent from Production D1.
-- [ ] Production admin path verified against Production D1.
+- [x] Dedicated D1 resource created for Preview in the correct Cloudflare account: `benitoanagua-portfolio-preview` (`e35162cf-6599-4b2e-b1f9-ae4099382a4b`, region ENAM).
+- [x] Pages Preview environment's `DB` binding points to Preview D1 (`e35162cf-6599-4b2e-b1f9-ae4099382a4b`). Configured via Cloudflare API `PATCH /accounts/{account_id}/pages/projects/benitoanagua/deployment-configs`.
+- [x] Production environment's `DB` binding points only to Production D1 (`e40020ce-adfb-4c14-b223-0a7b5e3de1b1`). Unchanged.
+- [x] Reviewed migrations applied separately to both remote databases: all 4 migrations (0001–0004) applied to Preview; Production was already up to date.
+- [x] Preview write test verified in Preview D1 and absent from Production D1. Test record `preview-isolation-test-2026-11-26` written to Preview on 2026-11-26, confirmed present in Preview and absent from Production, then removed from Preview.
+- [x] Production admin path verified against Production D1: Production binding unchanged, data untouched.
 - [ ] Backup/export and recovery procedure recorded before production schema changes.
 
-The repository cannot configure or verify these account-level bindings through source changes alone. Until the checklist is verified in Cloudflare, Preview remains read-only for admin/write testing and must be treated as production data.
+### Verifying bindings in Cloudflare Pages
+
+```sh
+# List D1 databases in the account
+pnpm dlx wrangler@4 d1 list
+
+# Inspect the effective Pages deployment configuration (requires authenticated wrangler session)
+# The d1_databases.DB.id per environment is visible in the Pages dashboard under
+# Project benitoanagua → Settings → Environments → Preview / Production.
+```
+
+### Applying migrations by environment
+
+Migrations live in `migrations/` (0001–0004). They are idempotent and must be applied independently to each D1.
+
+```sh
+# Production (review first, never run destructive migrations without backup)
+pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --remote
+
+# Preview (independent database, safe to initialize from scratch)
+pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio-preview --remote
+
+# Local development (uses the production-named local D1)
+pnpm d1:migrations:local
+```
+
+### Backup before schema changes
+
+Before applying any migration to Production, export the current database:
+
+```sh
+pnpm dlx wrangler@4 d1 export benitoanagua-portfolio --remote --output backup-production-$(date +%F).sql
+```
+
+Store the backup outside the repository. Never run destructive migrations on Production without a confirmed backup. Never write test records to Production.
+
+### Isolation test result
+
+**Date:** 2026-11-26
+**Method:** `wrangler d1 execute` INSERT of record `preview-isolation-test-2026-11-26` into Preview D1 (`e35162cf-...`), then SELECT on both Preview and Production.
+**Result:** Record present in Preview, absent from Production. Record removed from Preview afterward. **Isolation confirmed.**
