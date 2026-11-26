@@ -1,5 +1,4 @@
--- Projects CMS. The public website continues reading the TOML sources until
--- the runtime loader migration is completed and verified.
+-- Projects CMS schema. Public project records are read from D1 by the runtime loaders.
 CREATE TABLE IF NOT EXISTS portfolio_projects (
   slug TEXT PRIMARY KEY NOT NULL,
   area TEXT NOT NULL CHECK (area IN ('dev', 'design', 'graphic', 'analysis', 'games')),
