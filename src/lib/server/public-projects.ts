@@ -1,4 +1,5 @@
-import type { Project, ProjectArea, ProjectStatus } from '$lib/types/Project';
+import type { Project } from '$lib/types/Project';
+import { parseProjectPayload } from './project-payload';
 
 interface ProjectRow {
 	slug: string;
@@ -8,22 +9,6 @@ interface ProjectRow {
 	is_published: number;
 }
 
-const AREAS: ProjectArea[] = ['dev', 'design', 'graphic', 'analysis', 'games'];
-const STATUSES: ProjectStatus[] = ['wip', 'done', 'spec'];
-
-function isOptionalString(value: unknown): boolean {
-	return value === undefined || typeof value === 'string';
-}
-
-function isProjectLinks(value: unknown): boolean {
-	if (value === undefined) return true;
-	if (typeof value !== 'object' || value === null || Array.isArray(value)) return false;
-	const links = value as Record<string, unknown>;
-	return ['repo', 'demo', 'case'].every(
-		(key) => links[key] === undefined || typeof links[key] === 'string'
-	);
-}
-
 function parseProject(raw: string, slug: string): Project {
 	let value: unknown;
 	try {
@@ -31,33 +16,11 @@ function parseProject(raw: string, slug: string): Project {
 	} catch {
 		throw new Error(`[public-projects] Invalid JSON payload for project "${slug}"`);
 	}
-	if (typeof value !== 'object' || value === null || Array.isArray(value)) {
-		throw new Error(`[public-projects] Project "${slug}" payload is not an object`);
-	}
-	const p = value as Record<string, unknown>;
-	if (
-		p.slug !== slug ||
-		typeof p.title !== 'string' ||
-		typeof p.area !== 'string' ||
-		!AREAS.includes(p.area as ProjectArea) ||
-		typeof p.year !== 'string' ||
-		typeof p.role !== 'string' ||
-		typeof p.summary !== 'string' ||
-		!Array.isArray(p.stack) ||
-		!p.stack.every((item) => typeof item === 'string') ||
-		!Array.isArray(p.skills) ||
-		!p.skills.every((item) => typeof item === 'string') ||
-		!Array.isArray(p.highlights) ||
-		!p.highlights.every((item) => typeof item === 'string') ||
-		(p.status !== undefined && !STATUSES.includes(p.status as ProjectStatus)) ||
-		(p.featured !== undefined && typeof p.featured !== 'boolean') ||
-		!isOptionalString(p.context) ||
-		!isOptionalString(p.result) ||
-		!isProjectLinks(p.links)
-	) {
+	const project = parseProjectPayload(value, slug);
+	if (!project) {
 		throw new Error(`[public-projects] Project "${slug}" payload failed validation`);
 	}
-	return p as unknown as Project;
+	return project;
 }
 
 /**

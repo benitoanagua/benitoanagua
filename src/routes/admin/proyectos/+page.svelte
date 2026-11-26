@@ -4,27 +4,21 @@
 	import type { ActionData, PageData } from './$types';
 	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
 	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
+	import {
+		formatJsonDocument,
+		isProjectDraftDirty,
+		type ProjectDraft
+	} from '$lib/utils/editor-state';
+	import { confirmDiscardChanges, useUnsavedChangesGuard } from '$lib/utils/unsaved-changes.svelte';
+
+	type ProjectRow = PageData['projects'][number];
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	// Capture the first loaded record once; changing data later must not overwrite an unsaved draft.
 	const initialProject = untrack(() => data.projects[0]);
-	const formatDocument = (value: string) => JSON.stringify(JSON.parse(value), null, 2);
-	let selected = $state(initialProject?.slug ?? '');
-	let es = $state(initialProject ? formatDocument(initialProject.content_es) : '');
-	let en = $state(initialProject ? formatDocument(initialProject.content_en) : '');
-	let order = $state(initialProject?.sort_order ?? 0);
-	let published = $state(initialProject?.is_published === 1);
-	function choose(slug: string) {
-		selected = slug;
-		const item = data.projects.find((p) => p.slug === slug);
-		es = item ? formatDocument(item.content_es) : '';
-		en = item ? formatDocument(item.content_en) : '';
-		order = item?.sort_order ?? data.projects.length;
-		published = item?.is_published === 1;
-	}
-	function blank() {
-		selected = '';
-		es = JSON.stringify(
+
+	function blankDocument(order: number): ProjectDraft {
+		const template = JSON.stringify(
 			{
 				slug: '',
 				title: '',
@@ -39,9 +33,73 @@
 			null,
 			2
 		);
-		en = es;
-		order = data.projects.length;
-		published = false;
+		return { contentEs: template, contentEn: template, sortOrder: order, published: false };
+	}
+
+	function projectDraft(item: ProjectRow): ProjectDraft {
+		return {
+			contentEs: formatJsonDocument(item.content_es),
+			contentEn: formatJsonDocument(item.content_en),
+			sortOrder: item.sort_order,
+			published: item.is_published === 1
+		};
+	}
+
+	const initialDraft = untrack(() =>
+		initialProject ? projectDraft(initialProject) : blankDocument(data.projects.length)
+	);
+
+	let selected = $state(initialProject?.slug ?? '');
+	let es = $state(initialDraft.contentEs);
+	let en = $state(initialDraft.contentEn);
+	let order = $state(initialDraft.sortOrder);
+	let published = $state(initialDraft.published);
+	let baseline = $state<ProjectDraft>(initialDraft);
+
+	const draft = $derived<ProjectDraft>({
+		contentEs: es,
+		contentEn: en,
+		sortOrder: Number.isFinite(Number(order)) ? Number(order) : 0,
+		published
+	});
+	const dirty = $derived(isProjectDraftDirty(draft, baseline));
+
+	useUnsavedChangesGuard(() => dirty);
+
+	function loadDraft(slug: string) {
+		const item = data.projects.find((project) => project.slug === slug);
+		const next = item ? projectDraft(item) : blankDocument(data.projects.length);
+		selected = item?.slug ?? '';
+		es = next.contentEs;
+		en = next.contentEn;
+		order = next.sortOrder;
+		published = next.published;
+		baseline = next;
+	}
+
+	function choose(slug: string) {
+		if (slug === selected) return;
+		if (dirty && !confirmDiscardChanges()) return;
+		loadDraft(slug);
+	}
+
+	function blank() {
+		if (dirty && !confirmDiscardChanges()) return;
+		loadDraft('');
+	}
+
+	function currentSlug(): string | null {
+		try {
+			const value: unknown = JSON.parse(es);
+			return typeof value === 'object' &&
+				value !== null &&
+				'slug' in value &&
+				typeof value.slug === 'string'
+				? value.slug
+				: null;
+		} catch {
+			return null;
+		}
 	}
 </script>
 
@@ -69,11 +127,15 @@
 		<aside class="project-list" aria-label="Listado de proyectos">
 			<button class="new" type="button" onclick={blank}>Crear proyecto</button>
 			<p class="label">Registros ({data.projects.length})</p>
+			{#if data.projects.length === 0}
+				<p class="empty">Todavía no hay proyectos. Crea el primero con el botón superior.</p>
+			{/if}
 			{#each data.projects as item (item.slug)}
 				<button
 					class="project-choice"
 					class:active={selected === item.slug}
 					type="button"
+					aria-pressed={selected === item.slug}
 					onclick={() => choose(item.slug)}
 				>
 					<strong>{item.slug}</strong>
@@ -83,18 +145,32 @@
 		</aside>
 
 		<section class="editor" aria-label="Editor de proyecto">
-			<form method="POST" action="?/save" use:enhance>
+			{#if selected}
+				<p class="slug-note" id="slug-note">
+					El slug <code>{selected}</code> identifica el proyecto y su URL pública. No se puede modificar
+					desde el editor; para usar otro slug, crea un proyecto nuevo.
+				</p>
+			{/if}
+			<form
+				method="POST"
+				action="?/save"
+				use:enhance={() =>
+					async ({ result, update }) => {
+						await update({ reset: false });
+						if (result.type === 'success') {
+							const savedSlug = currentSlug();
+							if (savedSlug) selected = savedSlug;
+							baseline = { ...draft };
+						}
+					}}
+			>
+				<input type="hidden" name="original_slug" value={selected} />
 				<div class="meta">
 					<label for="sort_order">Orden de publicación</label>
-					<input
-						id="sort_order"
-						type="number"
-						min="0"
-						name="sort_order"
-						bind:value={order}
-					/>
-					<label class="check">
+					<input id="sort_order" type="number" min="0" name="sort_order" bind:value={order} />
+					<label class="check" for="is_published">
 						<input
+							id="is_published"
 							type="checkbox"
 							name="is_published"
 							value="1"
@@ -104,23 +180,18 @@
 				</div>
 				<div class="localized">
 					<label for="content_es">Contenido en español</label>
-					<textarea
-						id="content_es"
-						name="content_es"
-						bind:value={es}
-						spellcheck="false"
-						required
+					<textarea id="content_es" name="content_es" bind:value={es} spellcheck="false" required
 					></textarea>
 					<label for="content_en">Contenido en inglés</label>
-					<textarea
-						id="content_en"
-						name="content_en"
-						bind:value={en}
-						spellcheck="false"
-						required
+					<textarea id="content_en" name="content_en" bind:value={en} spellcheck="false" required
 					></textarea>
 				</div>
-				<button class="save" type="submit">Guardar proyecto</button>
+				<div class="actions">
+					<button class="save" type="submit">Guardar proyecto</button>
+					<p class="dirty-status" role="status" aria-live="polite">
+						{dirty ? 'Cambios sin guardar' : 'Sin cambios pendientes'}
+					</p>
+				</div>
 			</form>
 			{#if selected}
 				<form
@@ -156,6 +227,10 @@
 	}
 	.project-list > .label {
 		margin: var(--space-3) 0 0;
+		color: var(--color-on-surface-variant);
+	}
+	.project-list > .empty {
+		margin: 0;
 		color: var(--color-on-surface-variant);
 	}
 	button {
@@ -194,6 +269,13 @@
 		min-width: 0;
 		padding-top: var(--space-5);
 		border-top: var(--rule-base) solid var(--color-on-background);
+	}
+	.slug-note {
+		margin-bottom: var(--space-5);
+		color: var(--color-on-surface-variant);
+	}
+	.slug-note code {
+		font-family: var(--font-mono);
 	}
 	.editor form {
 		display: grid;
@@ -244,6 +326,16 @@
 		background: var(--color-surface-container-low);
 		color: var(--color-on-background);
 		font: 1rem/1.6 var(--font-mono);
+	}
+	.actions {
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+	}
+	.dirty-status {
+		margin: 0;
+		color: var(--color-on-surface-variant);
 	}
 	.danger {
 		border-width: var(--rule-thick);

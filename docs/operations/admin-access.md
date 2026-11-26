@@ -44,6 +44,13 @@ The server validates the `Cf-Access-Jwt-Assertion` signature, issuer, audience, 
 
 The page and all mutation actions validate the administrator identity server-side. The admin uses the existing `DB` binding; SQL values are bound parameters and payloads are validated before writes.
 
+## Local verification without Access credentials
+
+`pnpm e2e:portfolio` includes `e2e/portfolio/admin-protection.spec.ts`, which sends
+unauthenticated requests to `/admin`, `/admin/dashboard`, and `/admin/proyectos`. The test
+asserts that the response is an auth/configuration error (`401` or `503`) and never renders
+editor content. It uses no Cloudflare Access token and does not connect to production.
+
 ## 5. Verification checklist
 
 - [ ] Access application covers `/admin*` on the intended hostname.

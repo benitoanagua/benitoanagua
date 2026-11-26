@@ -7,7 +7,9 @@ test.describe('FOLIO PageHeader', () => {
 
 	test('renders default h1 with eyebrow and description', async ({ page }) => {
 		const section = page.getByTestId('folio-page-header');
-		await expect(section.getByRole('heading', { name: 'Harness page title', level: 1 })).toBeVisible();
+		await expect(
+			section.getByRole('heading', { name: 'Harness page title', level: 1 })
+		).toBeVisible();
 		await expect(section.getByText('ADMIN / WORKSPACE', { exact: true })).toBeVisible();
 		await expect(section.getByText('A concise page description.', { exact: true })).toBeVisible();
 	});

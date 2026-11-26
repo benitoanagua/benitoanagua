@@ -142,7 +142,7 @@ The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the
 | `pnpm d1:migrations:list`   | List remote migration state            |
 | `pnpm d1:migrations:remote` | Apply D1 migrations remotely           |
 | `pnpm check:content`        | Verify local D1 content integrity      |
-| `pnpm test`                 | Run loader unit tests                  |
+| `pnpm test`                 | Run loader, payload and editor tests   |
 
 **Production caution:** inspect migrations, confirm the Cloudflare account and target database, and review the remote state before applying database changes or deploying.
 

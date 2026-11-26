@@ -5,11 +5,17 @@
 	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
 	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
 	import AdminDocumentNav from '$lib/components/admin/AdminDocumentNav.svelte';
+	import { isTextDirty } from '$lib/utils/editor-state';
+	import { useUnsavedChangesGuard } from '$lib/utils/unsaved-changes.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	const selectionKey = $derived(`${data.selection.key}:${data.selection.locale}`);
 	let edits = $state<Record<string, string>>({});
-	const content = $derived(edits[selectionKey] ?? data.contentJson);
+	const currentEdit = $derived(edits[selectionKey]);
+	const content = $derived(currentEdit ?? data.contentJson);
+	const dirty = $derived(currentEdit !== undefined && isTextDirty(currentEdit, data.contentJson));
+
+	useUnsavedChangesGuard(() => dirty);
 </script>
 
 <svelte:head>
@@ -52,7 +58,23 @@
 			<h2 id="json-editor-title">Contenido JSON</h2>
 			<p>Conserva la estructura del documento y valida el JSON antes de guardar.</p>
 		</div>
-		<form method="POST" action="?/save" use:enhance>
+		<form
+			method="POST"
+			action="?/save"
+			use:enhance={() =>
+				async ({ formData, result, update }) => {
+					await update({ reset: false });
+					if (result.type === 'success') {
+						const key = formData.get('key');
+						const locale = formData.get('locale');
+						if (typeof key === 'string' && typeof locale === 'string') {
+							const next = { ...edits };
+							delete next[`${key}:${locale}`];
+							edits = next;
+						}
+					}
+				}}
+		>
 			<input type="hidden" name="key" value={data.selection.key} />
 			<input type="hidden" name="locale" value={data.selection.locale} />
 			<label for="content">Documento completo</label>
@@ -67,6 +89,9 @@
 			<div class="actions">
 				<p>Revisa los cambios antes de enviarlos a la base de datos.</p>
 				<button type="submit">Guardar documento</button>
+				<p class="dirty-status" role="status" aria-live="polite">
+					{dirty ? 'Cambios sin guardar' : 'Sin cambios pendientes'}
+				</p>
 			</div>
 		</form>
 	</section>
@@ -148,6 +173,9 @@
 		max-width: var(--measure);
 		margin: 0;
 		color: var(--color-on-surface-variant);
+	}
+	.actions .dirty-status {
+		font-weight: 700;
 	}
 	button {
 		min-height: 3rem;

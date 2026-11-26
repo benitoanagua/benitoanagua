@@ -206,10 +206,23 @@ describe('loadPublicProjects', () => {
 
 		for (const optionalFields of [
 			{ context: 12 },
+			{ context: null },
+			{ context: ['text'] },
 			{ result: false },
+			{ result: {} },
+			{ result: null },
 			{ links: 'https://example.com' },
+			{ links: 42 },
+			{ links: null },
+			{ links: [] },
 			{ links: { repo: 7 } },
-			{ links: { demo: null } }
+			{ links: { repo: null } },
+			{ links: { demo: null } },
+			{ links: { demo: [] } },
+			{ links: { case: false } },
+			{ links: { case: null } },
+			{ links: { case: { href: 'https://example.com/case' } } },
+			{ links: { repo: 'https://github.com/example/demo', other: 'x' } }
 		]) {
 			const invalidRow = {
 				...projectRow,
@@ -222,4 +235,20 @@ describe('loadPublicProjects', () => {
 		}
 	});
 
+	it('accepts an empty links object', async () => {
+		const row = {
+			...projectRow,
+			content_es: JSON.stringify({ ...validProject, links: {} })
+		};
+		const projects = await loadPublicProjects(platform(db([row])));
+		assert.deepEqual(projects.es[0].links, {});
+	});
+
+	it('rejects an invalid English payload independently of the Spanish one', async () => {
+		const row = {
+			...projectRow,
+			content_en: JSON.stringify({ ...validProject, links: { case: 1 } })
+		};
+		await assert.rejects(() => loadPublicProjects(platform(db([row]))), /failed validation/);
+	});
 });

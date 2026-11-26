@@ -9,9 +9,8 @@
 		tone?: Tone;
 	};
 
-	let props: Props = $props();
-	const { label, detail, tone = 'neutral' } = props;
+	let { label, detail, tone = 'neutral' }: Props = $props();
 	const folioTone = $derived(tone === 'neutral' ? 'note' : tone);
 </script>
 
-<Notice label={label} tone={folioTone}>{detail ?? ''}</Notice>
+<Notice {label} tone={folioTone}>{detail ?? ''}</Notice>
