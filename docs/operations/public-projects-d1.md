@@ -10,6 +10,14 @@
 - Project detail routes are resolved at request time against the published set; unknown or unpublished slugs return 404.
 - If D1 is unavailable or contains an invalid published record, the loaders throw and the request fails — there is no silent fallback to bundled content.
 
+## Project payload contract
+
+Each localized project document must provide the required project fields and arrays. Optional
+`context` and `result` values must be strings when present. Optional `links` must be an object;
+its `repo`, `demo`, and `case` properties must be strings when present. The admin save action
+and public loader enforce the same shape so malformed data is rejected before it can be published
+or rendered.
+
 ## Before enabling D1 content in production
 
 The public loader requires the database to be seeded. To activate D1 content in the shared remote database:
