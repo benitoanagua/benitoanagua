@@ -191,15 +191,16 @@ describe('loadPublicProjects', () => {
 					loadPublicProjects(
 						platform(
 							db([
-							{
-								...projectRow,
-								content_es: JSON.stringify({ ...validProject, ...optionalFields })
-							}
-						])
-					)
+								{
+									...projectRow,
+									content_es: JSON.stringify({ ...validProject, ...optionalFields })
+								}
+							])
+						)
 					),
 				/failed validation/
 			);
 		}
 	});
+
 });
