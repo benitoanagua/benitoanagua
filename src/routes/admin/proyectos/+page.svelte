@@ -85,27 +85,32 @@
 		<section class="editor" aria-label="Editor de proyecto">
 			<form method="POST" action="?/save" use:enhance>
 				<div class="meta">
-					<label
-						>Orden de publicación<input
-							type="number"
-							min="0"
-							name="sort_order"
-							bind:value={order}
-						/></label
-					>
-					<label class="check"
-						><input type="checkbox" name="is_published" value="1" bind:checked={published} /> Publicado</label
-					>
+					<label for="sort_order">Orden de publicación</label>
+					<input
+						id="sort_order"
+						type="number"
+						min="0"
+						name="sort_order"
+						bind:value={order}
+					/>
+					<label class="check">
+						<input
+							type="checkbox"
+							name="is_published"
+							value="1"
+							bind:checked={published}
+						/> Publicado
+					</label>
 				</div>
 				<div class="localized">
-					<label
-						>Contenido en español<textarea
-							name="content_es"
-							bind:value={es}
-							spellcheck="false"
-							required
-						></textarea></label
-					>
+					<label for="content_es">Contenido en español</label>
+					<textarea
+						id="content_es"
+						name="content_es"
+						bind:value={es}
+						spellcheck="false"
+						required
+					></textarea>
 					<label
 						>Contenido en inglés<textarea
 							name="content_en"
