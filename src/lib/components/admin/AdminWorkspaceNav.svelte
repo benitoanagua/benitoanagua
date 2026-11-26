@@ -22,9 +22,21 @@
 
 <div class="workspace-navigation">
 	<nav aria-label="Administración">
-		<a class:active={active === "dashboard"} aria-current={active === "dashboard" ? "page" : undefined} href={resolve("/admin/dashboard")}>Resumen</a>
-		<a class:active={active === 'content'} aria-current={active === 'content' ? 'page' : undefined} href={contentHref}>Editor de contenido</a>
-		<a class:active={active === 'projects'} aria-current={active === 'projects' ? 'page' : undefined} href={projectsHref}>Proyectos</a>
+		<a
+			class:active={active === 'dashboard'}
+			aria-current={active === 'dashboard' ? 'page' : undefined}
+			href={resolve('/admin/dashboard')}>Resumen</a
+		>
+		<a
+			class:active={active === 'content'}
+			aria-current={active === 'content' ? 'page' : undefined}
+			href={contentHref}>Editor de contenido</a
+		>
+		<a
+			class:active={active === 'projects'}
+			aria-current={active === 'projects' ? 'page' : undefined}
+			href={projectsHref}>Proyectos</a
+		>
 	</nav>
 	<p class="access-note">Área privada · Protegida por Cloudflare Access</p>
 </div>
@@ -45,9 +57,18 @@
 		color: var(--color-on-background);
 		text-decoration: none;
 	}
-	.wordmark span { color: var(--color-primary); }
-	.identity { display: grid; gap: var(--space-1); text-align: right; }
-	.identity .label { margin: 0; color: var(--color-on-surface-variant); }
+	.wordmark span {
+		color: var(--color-primary);
+	}
+	.identity {
+		display: grid;
+		gap: var(--space-1);
+		text-align: right;
+	}
+	.identity .label {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
 	.email {
 		margin: 0;
 		max-width: 35ch;
@@ -70,7 +91,11 @@
 		padding: 0 clamp(1rem, 4vw, 3rem);
 		border-bottom: var(--rule-base) solid var(--color-rule-subtle);
 	}
-	.workspace-navigation nav { display: flex; flex-wrap: wrap; gap: var(--space-5); }
+	.workspace-navigation nav {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-5);
+	}
 	.workspace-navigation nav a {
 		min-height: 3.25rem;
 		display: inline-flex;
@@ -85,11 +110,25 @@
 		color: var(--color-on-background);
 		font-weight: 700;
 	}
-	.access-note { margin: 0; color: var(--color-on-surface-variant); font-size: var(--text-meta); }
+	.access-note {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+		font-size: var(--text-meta);
+	}
 	@media (max-width: 760px) {
-		.workspace-header { flex-direction: column; }
-		.identity { text-align: left; }
-		.logout { justify-content: flex-start; }
-		.workspace-navigation { align-items: flex-start; flex-direction: column; padding-block: var(--space-3); }
+		.workspace-header {
+			flex-direction: column;
+		}
+		.identity {
+			text-align: left;
+		}
+		.logout {
+			justify-content: flex-start;
+		}
+		.workspace-navigation {
+			align-items: flex-start;
+			flex-direction: column;
+			padding-block: var(--space-3);
+		}
 	}
 </style>

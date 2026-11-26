@@ -34,7 +34,9 @@
 		font-weight: 700;
 		line-height: var(--leading-section);
 	}
-	.description { color: var(--color-on-surface-variant); }
+	.description {
+		color: var(--color-on-surface-variant);
+	}
 	.action {
 		align-self: end;
 		margin-top: var(--space-3);
@@ -42,6 +44,11 @@
 		text-decoration: underline;
 		text-underline-offset: 0.25em;
 	}
-	.admin-quick-link:hover .title { color: var(--color-primary); }
-	.admin-quick-link:focus-visible { outline: var(--focus-ring); outline-offset: var(--focus-offset); }
+	.admin-quick-link:hover .title {
+		color: var(--color-primary);
+	}
+	.admin-quick-link:focus-visible {
+		outline: var(--focus-ring);
+		outline-offset: var(--focus-offset);
+	}
 </style>

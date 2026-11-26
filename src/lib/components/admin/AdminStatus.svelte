@@ -11,7 +11,13 @@
 	} = $props();
 </script>
 
-<p class="admin-status" class:success={tone === 'success'} class:warning={tone === 'warning'} class:error={tone === 'error'} role={tone === 'error' ? 'alert' : 'status'}>
+<p
+	class="admin-status"
+	class:success={tone === 'success'}
+	class:warning={tone === 'warning'}
+	class:error={tone === 'error'}
+	role={tone === 'error' ? 'alert' : 'status'}
+>
 	<strong>{label}</strong>
 	{#if detail}<span>{detail}</span>{/if}
 </p>
@@ -33,11 +39,17 @@
 	.admin-status span {
 		color: var(--color-on-surface-variant);
 	}
-	.success strong { color: var(--color-success); }
-	.warning strong { color: var(--color-warning); }
+	.success strong {
+		color: var(--color-success);
+	}
+	.warning strong {
+		color: var(--color-warning);
+	}
 	.error {
 		border-block-width: var(--rule-thick);
 		border-color: var(--color-error);
 	}
-	.error strong { color: var(--color-error); }
+	.error strong {
+		color: var(--color-error);
+	}
 </style>

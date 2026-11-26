@@ -25,14 +25,18 @@
 				{#each ['es', 'en'] as locale (locale)}
 					<a
 						class:active={selectedKey === document.key && selectedLocale === locale}
-					aria-current={selectedKey === document.key && selectedLocale === locale ? 'page' : undefined}
-					 href={`${baseHref}?key=${document.key}&locale=${locale}`}
-					>{locale === 'es' ? 'Español' : 'English'}</a>
+						aria-current={selectedKey === document.key && selectedLocale === locale
+							? 'page'
+							: undefined}
+						href={`${baseHref}?key=${document.key}&locale=${locale}`}
+						>{locale === 'es' ? 'Español' : 'English'}</a
+					>
 				{/each}
 			</div>
 		</div>
 	{/each}
 </nav>
+
 <!-- eslint-enable svelte/no-navigation-without-resolve -->
 
 <style>
@@ -43,9 +47,21 @@
 		padding-block: var(--space-5);
 		border-block: var(--rule-base) solid var(--color-rule-subtle);
 	}
-	.document-group { display: grid; align-content: start; gap: var(--space-3); min-width: 0; }
-	.document-group .label { margin: 0; color: var(--color-on-surface-variant); }
-	.locale-links { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); }
+	.document-group {
+		display: grid;
+		align-content: start;
+		gap: var(--space-3);
+		min-width: 0;
+	}
+	.document-group .label {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
+	.locale-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2) var(--space-4);
+	}
 	.locale-links a {
 		min-height: 2.75rem;
 		display: inline-flex;
@@ -53,6 +69,14 @@
 		color: var(--color-on-background);
 		text-underline-offset: 0.25em;
 	}
-	.locale-links a.active { font-weight: 700; color: var(--color-primary); text-decoration-thickness: 2px; }
-	@media (max-width: 700px) { .document-nav { grid-template-columns: 1fr; } }
+	.locale-links a.active {
+		font-weight: 700;
+		color: var(--color-primary);
+		text-decoration-thickness: 2px;
+	}
+	@media (max-width: 700px) {
+		.document-nav {
+			grid-template-columns: 1fr;
+		}
+	}
 </style>

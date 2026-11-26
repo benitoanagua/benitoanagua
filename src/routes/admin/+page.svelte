@@ -25,7 +25,11 @@
 	/>
 
 	{#if form?.message}
-		<AdminStatus label={form.success ? 'Guardado correctamente' : 'No se pudo guardar'} detail={form.message} tone={form.success ? 'success' : 'error'} />
+		<AdminStatus
+			label={form.success ? 'Guardado correctamente' : 'No se pudo guardar'}
+			detail={form.message}
+			tone={form.success ? 'success' : 'error'}
+		/>
 	{/if}
 
 	<div class="document-context">
@@ -69,7 +73,10 @@
 </section>
 
 <style>
-	.content-admin { display: grid; gap: var(--space-editorial-md); }
+	.content-admin {
+		display: grid;
+		gap: var(--space-editorial-md);
+	}
 	.document-context {
 		display: flex;
 		align-items: flex-start;
@@ -84,22 +91,40 @@
 		font-size: var(--text-section);
 		line-height: var(--leading-section);
 	}
-	.document-context h2 span { color: var(--color-on-surface-variant); }
-	.document-context .label { margin: 0; color: var(--color-on-surface-variant); }
-	.updated { margin: 0; color: var(--color-on-surface-variant); }
+	.document-context h2 span {
+		color: var(--color-on-surface-variant);
+	}
+	.document-context .label {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
+	.updated {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
 	.editor {
 		padding-top: var(--space-6);
 		border-top: var(--rule-base) solid var(--color-on-background);
 	}
-	.editor-heading { margin-bottom: var(--space-5); }
+	.editor-heading {
+		margin-bottom: var(--space-5);
+	}
 	.editor-heading h2 {
 		margin: 0 0 var(--space-2);
 		font-family: var(--font-display);
 		font-size: var(--text-section);
 	}
-	.editor-heading p { margin: 0; color: var(--color-on-surface-variant); }
-	form { display: grid; gap: var(--space-4); }
-	label { font-weight: 700; }
+	.editor-heading p {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
+	form {
+		display: grid;
+		gap: var(--space-4);
+	}
+	label {
+		font-weight: 700;
+	}
 	textarea {
 		width: 100%;
 		min-height: 60vh;
@@ -119,7 +144,11 @@
 		gap: var(--space-4);
 		flex-wrap: wrap;
 	}
-	.actions p { max-width: var(--measure); margin: 0; color: var(--color-on-surface-variant); }
+	.actions p {
+		max-width: var(--measure);
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
 	button {
 		min-height: 3rem;
 		padding: 0 var(--space-5);
@@ -130,9 +159,18 @@
 		font: 700 1rem/1.4 var(--font-ui);
 		cursor: pointer;
 	}
-	button:hover { background: var(--color-on-background); border-color: var(--color-on-background); }
+	button:hover {
+		background: var(--color-on-background);
+		border-color: var(--color-on-background);
+	}
 	@media (max-width: 700px) {
-		.document-context, .actions { align-items: stretch; flex-direction: column; }
-		.document-context > :global(.admin-status) { align-self: stretch; }
+		.document-context,
+		.actions {
+			align-items: stretch;
+			flex-direction: column;
+		}
+		.document-context > :global(.admin-status) {
+			align-self: stretch;
+		}
 	}
 </style>

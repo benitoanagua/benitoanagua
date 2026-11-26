@@ -9,7 +9,7 @@
 </svelte:head>
 
 <div class="admin-shell">
-	<AdminWorkspaceNav active={active} adminEmail={data.adminEmail} />
+	<AdminWorkspaceNav {active} adminEmail={data.adminEmail} />
 	<main class="admin-main">
 		{@render children()}
 	</main>

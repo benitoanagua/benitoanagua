@@ -23,7 +23,10 @@
 		border-top: var(--rule-base) solid var(--color-on-background);
 		border-bottom: var(--rule-base) solid var(--color-rule-subtle);
 	}
-	.label { margin: 0; color: var(--color-on-surface-variant); }
+	.label {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
 	.value {
 		margin: var(--space-3) 0;
 		font-family: var(--font-display);
@@ -32,5 +35,8 @@
 		letter-spacing: var(--tracking-display);
 		font-variant-numeric: tabular-nums;
 	}
-	.detail { margin: 0; color: var(--color-on-surface-variant); }
+	.detail {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
 </style>

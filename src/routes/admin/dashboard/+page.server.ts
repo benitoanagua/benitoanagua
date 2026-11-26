@@ -25,9 +25,19 @@ export const load: PageServerLoad = async ({ request, platform }) => {
 
 	const [content, projects, recentContent, recentProjects] = await Promise.all([
 		db.prepare('SELECT COUNT(*) AS total FROM portfolio_content').first<CountRow>(),
-		db.prepare('SELECT COUNT(*) AS total, SUM(CASE WHEN is_published = 1 THEN 1 ELSE 0 END) AS published FROM portfolio_projects').first<CountRow>(),
-		db.prepare('SELECT content_key, locale, updated_at FROM portfolio_content ORDER BY updated_at DESC LIMIT 4').all<ContentUpdate>(),
-		db.prepare('SELECT slug, updated_at FROM portfolio_projects ORDER BY updated_at DESC LIMIT 4').all<ProjectUpdate>()
+		db
+			.prepare(
+				'SELECT COUNT(*) AS total, SUM(CASE WHEN is_published = 1 THEN 1 ELSE 0 END) AS published FROM portfolio_projects'
+			)
+			.first<CountRow>(),
+		db
+			.prepare(
+				'SELECT content_key, locale, updated_at FROM portfolio_content ORDER BY updated_at DESC LIMIT 4'
+			)
+			.all<ContentUpdate>(),
+		db
+			.prepare('SELECT slug, updated_at FROM portfolio_projects ORDER BY updated_at DESC LIMIT 4')
+			.all<ProjectUpdate>()
 	]);
 
 	return {
