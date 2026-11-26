@@ -2,7 +2,7 @@
 
 -- Portfolio content only; project/catalog and design-system data are excluded.
 
--- No explicit transaction: D1 rejects BEGIN TRANSACTION via the query API.
+-- No explicit transaction wrapper: D1 runs each file in its own transaction.
 
 -- All statements are idempotent upserts, so re-running is safe.
 
