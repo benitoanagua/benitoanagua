@@ -20,7 +20,7 @@ interface StatementLog {
 	values: unknown[];
 }
 
-function mockDb(existingSlugs: string[] = []) {
+function mockDb(existingSlugs: string[] = [], insertConflict = false) {
 	const log: StatementLog[] = [];
 	const db: D1DatabaseLike = {
 		prepare(query) {
@@ -36,7 +36,15 @@ function mockDb(existingSlugs: string[] = []) {
 					const slug = String(entry.values[0]);
 					return existingSlugs.includes(slug) ? { slug } : null;
 				},
-				run: async () => ({ results: [] })
+				run: async () => {
+					if (entry.query.includes('INSERT INTO portfolio_projects') && insertConflict) {
+						throw new Error('UNIQUE constraint failed: portfolio_projects.slug');
+					}
+					const changes = entry.query.includes('UPDATE portfolio_projects')
+						? Number(existingSlugs.includes(String(entry.values.at(-1))))
+						: 1;
+					return { results: [], meta: { changes } };
+				}
 			};
 			return statement as unknown as D1PreparedStatementLike;
 		}
@@ -55,7 +63,7 @@ function projectForm(overrides: Record<string, string> = {}) {
 }
 
 function writes(log: StatementLog[]) {
-	return log.filter((entry) => entry.query.includes('INSERT INTO portfolio_projects'));
+	return log.filter((entry) => entry.query.includes('INSERT INTO portfolio_projects') || entry.query.includes('UPDATE portfolio_projects'));
 }
 
 describe('saveProject', () => {
@@ -81,7 +89,8 @@ describe('saveProject', () => {
 		);
 		assert.equal(result.ok, true);
 		assert.equal(writes(log).length, 1);
-		assert.equal(writes(log)[0].values[8], 1);
+		assert.match(writes(log)[0].query, /^UPDATE portfolio_projects/);
+		assert.equal(writes(log)[0].values[7], 1);
 	});
 
 	it('rejects creating a duplicate slug without writing', async () => {
@@ -90,6 +99,15 @@ describe('saveProject', () => {
 		assert.equal(result.ok, false);
 		if (!result.ok) assert.equal(result.status, 409);
 		assert.equal(writes(log).length, 0);
+	});
+
+	it('rejects a duplicate slug created after the pre-check without overwriting it', async () => {
+		const { db, log } = mockDb([], true);
+		const result = await saveProject(db, projectForm());
+		assert.equal(result.ok, false);
+		if (!result.ok) assert.equal(result.status, 409);
+		assert.equal(writes(log).length, 1);
+		assert.match(writes(log)[0].query, /^INSERT INTO portfolio_projects/);
 	});
 
 	it('rejects renaming an existing project without writing', async () => {
