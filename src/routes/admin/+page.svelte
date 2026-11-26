@@ -2,62 +2,60 @@
 	import { enhance } from '$app/forms';
 	import { resolve } from '$app/paths';
 	import type { ActionData, PageData } from './$types';
+	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
+	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
+	import AdminDocumentNav from '$lib/components/admin/AdminDocumentNav.svelte';
 
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	const selectionKey = $derived(`${data.selection.key}:${data.selection.locale}`);
 	let edits = $state<Record<string, string>>({});
 	const content = $derived(edits[selectionKey] ?? data.contentJson);
-	function documentHref(key: string, locale: string) {
-		return `${resolve('/admin')}?key=${key}&locale=${locale}`;
-	}
 </script>
 
 <svelte:head>
-	<title>Portfolio CMS — Admin</title>
+	<title>Portfolio CMS — Editor de contenido</title>
 	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
-<main class="admin">
-	<header class="heading">
-		<p class="eyebrow">PORTFOLIO CMS</p>
-		<h1>Content editor</h1>
-		<p class="lead">Edición autenticada de documentos localizados en Cloudflare D1.</p>
-	</header>
+<section class="content-admin">
+	<AdminPageHeader
+		kicker="ADMINISTRACIÓN · CONTENIDO"
+		title="Editor de contenido"
+		description="Edita los documentos localizados que alimentan el portfolio. Los cambios se guardan en Cloudflare D1."
+	/>
 
-	<nav class="documents" aria-label="Admin sections">
-		<a href={resolve('/admin/proyectos')}>Projects CMS ↗</a>
-	</nav>
+	{#if form?.message}
+		<AdminStatus
+			label={form.success ? 'Guardado correctamente' : 'No se pudo guardar'}
+			detail={form.message}
+			tone={form.success ? 'success' : 'error'}
+		/>
+	{/if}
 
-	<!-- eslint-disable svelte/no-navigation-without-resolve -- los enlaces llevan query ?key&locale que resolve() no expresa -->
-	<nav class="documents" aria-label="Content documents">
-		{#each ['site', 'cv', 'skill_stories'] as key (key)}
-			{#each ['es', 'en'] as locale (locale)}
-				<a
-					class:active={data.selection.key === key && data.selection.locale === locale}
-					href={documentHref(key, locale)}>{key} · {locale.toUpperCase()}</a
-				>
-			{/each}
-		{/each}
-	</nav>
-	<!-- eslint-enable svelte/no-navigation-without-resolve -->
-
-	<section class="editor">
-		<div class="editor-meta">
-			<div>
-				<h2>{data.selection.key} / {data.selection.locale}</h2>
-				<p>Última actualización: {data.updatedAt ?? '—'}</p>
-			</div>
-			<span class="status">D1 · LIVE</span>
+	<div class="document-context">
+		<div>
+			<p class="label">Documento seleccionado</p>
+			<h2>{data.selection.key} <span>/ {data.selection.locale}</span></h2>
+			<p class="updated">Última actualización: {data.updatedAt ?? 'Sin registro'}</p>
 		</div>
+		<AdminStatus label="D1" detail="Conectado a datos persistentes" tone="success" />
+	</div>
 
-		{#if form?.message}
-			<p class:success={form.success} class:error={!form.success} role="status">{form.message}</p>
-		{/if}
+	<AdminDocumentNav
+		selectedKey={data.selection.key}
+		selectedLocale={data.selection.locale}
+		baseHref={resolve('/admin')}
+	/>
 
+	<section class="editor" aria-labelledby="json-editor-title">
+		<div class="editor-heading">
+			<h2 id="json-editor-title">Contenido JSON</h2>
+			<p>Conserva la estructura del documento y valida el JSON antes de guardar.</p>
+		</div>
 		<form method="POST" action="?/save" use:enhance>
 			<input type="hidden" name="key" value={data.selection.key} />
 			<input type="hidden" name="locale" value={data.selection.locale} />
-			<label for="content">Documento JSON</label>
+			<label for="content">Documento completo</label>
 			<textarea
 				id="content"
 				name="content"
@@ -67,88 +65,62 @@
 				required
 			></textarea>
 			<div class="actions">
-				<p>El contenido se guarda directamente en D1. Revisa el JSON antes de guardar.</p>
-				<button type="submit">Guardar cambios</button>
+				<p>Revisa los cambios antes de enviarlos a la base de datos.</p>
+				<button type="submit">Guardar documento</button>
 			</div>
 		</form>
 	</section>
-</main>
+</section>
 
 <style>
-	.admin {
-		max-width: 76rem;
-		margin: 0 auto;
-		padding: clamp(1.25rem, 4vw, 3rem) 1rem 5rem;
+	.content-admin {
 		display: grid;
-		gap: 2rem;
+		gap: var(--space-editorial-md);
 	}
-	.heading {
-		display: grid;
-		gap: 0.75rem;
-	}
-	.eyebrow {
-		font-size: 0.75rem;
-		letter-spacing: 0.12em;
-		font-weight: 700;
-		color: var(--color-primary);
-	}
-	h1 {
-		font-size: clamp(2rem, 5vw, 3.5rem);
-		line-height: 1.05;
-	}
-	.lead {
-		color: var(--color-on-surface-variant);
-		max-width: 42rem;
-	}
-	.documents {
+	.document-context {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: var(--space-6);
+		padding-block: var(--space-5);
+		border-bottom: var(--rule-base) solid var(--color-rule-subtle);
 	}
-	.documents a {
-		border: 1px solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
-		padding: 0.65rem 0.85rem;
-		text-decoration: none;
+	.document-context h2 {
+		margin: var(--space-2) 0;
+		font-family: var(--font-display);
+		font-size: var(--text-section);
+		line-height: var(--leading-section);
+	}
+	.document-context h2 span {
 		color: var(--color-on-surface-variant);
-		font-size: 0.875rem;
 	}
-	.documents a.active {
-		background: var(--color-on-background);
-		color: var(--color-background);
-		border-color: var(--color-on-background);
+	.document-context .label {
+		margin: 0;
+		color: var(--color-on-surface-variant);
+	}
+	.updated {
+		margin: 0;
+		color: var(--color-on-surface-variant);
 	}
 	.editor {
-		border: 1px solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
-		padding: clamp(1rem, 3vw, 2rem);
-		display: grid;
-		gap: 1.5rem;
+		padding-top: var(--space-6);
+		border-top: var(--rule-base) solid var(--color-on-background);
 	}
-	.editor-meta {
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		gap: 1rem;
+	.editor-heading {
+		margin-bottom: var(--space-5);
 	}
-	.editor-meta h2 {
-		font-size: 1.25rem;
+	.editor-heading h2 {
+		margin: 0 0 var(--space-2);
+		font-family: var(--font-display);
+		font-size: var(--text-section);
 	}
-	.editor-meta p,
-	.actions p {
+	.editor-heading p {
+		margin: 0;
 		color: var(--color-on-surface-variant);
-		font-size: 0.875rem;
-	}
-	.status {
-		font-size: 0.75rem;
-		font-weight: 700;
-		border: 1px solid var(--color-outline);
-		padding: 0.35rem 0.5rem;
-		white-space: nowrap;
 	}
 	form {
 		display: grid;
-		gap: 0.75rem;
+		gap: var(--space-4);
 	}
 	label {
 		font-weight: 700;
@@ -157,49 +129,48 @@
 		width: 100%;
 		min-height: 60vh;
 		resize: vertical;
-		padding: 1rem;
+		padding: var(--space-4);
 		border: 1px solid var(--color-outline);
 		border-radius: var(--radius-sm);
-		background: var(--color-surface-container);
+		background: var(--color-surface-container-low);
 		color: var(--color-on-background);
-		font:
-			400 0.875rem/1.6 ui-monospace,
-			SFMono-Regular,
-			Consolas,
-			monospace;
+		font: 1rem/1.6 var(--font-mono);
+		color-scheme: light dark;
 	}
 	.actions {
 		display: flex;
-		justify-content: space-between;
 		align-items: center;
-		gap: 1rem;
+		justify-content: space-between;
+		gap: var(--space-4);
 		flex-wrap: wrap;
 	}
 	.actions p {
-		max-width: 38rem;
+		max-width: var(--measure);
+		margin: 0;
+		color: var(--color-on-surface-variant);
 	}
 	button {
-		min-height: 2.75rem;
-		padding: 0 1.25rem;
-		border: 0;
+		min-height: 3rem;
+		padding: 0 var(--space-5);
+		border: 1px solid var(--color-primary);
 		border-radius: var(--radius-sm);
-		background: var(--color-on-background);
-		color: var(--color-background);
-		font: inherit;
-		font-weight: 700;
+		background: var(--color-primary);
+		color: var(--color-on-primary);
+		font: 700 1rem/1.4 var(--font-ui);
 		cursor: pointer;
 	}
-	.success {
-		color: #287a42;
+	button:hover {
+		background: var(--color-on-background);
+		border-color: var(--color-on-background);
 	}
-	.error {
-		color: #b42318;
-	}
-	@media (max-width: 40rem) {
-		.editor-meta,
+	@media (max-width: 700px) {
+		.document-context,
 		.actions {
 			align-items: stretch;
 			flex-direction: column;
+		}
+		.document-context > :global(.admin-status) {
+			align-self: stretch;
 		}
 	}
 </style>

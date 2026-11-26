@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { ActionData, PageData } from './$types';
+	import AdminPageHeader from '$lib/components/admin/AdminPageHeader.svelte';
+	import AdminStatus from '$lib/components/admin/AdminStatus.svelte';
+
 	let { data, form }: { data: PageData; form: ActionData } = $props();
 	let selected = $state(data.projects[0]?.slug ?? '');
 	let es = $state(
@@ -43,61 +46,76 @@
 </script>
 
 <svelte:head>
-	<title>Projects CMS — Admin</title>
+	<title>Portfolio CMS — Proyectos</title>
 	<meta name="robots" content="noindex, nofollow" />
 </svelte:head>
 
-<main class="admin">
-	<header>
-		<p class="eyebrow">PORTFOLIO CMS / PROJECTS</p>
-		<h1>Projects</h1>
-		<p>
-			Manage bilingual project records in D1. Published projects are served to the public site at
-			request time.
-		</p>
-	</header>
+<section class="projects-admin">
+	<AdminPageHeader
+		kicker="ADMINISTRACIÓN · PROYECTOS"
+		title="Proyectos"
+		description="Gestiona las fichas bilingües almacenadas en D1. Solo los proyectos publicados aparecen en el portfolio."
+	/>
 
-	{#if form?.message}<p class:success={form.success} class:error={!form.success} role="status">
-			{form.message}
-		</p>{/if}
+	{#if form?.message}
+		<AdminStatus
+			label={form.success ? 'Operación completada' : 'La operación no se completó'}
+			detail={form.message}
+			tone={form.success ? 'success' : 'error'}
+		/>
+	{/if}
 
-	<div class="workspace">
-		<aside>
-			<button class="new" type="button" onclick={blank}>＋ New project</button>
+	<div class="project-workspace">
+		<aside class="project-list" aria-label="Listado de proyectos">
+			<button class="new" type="button" onclick={blank}>Crear proyecto</button>
+			<p class="label">Registros ({data.projects.length})</p>
 			{#each data.projects as item (item.slug)}
 				<button
-					class:active={selected === item.slug}
 					class="project-choice"
+					class:active={selected === item.slug}
 					type="button"
 					onclick={() => choose(item.slug)}
 				>
 					<strong>{item.slug}</strong>
-					<span>{item.is_published ? 'Published' : 'Draft'} · {item.area}</span>
+					<span>{item.is_published ? 'Publicado' : 'Borrador'} · {item.area}</span>
 				</button>
 			{/each}
 		</aside>
 
-		<section class="editor">
+		<section class="editor" aria-label="Editor de proyecto">
 			<form method="POST" action="?/save" use:enhance>
 				<div class="meta">
 					<label
-						>Sort order<input type="number" min="0" name="sort_order" bind:value={order} /></label
+						>Orden de publicación<input
+							type="number"
+							min="0"
+							name="sort_order"
+							bind:value={order}
+						/></label
 					>
 					<label class="check"
-						><input type="checkbox" name="is_published" value="1" bind:checked={published} /> Published</label
+						><input type="checkbox" name="is_published" value="1" bind:checked={published} /> Publicado</label
 					>
 				</div>
 				<div class="localized">
 					<label
-						>Español · JSON<textarea name="content_es" bind:value={es} spellcheck="false" required
+						>Contenido en español<textarea
+							name="content_es"
+							bind:value={es}
+							spellcheck="false"
+							required
 						></textarea></label
 					>
 					<label
-						>English · JSON<textarea name="content_en" bind:value={en} spellcheck="false" required
+						>Contenido en inglés<textarea
+							name="content_en"
+							bind:value={en}
+							spellcheck="false"
+							required
 						></textarea></label
 					>
 				</div>
-				<button type="submit">Save project to D1</button>
+				<button class="save" type="submit">Guardar proyecto</button>
 			</form>
 			{#if selected}
 				<form
@@ -105,152 +123,130 @@
 					action="?/delete"
 					use:enhance
 					onsubmit={(event) => {
-						if (!confirm(`Delete project "${selected}" from D1?`)) event.preventDefault();
+						if (!confirm(`¿Eliminar el proyecto "${selected}" de D1?`)) event.preventDefault();
 					}}
 				>
 					<input type="hidden" name="slug" value={selected} />
-					<button class="danger" type="submit">Delete selected project</button>
+					<button class="danger" type="submit">Eliminar proyecto seleccionado</button>
 				</form>
 			{/if}
 		</section>
 	</div>
-</main>
+</section>
 
 <style>
-	.admin {
-		max-width: 80rem;
-		margin: 0 auto;
-		padding: clamp(1.25rem, 4vw, 3rem) 1rem 5rem;
+	.projects-admin {
 		display: grid;
-		gap: 1.5rem;
+		gap: var(--space-editorial-md);
 	}
-	header {
+	.project-workspace {
 		display: grid;
-		gap: 0.75rem;
+		grid-template-columns: minmax(14rem, 19rem) minmax(0, 1fr);
+		gap: clamp(1.5rem, 4vw, 3rem);
 	}
-	.eyebrow {
-		font-size: 0.75rem;
-		letter-spacing: 0.12em;
-		font-weight: 700;
-		color: var(--color-primary);
+	.project-list {
+		display: grid;
+		align-content: start;
+		gap: var(--space-3);
 	}
-	h1 {
-		font-size: clamp(2rem, 5vw, 3.5rem);
-	}
-	header > p:last-child {
+	.project-list > .label {
+		margin: var(--space-3) 0 0;
 		color: var(--color-on-surface-variant);
-		max-width: 48rem;
-	}
-	.workspace {
-		display: grid;
-		grid-template-columns: minmax(13rem, 18rem) minmax(0, 1fr);
-		gap: 1rem;
-	}
-	aside {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
 	}
 	button {
-		min-height: 2.75rem;
-		padding: 0.6rem 0.85rem;
+		min-height: 3rem;
+		padding: var(--space-3) var(--space-4);
 		border: 1px solid var(--color-outline);
 		border-radius: var(--radius-sm);
 		background: transparent;
 		color: var(--color-on-background);
-		font: inherit;
-		font-weight: 700;
-		cursor: pointer;
+		font: 700 1rem/1.4 var(--font-ui);
 		text-align: left;
+		cursor: pointer;
 	}
-	.new {
-		background: var(--color-on-background);
-		color: var(--color-background);
+	button:hover {
+		background: var(--color-hover-surface);
+	}
+	.new,
+	.save {
+		border-color: var(--color-primary);
+		background: var(--color-primary);
+		color: var(--color-on-primary);
 	}
 	.project-choice {
 		display: grid;
-		gap: 0.25rem;
+		gap: var(--space-2);
 	}
 	.project-choice span {
-		font-size: 0.8rem;
 		color: var(--color-on-surface-variant);
 		font-weight: 400;
 	}
 	.project-choice.active {
-		border-color: var(--color-primary);
-		background: var(--color-hover-surface);
+		border-left: 3px solid var(--color-primary);
+		background: var(--color-surface-container-low);
 	}
 	.editor {
 		min-width: 0;
-		border: 1px solid var(--color-outline-variant);
-		border-radius: var(--radius-sm);
-		padding: clamp(0.75rem, 2vw, 1.5rem);
-		display: grid;
-		align-content: start;
-		gap: 1rem;
+		padding-top: var(--space-5);
+		border-top: var(--rule-base) solid var(--color-on-background);
 	}
-	form {
+	.editor form {
 		display: grid;
-		gap: 1rem;
+		gap: var(--space-5);
 	}
 	.meta {
 		display: flex;
-		gap: 1rem;
 		align-items: center;
 		flex-wrap: wrap;
+		gap: var(--space-5);
 	}
 	label {
 		display: grid;
-		gap: 0.5rem;
+		gap: var(--space-2);
 		font-weight: 700;
-		font-size: 0.875rem;
 	}
 	input[type='number'] {
-		max-width: 8rem;
-		padding: 0.5rem;
+		min-height: 3rem;
+		max-width: 10rem;
+		padding: var(--space-3);
 		border: 1px solid var(--color-outline);
 		border-radius: var(--radius-sm);
-		background: var(--color-surface-container);
+		background: var(--color-surface-container-low);
 		color: var(--color-on-background);
+		font: 1rem var(--font-ui);
 	}
 	.check {
 		display: flex;
 		align-items: center;
-		gap: 0.5rem;
+		gap: var(--space-3);
+	}
+	.check input {
+		width: 1.25rem;
+		height: 1.25rem;
 	}
 	.localized {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 1rem;
+		gap: var(--space-5);
 	}
 	textarea {
 		width: 100%;
 		min-height: 55vh;
 		resize: vertical;
-		padding: 0.75rem;
+		padding: var(--space-4);
 		border: 1px solid var(--color-outline);
 		border-radius: var(--radius-sm);
-		background: var(--color-surface-container);
+		background: var(--color-surface-container-low);
 		color: var(--color-on-background);
-		font:
-			400 0.8rem/1.5 ui-monospace,
-			Consolas,
-			monospace;
+		font: 1rem/1.6 var(--font-mono);
 	}
 	.danger {
-		color: #b42318;
-		border-color: #b42318;
+		border-width: var(--rule-thick);
+		border-color: var(--color-error);
+		color: var(--color-error);
 	}
-	.success {
-		color: #287a42;
-	}
-	.error {
-		color: #b42318;
-	}
-	@media (max-width: 800px) {
-		.workspace {
-			grid-template-columns: 1fr;
-		}
+	@media (max-width: 850px) {
+		.project-workspace,
 		.localized {
 			grid-template-columns: 1fr;
 		}
