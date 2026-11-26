@@ -111,14 +111,14 @@
 						spellcheck="false"
 						required
 					></textarea>
-					<label
-						>Contenido en inglés<textarea
-							name="content_en"
-							bind:value={en}
-							spellcheck="false"
-							required
-						></textarea></label
-					>
+					<label for="content_en">Contenido en inglés</label>
+					<textarea
+						id="content_en"
+						name="content_en"
+						bind:value={en}
+						spellcheck="false"
+						required
+					></textarea>
 				</div>
 				<button class="save" type="submit">Guardar proyecto</button>
 			</form>
