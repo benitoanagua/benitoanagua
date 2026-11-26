@@ -93,7 +93,7 @@ try {
 	writeFileSync(
 		join(src, 'consumer.ts'),
 		[
-			"import { Badge, Button, ProjectCard, TextField, Timeline } from '@benitoanagua/folio';",
+			"import { ActionLink, Badge, Button, PageHeader, ProjectCard, TextField, Timeline } from '@benitoanagua/folio';",
 			'import type {',
 			'	PortfolioProject,',
 			'	ProjectCardLabels,',
@@ -106,7 +106,7 @@ try {
 			"const links: SocialLink[] = [{ label: 'GitHub', href: 'https://example.com' }];",
 			"const entries: TimelineEntry[] = [{ period: '2026', title: 'Role' }];",
 			'',
-			'export const contracts = { Badge, Button, ProjectCard, TextField, Timeline };',
+			'export const contracts = { ActionLink, Badge, Button, PageHeader, ProjectCard, TextField, Timeline };',
 			'export const data = { project, labels, links, entries };'
 		].join(newline)
 	);
