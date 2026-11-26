@@ -7,6 +7,9 @@
  *  - text-transform: uppercase solo en utilities.css y PortalLayout (wordmark)
  *  - contraste WCAG AA (4.5:1 texto, 3:1 UI) en ambos temas
  * Errores → exit 1. Avisos → informativos.
+ *
+ * El panel /admin queda fuera del sistema FOLIO: es una herramienta interna
+ * protegida por Cloudflare Access, no una página pública del portafolio.
  */
 import fs from 'fs';
 import path from 'path';
@@ -30,7 +33,8 @@ function walk(dir: string, out: string[] = []): string[] {
 	}
 	return out;
 }
-const files = [...walk(SRC), ...walk(FOLIO_SRC)];
+const ADMIN = path.join(SRC, 'routes/admin');
+const files = [...walk(SRC), ...walk(FOLIO_SRC)].filter((f) => !f.startsWith(ADMIN + path.sep));
 const TOKENS = path.join(FOLIO_SRC, 'styles/tokens.css');
 const THEME = path.join(FOLIO_SRC, 'styles/theme.css');
 const UTILITIES = path.join(FOLIO_SRC, 'styles/utilities.css');
