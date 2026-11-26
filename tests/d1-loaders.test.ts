@@ -178,5 +178,28 @@ describe('loadPublicProjects', () => {
 				),
 			/failed validation/
 		);
+
+		for (const optionalFields of [
+			{ context: 12 },
+			{ result: false },
+			{ links: 'https://example.com' },
+			{ links: { repo: 7 } },
+			{ links: { demo: null } }
+		]) {
+			await assert.rejects(
+				() =>
+					loadPublicProjects(
+						platform(
+							db([
+							{
+								...projectRow,
+								content_es: JSON.stringify({ ...validProject, ...optionalFields })
+							}
+						])
+					)
+					),
+				/failed validation/
+			);
+		}
 	});
 });
