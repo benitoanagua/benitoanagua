@@ -1,51 +1,47 @@
 # Release operations
 
-This guide defines release boundaries for the portfolio, FOLIO and the component catalog. It does not publish packages or deploy infrastructure by itself.
+This guide defines release boundaries for the portfolio, FOLIO and the component catalog. CI validates artifacts; it does not publish packages, deploy Pages or apply remote migrations.
 
 ## Release principles
 
-- CI validates source and release artifacts; it does not publish or deploy.
 - Portfolio, FOLIO and catalog releases are independent.
-- Confirm the target registry, Cloudflare account, Pages project and branch before any release action.
-- Do not publish a package until its version, package contents, README, changelog/release notes and consumer compatibility have been reviewed.
-- Do not apply remote D1 migrations as part of a package or catalog release.
+- Confirm the target account, project, branch, registry and version before a release.
+- Review package contents and release notes before publishing.
+- Do not couple package/catalog releases to remote D1 migrations.
+
+## Current release status
+
+- **Portfolio:** deployed at [benitoanagua.pages.dev](https://benitoanagua.pages.dev/). Verify the current commit and CI before a new production deployment.
+- **FOLIO:** `@benitoanagua/folio@0.1.0` build, pack check and isolated consumer smoke test passed in the last reported validation. npm publication requires authenticated registry access; verify whether the version is already published before retrying.
+- **Catalog:** deployed to Pages project `benitoanagua-design-system`; the last reported deployment URL was [4d8d8641.benitoanagua-design-system.pages.dev](https://4d8d8641.benitoanagua-design-system.pages.dev/). Live smoke verification was pending DNS/edge propagation at last report.
 
 ## Portfolio
 
-1. Confirm CI is green on the exact commit to release.
-2. Review pending D1 migrations and export/backup the production database before schema changes.
-3. Verify the production Cloudflare account, Pages project and production D1 binding.
-4. Build and deploy using the documented production command.
-5. Verify the public site, localized routes, sitemap and critical admin/public flows.
-6. Record the deployed commit and any migration applied.
+1. Confirm CI is green on the exact commit.
+2. Review migrations and export/backup Production before schema changes.
+3. Verify Cloudflare account, Pages project and Production D1 binding.
+4. Build and deploy with the documented production command.
+5. Verify public routes, localized content, sitemap and admin protection.
+6. Record the deployed commit and migration, if any.
 
 ## FOLIO package
 
-1. Review the public API and breaking changes.
-2. Update the package version according to semantic versioning.
-3. Run pnpm check:all, pnpm lint, pnpm test, pnpm build:all, pnpm folio:pack:check and pnpm folio:consumer:check.
-4. Inspect the packed package contents; ensure only intended files and no secrets, local files or portfolio-specific runtime code are included.
-5. Confirm the npm account, package scope and registry target.
-6. Publish explicitly with pnpm folio:publish only after approval of the version and package contents.
-7. Verify the published version and install it into a clean consumer test.
+1. Verify whether the intended version already exists in npm.
+2. Review public API, version, README/release notes and package contents.
+3. Run `pnpm check:all`, `pnpm lint`, `pnpm test`, `pnpm build:all`, `pnpm folio:pack:check` and `pnpm folio:consumer:check`.
+4. Authenticate to the intended npm account and confirm scope `@benitoanagua`.
+5. Publish explicitly with `pnpm folio:publish` only if the version is not already published.
+6. Verify the registry version and install it in a clean consumer.
 
 ## FOLIO Catalog
 
-1. Build with pnpm catalog:build.
-2. Verify the target Cloudflare account and Pages project benitoanagua-design-system.
-3. Confirm the production branch and current deployment.
-4. Deploy with pnpm catalog:deploy.
-5. Verify the live catalog, component examples and links to the corresponding package version.
+1. Build with `pnpm catalog:build`.
+2. Confirm Cloudflare account, Pages project `benitoanagua-design-system` and production branch `main`.
+3. Deploy with `pnpm catalog:deploy`.
+4. Verify the live catalog, component examples, themes and package links.
 
-The catalog is a separate Pages application and must not use the portfolio's D1 database.
+The catalog is independent and must not use the portfolio D1.
 
 ## Release record
 
-For each release, record:
-
-- Component (portfolio, FOLIO or catalog)
-- Version or deployed commit
-- CI run URL and result
-- Target registry/account/project/branch
-- Migration or infrastructure changes, if any
-- Post-release verification and rollback/recovery notes
+For each release, record the component, version/deployed commit, CI run, target, migration/infrastructure changes, post-release verification and recovery notes.
