@@ -58,7 +58,7 @@ describe('requireAdmin local E2E seam', () => {
 	});
 
 	it('requires the header even when the secret is configured', async () => {
-		await expectStatus(requireAdmin(request(), { ADMIN_E2E_SECRET: SECRET }), 503);
+		await expectStatus(requireAdmin(request(), { ADMIN_E2E_SECRET: SECRET }), 401);
 	});
 
 	it('never activates on a public hostname', async () => {

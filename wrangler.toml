@@ -5,6 +5,15 @@ pages_build_output_dir = ".svelte-kit/cloudflare"
 compatibility_date = "2026-11-24"
 compatibility_flags = ["nodejs_als"]
 
+# Runtime env vars for the /admin Cloudflare Access + JWT check. These values
+# are not secrets (the AUD tag and team domain appear in Access JWTs anyway).
+# Declaring them here keeps `wrangler pages deploy` from wiping the Pages
+# deployment-config env vars on every deploy.
+[vars]
+ACCESS_TEAM_DOMAIN = "benitoanagua.cloudflareaccess.com"
+ACCESS_AUD = "3fa8cdf9dba2484112c269a2b3cf8edcc1a0997038d34bf94e10e81110b9f838"
+ADMIN_EMAIL = "benito.anagua@gmail.com"
+
 # Production: binding DB apunta exclusivamente a la D1 de producción.
 [[d1_databases]]
 binding = "DB"

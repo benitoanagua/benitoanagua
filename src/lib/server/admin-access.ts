@@ -43,7 +43,9 @@ function localE2EAdmin(request: Request, env?: AccessEnvironment): { email: stri
 	if (!secret || secret.length < LOCAL_E2E_SECRET_MIN_LENGTH) return undefined;
 	if (!isLocalE2EHost(request)) return undefined;
 	const provided = request.headers.get('x-admin-e2e-secret');
-	if (provided === null) return undefined;
+	if (provided === null) {
+		error(401, 'Local admin authentication is required.');
+	}
 	if (!secretsMatch(provided, secret)) {
 		error(401, 'Local admin test credentials are invalid.');
 	}
