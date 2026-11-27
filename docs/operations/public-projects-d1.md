@@ -57,16 +57,10 @@ pnpm test
 
 The suite uses mocks and does not connect to D1 or require Cloudflare Access credentials.
 
-## Before enabling D1 content in production
+## Current remote state
 
-The public loader requires the database to be seeded. To activate D1 content in the shared remote database:
+The D1 content cutover is complete. Production has the schema and seed migrations `0001`–`0004`; Preview was initialized independently with the same migration set. Preview and Production use separate D1 bindings, and the isolation test confirmed a Preview write was absent from Production.
 
-1. Back up the production D1 database.
-2. Apply the pending migrations (schema + seeds) explicitly:
-   `pnpm d1:migrations:remote`
-   This includes `0003_projects.sql` (schema) and `0004_projects_seed.sql` (content).
-3. Verify:
-   `pnpm dlx wrangler@4 d1 execute benitoanagua-portfolio --remote --command="SELECT COUNT(*) FROM portfolio_projects WHERE is_published = 1;"`
-4. Visit the homepage, `/proyectos`, a project detail route, and at least one skill page after deployment.
+For current binding IDs, migration commands, backup requirements and verification steps, use [Cloudflare operations](cloudflare-wrangler.md) and [D1 content operations](d1-content-migration.md).
 
-Do not delete or rewrite `migrations/0004_projects_seed.sql`; it is the committed record of the initial project import. Subsequent content changes go through `/admin/proyectos` or new numbered migrations.
+Do not rerun the initial seed migration as an ad-hoc operation or treat the original import as pending. Future content edits belong in the admin; schema changes require a new numbered migration and a reviewed environment-specific procedure.
