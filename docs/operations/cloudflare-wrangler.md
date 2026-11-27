@@ -11,7 +11,9 @@ Wrangler deploys and D1 commands run locally with your authenticated session. Pa
 | Production  | `benitoanagua-portfolio`         | `e40020ce-adfb-4c14-b223-0a7b5e3de1b1` | Production D1 only |
 | Preview     | `benitoanagua-portfolio-preview` | `e35162cf-6599-4b2e-b1f9-ae4099382a4b` | Preview D1 only    |
 
-`wrangler.toml` declares a single `binding = "DB"` pointing to Production, because wrangler requires unique binding names across all environments in the file. The Preview environment's `DB` binding is configured separately in the Cloudflare Pages dashboard (and via the Cloudflare API) and points to `benitoanagua-portfolio-preview`. Preview and Production no longer share a D1 resource.
+`wrangler.toml` declares the bindings used by local development (`wrangler pages dev`, `vite dev` and `wrangler d1` local commands): `DB` points to the production-named database and `DB_PREVIEW` to the Preview-named one. A binding name maps to a single resource within a binding set, so the second database needs a distinct name — that is why `DB_PREVIEW` exists.
+
+Deployed environments are configured separately: each Pages environment (Preview, Production) has its own binding set managed in the Cloudflare Pages project settings (Settings → Bindings, backed by the deployment configuration API). The Preview `DB` binding there points to `benitoanagua-portfolio-preview`; the Production `DB` binding points to `benitoanagua-portfolio`. This separation is an architectural decision recorded in [ADR 0005](../adr/0005-environment-and-d1-isolation.md), not a Wrangler limitation.
 
 All Cloudflare operations run from your local machine with your own Wrangler login. GitHub Actions never touches Cloudflare.
 
@@ -57,7 +59,7 @@ curl -s https://benitoanagua.pages.dev/sitemap.xml | head -5
 
 Notes:
 
-- `pnpm preview` runs the built output through local Pages emulation with the **local** D1 (`--local`). Remote migrations use `--remote`; local migrations use `pnpm d1:migrations:local`.
+- `pnpm preview` runs `wrangler pages dev .svelte-kit/cloudflare`. Pages Dev executes locally by default and emulates bindings against local D1 — no `--local` flag is required (the flag is deprecated and hidden in current Wrangler; remote bindings require explicit opt-in). `wrangler d1 migrations apply` and `wrangler d1 execute` default to remote and need `--local` for the local database; `pnpm d1:migrations:local` applies the migrations locally.
 - To inspect or seed the local D1 database, use the binding name `DB` (not the database name) so `wrangler pages dev` sees the same local database: `pnpm dlx wrangler@4 d1 execute DB --local --file <file>`.
 - The versioned migrations include the current content seed. Do not run an ad-hoc seed/export against the production database. Add schema or seed changes as a new numbered SQL migration in `migrations/` and apply it with `pnpm d1:migrations:production` for Production or `pnpm d1:migrations:preview` for Preview.
 - Wrangler is invoked through `pnpm dlx wrangler@4`, so no dependency or lockfile change is needed and the major version stays pinned.

@@ -25,10 +25,10 @@ Content is edited through `/admin` and `/admin/proyectos`, protected by Cloudfla
 
 Preview and Production have separate D1 resources:
 
-| Environment | Database | ID |
-|---|---|---|
-| Production | `benitoanagua-portfolio` | `e40020ce-adfb-4c14-b223-0a7b5e3de1b1` |
-| Preview | `benitoanagua-portfolio-preview` | `e35162cf-6599-4b2e-b1f9-ae4099382a4b` |
+| Environment | Database                         | ID                                     |
+| ----------- | -------------------------------- | -------------------------------------- |
+| Production  | `benitoanagua-portfolio`         | `e40020ce-adfb-4c14-b223-0a7b5e3de1b1` |
+| Preview     | `benitoanagua-portfolio-preview` | `e35162cf-6599-4b2e-b1f9-ae4099382a4b` |
 
 Preview's Pages `DB` binding is configured separately from the root Wrangler binding. The isolation write test on 2026-11-26 confirmed a test row existed only in Preview and was removed afterward. See [Cloudflare operations](cloudflare-wrangler.md) for binding and verification details.
 
