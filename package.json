@@ -43,7 +43,11 @@
 		"e2e:catalog": "playwright test e2e/catalog",
 		"e2e:folio": "playwright test e2e/folio",
 		"folio:pack:check": "node scripts/validate-folio-pack.mjs",
-		"folio:consumer:check": "node scripts/test-folio-consumer.mjs"
+		"folio:consumer:check": "node scripts/test-folio-consumer.mjs",
+		"d1:migrations:list:production": "pnpm dlx wrangler@4 d1 migrations list benitoanagua-portfolio --remote",
+		"d1:migrations:production": "pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio --remote",
+		"d1:migrations:list:preview": "pnpm dlx wrangler@4 d1 migrations list benitoanagua-portfolio-preview --remote",
+		"d1:migrations:preview": "pnpm dlx wrangler@4 d1 migrations apply benitoanagua-portfolio-preview --remote"
 	},
 	"devDependencies": {
 		"@axe-core/playwright": "^4.14.0",
