@@ -77,4 +77,4 @@ against local D1.
 - [ ] A different authenticated email is denied by the application.
 - [ ] Sign out clears the Access session.
 - [ ] Content and project edits are tested against local D1 first.
-- [ ] Shared D1 is backed up before production content changes.
+- [ ] Production D1 is backed up before production content changes; Preview has its own D1 and must not be used as a production backup.
