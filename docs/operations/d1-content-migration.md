@@ -1,66 +1,63 @@
 # Portfolio content in Cloudflare D1
 
-> Architecture and safe-operation notes. The remote cutover and migration state were verified on 2026-11-25; see [the completed cutover record](./d1-content-cutover-readiness.md). Resource configuration and current Cloudflare account state must still be verified before changing infrastructure.
+D1 is the source of truth for editable portfolio content. The production cutover and Preview/Production isolation are complete; this guide describes the current runtime and safe operating procedures.
 
-## Scope
+## Data model
 
-D1 is the single source of truth for the portfolio's editable public content:
+- `portfolio_content`: localized CV, site and skill-story documents (`0001`).
+- `portfolio_cv_documents`: public CV document metadata and paths.
+- `portfolio_projects`: bilingual project records with publication state (`0003`).
+- `0002` and `0004`: idempotent initial content seeds. They are migration history, not runtime inputs.
 
-- CV data: profile, education, focus areas, skills and role history.
-- Localized site metadata and content.
-- Authored skill narratives.
-- CV document metadata and public paths.
-- Bilingual project records with publication state.
+PDFs and images remain in `static/`. The design system, catalog and UI chrome copy are not stored in D1.
 
-PDFs and images remain static assets in `static/`; binary files are not stored in D1. The design system, component catalog and UI chrome copy (`ui-copy.ts`, `projects-copy.ts`, `nav.ts`) are outside this data model.
+## Runtime
 
-## Storage
+- `src/lib/server/portfolio-content.ts` validates content and CV document records.
+- `src/lib/server/public-projects.ts` returns published projects only.
+- The root server layout loads D1 content for each request. There is no bundled TOML fallback.
+- Missing bindings, query failures or invalid published payloads fail closed rather than serving stale content.
+- `/sitemap.xml` is generated at request time from published D1 content.
 
-- `portfolio_content` stores validated JSON documents keyed by locale and content type (`0001_portfolio_content.sql`).
-- `portfolio_cv_documents` stores public CV metadata and paths.
-- `portfolio_projects` stores bilingual project JSON payloads with `is_published`/`sort_order` (`0003_projects.sql`).
-- `0002_portfolio_seed.sql` and `0004_projects_seed.sql` are the committed, idempotent seeds generated from the former TOML sources. They are migration history, not runtime inputs.
-- Content is edited through `/admin` and `/admin/proyectos` (Cloudflare Access + JWT validation); there are no TOML sources in runtime anymore.
+Content is edited through `/admin` and `/admin/proyectos`, protected by Cloudflare Access and server-side JWT validation.
+
+## Environment isolation
+
+Preview and Production have separate D1 resources:
+
+| Environment | Database | ID |
+|---|---|---|
+| Production | `benitoanagua-portfolio` | `e40020ce-adfb-4c14-b223-0a7b5e3de1b1` |
+| Preview | `benitoanagua-portfolio-preview` | `e35162cf-6599-4b2e-b1f9-ae4099382a4b` |
+
+Preview's Pages `DB` binding is configured separately from the root Wrangler binding. The isolation write test on 2026-11-26 confirmed a test row existed only in Preview and was removed afterward. See [Cloudflare operations](cloudflare-wrangler.md) for binding and verification details.
 
 ## Local development
 
 ```sh
 pnpm install
-pnpm d1:migrations:local   # applies schema + seeds to the local D1 database
-pnpm check:content         # verifies local D1 integrity (read-only)
-pnpm dev                   # vite dev serves pages from the local D1 binding
-pnpm build && pnpm preview # production build served by wrangler pages dev
+pnpm d1:migrations:local
+pnpm check:content
+pnpm dev
 ```
 
-Every public page is server-rendered at request time (`prerender = false` in `src/routes/+layout.ts`); nothing is prerendered because the D1 binding only exists in the Cloudflare runtime. If the binding or the data is missing/invalid, loaders throw and the site returns an error instead of silently serving stale content.
+Local development uses the local D1 database through binding `DB`.
 
-## Runtime behavior
+## Remote migration procedure
 
-- `src/lib/server/portfolio-content.ts` reads `portfolio_content` and `portfolio_cv_documents`, validates payloads and throws on missing binding, query failure or invalid data.
-- `src/lib/server/public-projects.ts` reads published `portfolio_projects` rows only; invalid published payloads are hard errors.
-- `src/routes/+layout.server.ts` resolves the localized payload and projects per request and passes them through page data. There is no global mutable store and no bundled fallback.
-- `/sitemap.xml` is generated at request time from the same D1 loaders (published projects and CV-derived skill pages only).
+Apply migrations independently to each environment. Never assume the root Wrangler configuration targets Preview.
 
-## Safe verification and operation
+1. Verify the authenticated Cloudflare account and database IDs.
+2. Export a backup of the target database and store it outside the repository.
+3. Review the pending migration list and every SQL file.
+4. Apply only to the intended database.
+5. Verify migration history, record counts and the affected public routes.
+6. Record the operation and backup location without committing the dump.
 
-Preview and production currently share the same D1 database. This is a known isolation gap, not a desired permanent configuration. Until Preview has its own D1 database binding, treat every Preview deployment as production and do not use it for content editing, destructive operations, or write-path testing. The completed cutover record documents the current shared binding.
+Production migrations require a confirmed, recoverable backup. Preview migrations must target `benitoanagua-portfolio-preview`; Production migrations must target `benitoanagua-portfolio`.
 
-Before any remote operation, from the repository root:
+## Content safety
 
-```sh
-pnpm cf:login       # only if this workstation is not authenticated
-pnpm cf:whoami
-pnpm d1:list
-pnpm d1:migrations:list
-```
-
-Confirm the account, database name and pending migrations. Read every pending SQL file before applying it.
-
-- Local development uses the local database and binding `DB`.
-- Do not create or configure a Preview database by guessing its ID. Create a separate D1 database in the intended Cloudflare account, bind it to the Pages Preview environment, apply reviewed migrations, and verify Preview reads/writes only that database before enabling Preview administration.
-- Remote migrations use `pnpm d1:migrations:remote` only after the pending changes have been reviewed and you explicitly intend to update the shared database. Pending migrations include the seed files, so this step is also the remote content import.
-- Back up remote D1 (`wrangler d1 export`) before the first remote apply if no backup exists.
-- Never run destructive ad-hoc seeds, deletes or schema changes against the shared database.
-- Do not assume a preview branch has an isolated database.
-
-See [Cloudflare and Wrangler operations](cloudflare-wrangler.md) for deployment and authentication procedures.
+- Do not add ad-hoc production seed scripts or modify the committed initial seed migrations.
+- Subsequent content changes belong in the admin UI; schema changes belong in new numbered migrations.
+- Do not commit database exports, production records, credentials or local environment files.
