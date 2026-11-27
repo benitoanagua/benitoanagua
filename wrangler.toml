@@ -1,4 +1,5 @@
-# Cloudflare Pages configuration. Wrangler is the source of truth.
+# Wrangler Pages config: Production DB and local DB_PREVIEW administration.
+# The deployed Preview DB binding is configured in Cloudflare Pages deployment settings.
 name = "benitoanagua"
 pages_build_output_dir = ".svelte-kit/cloudflare"
 compatibility_date = "2026-11-24"
