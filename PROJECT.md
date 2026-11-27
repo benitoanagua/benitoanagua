@@ -186,7 +186,7 @@ Do not commit credentials, customer information, or production records. Treat re
 - [Skills and experience content guide](docs/content/skills-and-experience.md)
 - [Cloudflare and Wrangler operations](docs/operations/cloudflare-wrangler.md)
 - [D1 content operations](docs/operations/d1-content-migration.md)
-- [Project content review queue](docs/review/projects-content-review.md)
+- [Project content review checklist](docs/content/project-content-review.md)
 - [Release operations](docs/operations/release.md)
 
 ## Related resources
