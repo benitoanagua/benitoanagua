@@ -31,7 +31,8 @@ pnpm cf:pages:list     # Pages project "benitoanagua"
 pnpm d1:list           # D1 database "benitoanagua-portfolio"
 
 # 4. Review pending D1 migrations before applying anything
-pnpm d1:migrations:list
+pnpm d1:migrations:list:production
+# For Preview, use: pnpm d1:migrations:list:preview
 # Compare the output with the files in migrations/ and read them first:
 #   migrations/0001_portfolio_content.sql  (schema)
 #   migrations/0002_portfolio_seed.sql     (content seed, idempotent upserts)
@@ -40,7 +41,9 @@ pnpm d1:migrations:list
 # Only proceed if every pending file is reviewed and safe.
 
 # 5. Apply only reviewed pending remote migrations
-pnpm d1:migrations:remote
+pnpm d1:migrations:production
+# Preview, only when intentionally updating Preview:
+# pnpm d1:migrations:preview
 
 # 6. Build and deploy
 pnpm cf:deploy:preview     # preview URL (*.pages.dev preview deployment)
@@ -89,7 +92,8 @@ The intended environment topology is defined in [ADR 0005](../adr/0005-environme
 - [x] Reviewed migrations applied separately to both remote databases: all 4 migrations (0001–0004) applied to Preview; Production was already up to date.
 - [x] Preview write test verified in Preview D1 and absent from Production D1. Test record `preview-isolation-test-2026-11-26` written to Preview on 2026-11-26, confirmed present in Preview and absent from Production, then removed from Preview.
 - [x] Production admin path verified against Production D1: Production binding unchanged, data untouched.
-- [ ] Backup/export and recovery procedure recorded before production schema changes.
+- [x] Backup/export and recovery procedure documented in [D1 content operations](d1-content-migration.md).
+- [ ] A fresh Production backup artifact is exported and stored outside the repository before the next schema change.
 
 ### Verifying bindings in Cloudflare Pages
 
