@@ -1,10 +1,10 @@
 # Cloudflare operations
 
-All Cloudflare actions are performed locally with your authenticated Wrangler session. GitHub Actions validates and builds; it does not deploy or apply migrations.
+Wrangler deploys and D1 commands run locally with your authenticated session. Pages environment bindings are managed in the Cloudflare Pages deployment configuration. GitHub Actions validates and builds; it does not deploy or apply migrations.
 
 ## Portfolio Pages and D1
 
-`wrangler.toml` is the Pages configuration source of truth. Two independent D1 databases are used:
+`wrangler.toml` declares the Production `DB` binding and a separate `DB_PREVIEW` binding for local administration. The effective deployed Preview `DB` binding is configured in Cloudflare Pages. Two independent D1 databases are used:
 
 | Environment | Database name                    | Database ID                            | `DB` binding       |
 | ----------- | -------------------------------- | -------------------------------------- | ------------------ |
