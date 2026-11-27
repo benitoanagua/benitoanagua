@@ -29,6 +29,14 @@ The portfolio is a **modular monolith**: SvelteKit routes and server load functi
 
 The accepted decisions are recorded in [ADRs 0004–0006](docs/README.md#architecture-decisions). See the Cloudflare operations guide for the current isolation status and verification procedure.
 
+## Current operational follow-up
+
+- Cloudflare Preview and Production D1 are isolated; the controlled isolation test is documented in the Cloudflare operations guide.
+- Catalog deployment is complete; verify the live URL after edge/DNS propagation.
+- FOLIO `0.1.0` has passed package and isolated-consumer checks; verify registry state and publish only with npm authentication.
+- GitHub branch protection for `main` remains disabled and requires repository settings.
+- Export and store a Production D1 backup outside the repository before the next schema migration.
+
 ## Technology
 
 - SvelteKit and Svelte 5
