@@ -1,11 +1,11 @@
 # ADR 0005 — Environment isolation and D1 safety
 
-- Status: Accepted
+- Status: Accepted — implemented and verified
 - Date: 2026-11-26
 
 ## Context
 
-The Cloudflare Pages Preview and Production deployments currently share the same D1 database binding. This permits a preview build or administrative workflow to affect production content. Local development already uses Wrangler's local D1.
+At the time of this decision, Cloudflare Pages Preview and Production shared a D1 binding, allowing Preview writes to affect production content. That initial configuration has since been corrected: Preview and Production now use separate D1 resources. The implementation and controlled isolation test are recorded in [Cloudflare operations](../operations/cloudflare-wrangler.md). Local development uses Wrangler's local D1.
 
 ## Decision
 
@@ -24,7 +24,7 @@ The database binding name remains `DB` in every environment; the bound database 
 - Preview content may be seeded with sanitized or representative data; never copy private or production-only records by default.
 - Remote migrations and deploys are explicit operator actions. CI must not hold production Cloudflare credentials or apply remote migrations.
 - Before any environment change, verify the active Cloudflare account, Pages project, database name/ID, migration status and backup/restore plan.
-- Until Preview D1 is isolated and verified, Preview is treated as production data and write-path testing is prohibited there.
+- Preview write-path testing is allowed only against the dedicated Preview D1 after verifying the active binding. Never use Preview as a substitute for a Production backup.
 
 ## Verification criteria
 
@@ -38,4 +38,4 @@ Isolation is complete only when:
 
 ## Consequences
 
-The repository documents and supports the intended separation, but account-level binding configuration is not complete merely by adding configuration text. It must be verified in Cloudflare.
+The separation is configured and verified in Cloudflare. The controlled test confirmed a Preview write was absent from Production; the test row was then removed. See the operational guide for current resource IDs and the verification date.
