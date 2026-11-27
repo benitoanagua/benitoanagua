@@ -8,13 +8,13 @@ This repository contains a personal portfolio built with **SvelteKit, Svelte 5, 
 
 The portfolio is published at [benitoanagua.pages.dev](https://benitoanagua.pages.dev/).
 
-The repository is organized as a pnpm workspace and contains these deliverables and planned extensions:
+The repository is organized as a pnpm workspace with these deliverables:
 
 | Deliverable   | Description                                   | Location / status                              |
 | ------------- | --------------------------------------------- | ---------------------------------------------- |
 | Portfolio     | Main SvelteKit application                    | Repository root; published on Cloudflare Pages |
-| FOLIO         | Reusable Svelte 5 reading-first design system | `packages/folio`; package publication pending  |
-| FOLIO Catalog | Standalone Svelte/Vite component reference    | `apps/catalog`; deployment pending             |
+| FOLIO         | Reusable Svelte 5 reading-first design system | `packages/folio`; release prepared, publication status to verify |
+| FOLIO Catalog | Standalone Svelte/Vite component reference    | `apps/catalog`; deployed, live smoke test to verify |
 
 ## Target architecture
 
@@ -24,7 +24,7 @@ The portfolio is a **modular monolith**: SvelteKit routes and server load functi
 - **Persistence:** Cloudflare D1 is the source of truth for editable structured content; static assets hold binary files.
 - **FOLIO:** an independent workspace package; the portfolio may depend on it, but FOLIO must not import portfolio application code.
 - **Catalog:** a separate Vite application with independent deployment and no portfolio D1 binding.
-- **Environments:** local D1, dedicated Preview D1 and Production D1. Preview/Production currently share D1 and remain an isolation gap until Cloudflare bindings are configured and verified.
+- **Environments:** local D1, dedicated Preview D1 and Production D1. Preview and Production use separate D1 databases; the isolation write test was verified on 2026-11-26.
 - **Delivery:** CI validates only. Production deploys, remote migrations and package releases are deliberate operator actions.
 
 The accepted decisions are recorded in [ADRs 0004–0006](docs/README.md#architecture-decisions). See the Cloudflare operations guide for the current isolation status and verification procedure.
@@ -45,7 +45,7 @@ The accepted decisions are recorded in [ADRs 0004–0006](docs/README.md#archite
 ```text
 .
 ├── apps/
-│   └── catalog/          # FOLIO component catalog (deployment pending)
+│   └── catalog/          # FOLIO component catalog (deployed separately)
 ├── docs/
 │   ├── adr/              # Architecture decision records
 │   ├── content/          # Content authoring guidance
@@ -55,7 +55,7 @@ The accepted decisions are recorded in [ADRs 0004–0006](docs/README.md#archite
 ├── e2e/                  # Playwright end-to-end tests
 ├── migrations/            # Cloudflare D1 migrations
 ├── packages/
-│   └── folio/            # FOLIO component library (publication pending)
+│   └── folio/            # FOLIO component library (release prepared; npm publication requires registry auth)
 ├── scripts/               # Validation and generation scripts
 ├── src/                   # Portfolio application source
 ├── static/                 # Static assets
@@ -133,7 +133,7 @@ Tests use Playwright and cover the portfolio, catalog, and FOLIO component harne
 | `pnpm folio:build`          | Package FOLIO for distribution                                   |
 | `pnpm folio:pack:check`     | Smoke-check the packed tarball contents and manifest             |
 | `pnpm folio:consumer:check` | Build and type-check an isolated app against the tarball         |
-| `pnpm folio:publish`        | Build and publish `@benitoanagua/folio` to npm (pending release) |
+| `pnpm folio:publish`        | Build and publish `@benitoanagua/folio` to npm (requires npm authentication) |
 | `pnpm catalog:check`        | Type-check the catalog                                           |
 | `pnpm catalog:dev`          | Run the catalog development server                               |
 | `pnpm catalog:build`        | Build the catalog                                                |
@@ -173,8 +173,9 @@ Do not commit credentials, customer information, or production records. Treat re
 - [Portfolio UI/UX specification](docs/design/portfolio-ui-ux.md)
 - [Skills and experience content guide](docs/content/skills-and-experience.md)
 - [Cloudflare and Wrangler operations](docs/operations/cloudflare-wrangler.md)
-- [D1 content migration notes](docs/operations/d1-content-migration.md)
+- [D1 content operations](docs/operations/d1-content-migration.md)
 - [Project content review queue](docs/review/projects-content-review.md)
+- [Release operations](docs/operations/release.md)
 
 ## Related resources
 
