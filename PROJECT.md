@@ -160,10 +160,8 @@ The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the
 | `pnpm cf:deploy:production` | Build and deploy the production branch |
 | `pnpm d1:list`              | List D1 databases                      |
 | `pnpm d1:migrations:local`  | Apply D1 migrations locally            |
-| `pnpm d1:migrations:list`   | List Production migration state            |
 | `pnpm d1:migrations:list:production` | List Production migration state       |
 | `pnpm d1:migrations:list:preview`    | List Preview migration state          |
-| `pnpm d1:migrations:remote` | Apply Production migrations (legacy alias) |
 | `pnpm d1:migrations:production` | Apply reviewed migrations to Production |
 | `pnpm d1:migrations:preview`    | Apply reviewed migrations to Preview    |
 | `pnpm check:content`        | Verify local D1 content integrity      |
