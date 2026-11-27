@@ -28,8 +28,6 @@ Use this index to find current product, architecture and operating guidance. Com
 - [Admin access and authentication](operations/admin-access.md)
 - [Independent release procedures](operations/release.md)
 
-## Active editorial work
-
-- [Project content review queue](review/projects-content-review.md)
+- [Project content review checklist](content/project-content-review.md)
 
 Root `README.md` is the concise public entry point. `PROJECT.md` is the technical project guide. Generated output, workstation state, deployment logs and completed audit snapshots are not documentation sources.
