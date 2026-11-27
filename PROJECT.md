@@ -137,7 +137,7 @@ Tests use Playwright and cover the portfolio, catalog, and FOLIO component harne
 | `pnpm catalog:check`        | Type-check the catalog                                           |
 | `pnpm catalog:dev`          | Run the catalog development server                               |
 | `pnpm catalog:build`        | Build the catalog                                                |
-| `pnpm catalog:deploy`       | Deploy the catalog to Cloudflare Pages (pending deployment)      |
+| `pnpm catalog:deploy`       | Build and deploy the catalog to Cloudflare Pages                |
 
 ### Cloudflare and D1 operations
 
@@ -152,8 +152,12 @@ The repository includes Wrangler scripts for Cloudflare Pages and D1. Review the
 | `pnpm cf:deploy:production` | Build and deploy the production branch |
 | `pnpm d1:list`              | List D1 databases                      |
 | `pnpm d1:migrations:local`  | Apply D1 migrations locally            |
-| `pnpm d1:migrations:list`   | List remote migration state            |
-| `pnpm d1:migrations:remote` | Apply D1 migrations remotely           |
+| `pnpm d1:migrations:list`   | List Production migration state            |
+| `pnpm d1:migrations:list:production` | List Production migration state       |
+| `pnpm d1:migrations:list:preview`    | List Preview migration state          |
+| `pnpm d1:migrations:remote` | Apply Production migrations (legacy alias) |
+| `pnpm d1:migrations:production` | Apply reviewed migrations to Production |
+| `pnpm d1:migrations:preview`    | Apply reviewed migrations to Preview    |
 | `pnpm check:content`        | Verify local D1 content integrity      |
 | `pnpm test`                 | Run loader, payload and editor tests   |
 
