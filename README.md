@@ -7,8 +7,8 @@ My work brings together practical problem-solving, clear interfaces, and systems
 ## Explore
 
 - **[Portfolio](https://benitoanagua.pages.dev/)** — selected work, experience, and professional background.
-- **FOLIO** — a Svelte 5 reading-first design system and reusable component library. _In development; package publication is pending._
-- **FOLIO Catalog** — an interactive component reference for FOLIO. _In development; deployment is pending._
+- **FOLIO** — a Svelte 5 reading-first design system and reusable component library. _Release prepared; npm publication requires registry authentication._
+- **FOLIO Catalog** — an interactive component reference for FOLIO. _Deployed; live smoke verification remains._
 - **[Projects and repositories](https://github.com/benitoanagua?tab=repositories)** — experiments, products, and open-source work.
 
 ## What I care about
